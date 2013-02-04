@@ -1,4 +1,6 @@
 labtool
 =======
 
-Ohjelmoinnin harjoitustyön ohjaajan työkalu.
+Ohjelmoinnin harjoitustyön ohjaajan työkalu
+
+http://tktl-labtool.herokuapp.com/
