@@ -1,0 +1,8 @@
+<h2>Enter your student number to give a peer review</h2>
+
+<p class="error"><%= notice %></p>
+
+<%= form_tag('/mypage',:method => :post) do -%>
+  <%= text_field_tag 'student_number', session[:student_number] %>
+  <%= submit_tag 'start!', :class => "small-button" %>
+<% end -%>

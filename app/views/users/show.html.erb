@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h2> <%= "#{@user.forename} #{@user.surename}"%> </h2>
+
+<p>
+  <b>Student number:</b>
+  <%= @user.student_number %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<h3>Registrations:</h3>
+  <% @user.registrations.each do |r| %>
+  <div>
+    <h4><%= r.course %></h4>
+    <p><%= r.topic %></p>
+    <p><%= link_to r.repository, r.repository%></p>
+  </div>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

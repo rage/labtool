@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h2> <%= "#{@user.forename} #{@user.surename}"%> </h2>
+
+<p>
+  <b>Student number:</b>
+  <%= @user.student_number %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<% if not @user.registrations.empty? %>
+<h3>Registrations:</h3>
+  <% @user.registrations.each do |r| %>
+    <div>
+      <h4>course: <%= r.course %></h4>
+      <p>topic: <%= r.topic %></p>
+      <p>github: <%= link_to r.repository, r.repository%></p>
+    </div>
+    <% end %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Edit', "/mypage/#{@user.student_number}", :method => :post %>
