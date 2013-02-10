@@ -28,6 +28,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(params[:registration])
     user.registrations << @registration
     course.registrations << @registration
+    session[:student_number] = user.student_number
     redirect_to "/mypage/#{user.student_number}", notice: 'Registration done!'
   end
 
