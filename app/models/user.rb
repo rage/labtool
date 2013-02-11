@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
   attr_accessible :email, :forename, :student_number, :surename, :password, :password_confirmation
 
-  has_many :registrations
   has_secure_password
+
+  has_many :registrations
 
   def to_s
     "#{forename} #{surename}"
@@ -11,6 +12,14 @@ class User < ActiveRecord::Base
   # FIXTHIS!
   def current_registration
     registrations.first
+  end
+
+  def week_feedbacks
+    current_registration.week_feedbacks
+  end
+
+  def past_registrations
+    registrations.select{ |r| r.course.active!=true}
   end
 
   def self.find_or_create params

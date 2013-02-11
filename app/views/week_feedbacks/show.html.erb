@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Points:</b>
+  <%= @week_feedback.points %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%= @week_feedback.text %>
+</p>
+
+
+<%= link_to 'Edit', edit_week_feedback_path(@week_feedback) %> |
+<%= link_to 'Back', week_feedbacks_path %>

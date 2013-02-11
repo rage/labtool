@@ -1,0 +1,25 @@
+<%= form_for(@week_feedback) do |f| %>
+  <% if @week_feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@week_feedback.errors.count, "error") %> prohibited this week_feedback from being saved:</h2>
+
+      <ul>
+      <% @week_feedback.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :points %><br />
+    <%= f.number_field :points %>
+  </div>
+  <div class="field">
+    <%= f.label :text %><br />
+    <%= f.text_area :text %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

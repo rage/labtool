@@ -11,3 +11,17 @@
  *= require_self
  *= require_tree .
  */
+
+.button{
+    text-align: center;
+    border:2px solid #a1a1a1;
+    padding:5px 20px;
+    background:#dddddd;
+    width:300px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+}
+
+.button:hover{
+    background:#999999;
+}

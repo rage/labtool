@@ -13,3 +13,19 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(document).ready(function(){
+    $(".review-form").hide();
+    $(".reviews").hide();
+
+    var toggle_review_form = function (e) {
+        $(".review-form").toggle();
+    };
+
+    var toggle_reviews = function (e) {
+        $(".reviews").toggle();
+    };
+
+    $(".button#review-form").click(toggle_review_form);
+    $(".button#review").click(toggle_reviews);
+});

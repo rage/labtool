@@ -1,4 +1,7 @@
 Labtool::Application.routes.draw do
+  resources :week_feedbacks
+
+
   resources :registrations
   resources :courses
   resources :users

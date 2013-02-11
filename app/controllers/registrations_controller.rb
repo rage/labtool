@@ -2,7 +2,8 @@ class RegistrationsController < ApplicationController
   skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect]
 
   def index
-    @registrations = Registration.all
+    @registrations = Registration.current
+    @past_registrations = Registration.past
   end
 
   def show
