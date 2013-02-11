@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/sessions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/registrations/index.html.erb" afterPath="$PROJECT_DIR$/app/views/registrations/index.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.erb" afterPath="$PROJECT_DIR$/app/views/users/show.html.erb" />
     </list>
     <ignored path="labtool.iws" />
@@ -35,7 +33,7 @@
       <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="66" selection-start="666" selection-end="666" vertical-scroll-proportion="0.20303605">
+            <state line="81" column="31" selection-start="1917" selection-end="1917" vertical-scroll-proportion="0.914611">
               <folding />
             </state>
           </provider>
@@ -817,7 +815,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="66" selection-start="666" selection-end="666" vertical-scroll-proportion="0.20303605">
+        <state line="81" column="31" selection-start="1917" selection-end="1917" vertical-scroll-proportion="0.914611">
           <folding />
         </state>
       </provider>
