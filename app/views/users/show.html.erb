@@ -26,15 +26,14 @@
 <div class="reviews">
   <ul>
     <% @user.current_registration.feedback.each do |fb| %>
-        <li><%= "week: #{fb.week}, points: #{fb.points}" %>
-          comments:
+        <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
            <pre><%= fb.text %></pre>
         </li>
     <% end %>
   </ul>
 </div>
 
-<h4 class="button" id="review-form">Give a new review</h4>
+<h4 class="button" id="review-form">Give a new feedback</h4>
 
 <div class="review-form">
   <%= form_tag("/week_feedbacks") do -%>
