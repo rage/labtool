@@ -7,6 +7,8 @@ gem 'rails', '3.2.11'
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'linecache19', '0.5.13'
+  gem 'ruby-debug-base19', '0.11.26'
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
 group :production do
