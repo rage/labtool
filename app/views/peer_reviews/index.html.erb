@@ -16,7 +16,7 @@
   <% @students.each do |student| %>
       <tr>
         <td id='<%= "s#{student.id}"%>'
-            class='<%="review-assigned" if student.assigned_reviews.count>0 %>' ><%= student %></td>
+            class='<%="review-assigned" if student.assigned_reviews.count>0 %>' ><%= link_to student, student %></td>
         <% @students.each do |reviewed| %>
             <td id='<%= "b#{student.id}-#{reviewed.id}"%>'
                 class='<%= student.assigned_to_review reviewed %>'>
