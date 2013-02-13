@@ -1,4 +1,7 @@
 Labtool::Application.routes.draw do
+  resources :peer_reviews
+
+
   resources :week_feedbacks
 
 
