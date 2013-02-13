@@ -23,13 +23,6 @@ class User < ActiveRecord::Base
   end
 
   def assigned_to_review user
-    puts "**************"
-    puts includes?( current_registration.review_targets, user.current_registration)
-    puts current_registration.review_targets.inspect
-    puts user.current_registration.inspect
-    puts "**"
-    puts "reviewed => #{current_registration.review_targets.map(&:reviewed).map(&:id)}"
-    puts "searched #{user.current_registration.id}"
     return "cancel" if includes?( current_registration.review_targets, user.current_registration)
     "review"
   end
@@ -42,14 +35,13 @@ class User < ActiveRecord::Base
     false
   end
 
-  def number_of_assigned_reviews
-    current_registration.review_targets.count
+  def assigned_reviews
+    current_registration.review_targets
   end
 
-  def reviewers_assigned
-    current_registration.reviewers.count
+  def assigned_reviewers
+    current_registration.reviewers
   end
-
 
   def self.find_or_create params
     user = User.find_by_student_number params['student_number']

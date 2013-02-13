@@ -36,6 +36,26 @@
     </div>
 <% end %>
 
+<h3>Code to review</h3>
+
+<% @user.assigned_reviews.each do |review| %>
+    <%= form_tag('/foo', :remote => true) do %>
+      <%= link_to review.reviewed.repository, review.reviewed.repository %>
+      <%= hidden_field_tag 'reviewer', "1" %>
+      <%= hidden_field_tag 'reviewed', "2" %>
+      <%= submit_tag "click when done"  %>
+    <% end %>
+    <br/>
+<% end %>
+
+<h3>Your reviewers</h3>
+
+<% @user.assigned_reviewers.each do |review| %>
+    <%= link_to(review.reviewer.repository, review.reviewer.repository)  %>
+    <em><%= review.done()?"ready":"not done yet" %></em>
+    <br/>
+<% end %>
+
 <% if @user.past_registrations.count>0 %>
     <h3>Past registrations:</h3>
     <% @user.past_registrations.each do |r| %>
@@ -56,5 +76,7 @@
         </div>
     <% end %>
 <% end %>
+
+<h3>Misc</h3>
 
 <%= link_to 'Edit', "/mypage/#{@user.student_number}", :method => :post %>

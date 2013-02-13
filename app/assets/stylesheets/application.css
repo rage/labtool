@@ -36,10 +36,22 @@
 }
 
 .grid {
+    text-align: center;
+}
 
+.cancel {
+    text-align: center;
+    background-color: green;
+}
+
+.review {
     text-align: center;
 }
 
 .bar {
     height: 200px;
+}
+
+.review-assigned {
+    color: green;
 }

@@ -11,14 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213081750) do
+ActiveRecord::Schema.define(:version => 20130213193824) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
     t.string   "period"
     t.boolean  "active"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "review_round"
   end
 
   create_table "peer_reviews", :force => true do |t|
@@ -28,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20130213081750) do
     t.integer  "reviewed_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "round"
   end
 
   create_table "registrations", :force => true do |t|

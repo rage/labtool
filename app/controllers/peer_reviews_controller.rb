@@ -1,16 +1,28 @@
 class PeerReviewsController < ApplicationController
 
   def toggle_review
-
     reviewer = User.find(params[:reviewer]).current_registration
     reviewed = User.find(params[:reviewed]).current_registration
-    peer_review = PeerReview.new :done => :false #, :reviewed_id => reviewed.id, :reviewer_id => reviewed.id
+    round = reviewer.course.review_round
 
-    peer_review.reviewer = reviewer
-    peer_review.reviewed = reviewed
-    peer_review.save
+    review = PeerReview.find_matching reviewer, reviewed, round
+
+    if review.nil?
+      peer_review = PeerReview.new :done => :false, :round => round
+      peer_review.reviewer = reviewer
+      peer_review.reviewed = reviewed
+      peer_review.save
+      @label = "cancel"
+      @student_class = "review-assigned"
+    else
+      review.delete
+      @label ="review"
+    end
 
     @selector = "#b#{params[:reviewer]}-#{params[:reviewed]} form input:last"
+    @class_selector = "#b#{params[:reviewer]}-#{params[:reviewed]}"
+    @student_selector = "#s#{params[:reviewer]}"
+    @review_target_selector = "#r#{params[:reviewed]}"
 
     respond_to do |format|
       format.js

@@ -5,33 +5,32 @@
   <tr class="bar">
     <th></th>
     <% @students.each do |student| %>
-        <th class="rotate"><%= student %></th>
+        <% if student.assigned_reviewers.count>0 %>
+            <th id='<%= "r#{student.id}"%>' class='review-assigned rotate'><%= student %></th>
+        <% else %>
+            <th id='<%= "r#{student.id}"%>' class='rotate'><%= student %></th>
+        <% end %>
     <% end %>
   </tr>
 
   <% @students.each do |student| %>
       <tr>
-        <td><%= student %></td>
+        <td id='<%= "s#{student.id}"%>'
+            class='<%="review-assigned" if student.assigned_reviews.count>0 %>' ><%= student %></td>
         <% @students.each do |reviewed| %>
-            <td class='grid' id='<%= "b#{student.id}-#{reviewed.id}"%>'>
+            <td id='<%= "b#{student.id}-#{reviewed.id}"%>'
+                class='<%= student.assigned_to_review reviewed %>'>
             <% if student.id!=reviewed.id %>
-              <%= form_tag('/toggle_review', :remote => true) do %>
-                <%= hidden_field_tag 'reviewer', student.id %>
-                <%= hidden_field_tag 'reviewed', reviewed.id %>
-                <%= submit_tag student.assigned_to_review reviewed  %>
-              <% end %>
+                <%= form_tag('/toggle_review', :remote => true) do %>
+                  <%= hidden_field_tag 'reviewer', student.id %>
+                  <%= hidden_field_tag 'reviewed', reviewed.id %>
+                  <%= submit_tag student.assigned_to_review reviewed  %>
+                <% end %>
+
             <% end %>
             </td>
 
         <% end %>
-        <td> <%=student.number_of_assigned_reviews %> </td>
       </tr>
   <% end %>
-  <tr>
-    <td></td>
-    <% @students.each do |student| %>
-        <td class="grid"><%=student.reviewers_assigned%></td>
-    <% end %>
-
-  </tr>
 </table>
