@@ -6,3 +6,14 @@
   <%= text_field_tag 'student_number', session[:student_number] %>
   <%= submit_tag 'start!', :class => "small-button" %>
 <% end -%>
+
+<div class="data">
+foobar
+</div>
+
+<%= button_to 'test', "foobar", remote: true %>
+
+<%= form_tag('/foobar',:remote => true) do -%>
+  <%= text_field_tag 'student_number', session[:student_number] %>
+  <%= submit_tag 'start!', :class => "small-button" %>
+<% end -%>

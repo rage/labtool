@@ -18,5 +18,7 @@ Labtool::Application.routes.draw do
   match 'mypage/:student_number' => 'mypage#edit',  :via => :post
   match 'mypage/:student_number' => 'mypage#update',  :via => :put
 
+  match 'foobar' => 'mypage#foobar'
+
   root :to => 'mypage#index'
 end

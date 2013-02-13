@@ -1,6 +1,15 @@
 class MypageController < ApplicationController
   skip_before_filter :authenticate
 
+  def foobar
+    @student = User.find_by_student_number(params[:student_number])
+    @test = "testi"
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def redirect
     number = params[:student_number]
     if ( User.where(:student_number => number).empty?)
