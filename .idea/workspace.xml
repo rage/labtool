@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
     </list>
     <ignored path="labtool.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,19 +57,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="109" selection-start="585" selection-end="585" vertical-scroll-proportion="0.509434">
+            <state line="18" column="109" selection-start="585" selection-end="585" vertical-scroll-proportion="-11.25">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="application.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="17" selection-start="1188" selection-end="1204" vertical-scroll-proportion="0.0">
+            <state line="58" column="17" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.94584835">
               <folding />
             </state>
           </provider>
@@ -109,10 +109,10 @@
         <option value="$PROJECT_DIR$/app/controllers/mypage_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
         <option value="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
         <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
       </list>
     </option>
   </component>
@@ -697,13 +697,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="17" selection-start="1188" selection-end="1204" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="55" column="9" selection-start="1449" selection-end="1449" vertical-scroll-proportion="-5.0">
@@ -727,7 +720,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="109" selection-start="585" selection-end="585" vertical-scroll-proportion="0.509434">
+        <state line="18" column="109" selection-start="585" selection-end="585" vertical-scroll-proportion="-11.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="17" selection-start="1244" selection-end="1244" vertical-scroll-proportion="0.94584835">
           <folding />
         </state>
       </provider>
