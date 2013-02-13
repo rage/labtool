@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
     </list>
     <ignored path="labtool.iws" />
@@ -58,19 +57,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="26" selection-start="502" selection-end="502" vertical-scroll-proportion="-11.25">
+            <state line="2" column="59" selection-start="102" selection-end="102" vertical-scroll-proportion="0.056603774">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="28" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.8375451">
+            <state line="61" column="28" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -112,8 +111,8 @@
         <option value="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
+        <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
       </list>
     </option>
   </component>
@@ -719,16 +718,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="26" selection-start="502" selection-end="502" vertical-scroll-proportion="-11.25">
+        <state line="61" column="28" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
+    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="28" selection-start="1301" selection-end="1301" vertical-scroll-proportion="0.8375451">
+        <state line="2" column="59" selection-start="102" selection-end="102" vertical-scroll-proportion="0.056603774">
           <folding />
         </state>
       </provider>
