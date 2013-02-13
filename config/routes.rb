@@ -1,9 +1,7 @@
 Labtool::Application.routes.draw do
   resources :peer_reviews
 
-
   resources :week_feedbacks
-
 
   resources :registrations
   resources :courses
@@ -22,6 +20,7 @@ Labtool::Application.routes.draw do
   match 'mypage/:student_number' => 'mypage#update',  :via => :put
 
   match 'foobar' => 'mypage#foobar'
+  match 'toggle_review' => 'peer_reviews#toggle_review'
 
   root :to => 'mypage#index'
 end

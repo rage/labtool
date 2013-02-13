@@ -1,8 +1,25 @@
 class PeerReviewsController < ApplicationController
-  # GET /peer_reviews
-  # GET /peer_reviews.json
+
+  def toggle_review
+
+    reviewer = User.find(params[:reviewer]).current_registration
+    reviewed = User.find(params[:reviewed]).current_registration
+    peer_review = PeerReview.new :done => :false #, :reviewed_id => reviewed.id, :reviewer_id => reviewed.id
+
+    peer_review.reviewer = reviewer
+    peer_review.reviewed = reviewed
+    peer_review.save
+
+    @selector = "#b#{params[:reviewer]}-#{params[:reviewed]} form input:last"
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def index
     @peer_reviews = PeerReview.all
+    @students = User.select{|s| s.current_registration }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -10,8 +27,6 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  # GET /peer_reviews/1
-  # GET /peer_reviews/1.json
   def show
     @peer_review = PeerReview.find(params[:id])
 
@@ -21,8 +36,6 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  # GET /peer_reviews/new
-  # GET /peer_reviews/new.json
   def new
     @peer_review = PeerReview.new
 
@@ -32,13 +45,10 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  # GET /peer_reviews/1/edit
   def edit
     @peer_review = PeerReview.find(params[:id])
   end
 
-  # POST /peer_reviews
-  # POST /peer_reviews.json
   def create
     @peer_review = PeerReview.new(params[:peer_review])
 
@@ -53,8 +63,6 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  # PUT /peer_reviews/1
-  # PUT /peer_reviews/1.json
   def update
     @peer_review = PeerReview.find(params[:id])
 

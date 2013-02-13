@@ -1,25 +1,37 @@
-<h1>Listing peer_reviews</h1>
+<h1>Peer reviews</h1>
+
 
 <table>
-  <tr>
-    <th>Notes</th>
-    <th>Done</th>
+  <tr class="bar">
     <th></th>
-    <th></th>
-    <th></th>
+    <% @students.each do |student| %>
+        <th class="rotate"><%= student %></th>
+    <% end %>
   </tr>
 
-<% @peer_reviews.each do |peer_review| %>
+  <% @students.each do |student| %>
+      <tr>
+        <td><%= student %></td>
+        <% @students.each do |reviewed| %>
+            <td class='grid' id='<%= "b#{student.id}-#{reviewed.id}"%>'>
+            <% if student.id!=reviewed.id %>
+              <%= form_tag('/toggle_review', :remote => true) do %>
+                <%= hidden_field_tag 'reviewer', student.id %>
+                <%= hidden_field_tag 'reviewed', reviewed.id %>
+                <%= submit_tag student.assigned_to_review reviewed  %>
+              <% end %>
+            <% end %>
+            </td>
+
+        <% end %>
+        <td> <%=student.number_of_assigned_reviews %> </td>
+      </tr>
+  <% end %>
   <tr>
-    <td><%= peer_review.notes %></td>
-    <td><%= peer_review.done %></td>
-    <td><%= link_to 'Show', peer_review %></td>
-    <td><%= link_to 'Edit', edit_peer_review_path(peer_review) %></td>
-    <td><%= link_to 'Destroy', peer_review, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td></td>
+    <% @students.each do |student| %>
+        <td class="grid"><%=student.reviewers_assigned%></td>
+    <% end %>
+
   </tr>
-<% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Peer review', new_peer_review_path %>

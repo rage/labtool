@@ -2,6 +2,7 @@ class MypageController < ApplicationController
   skip_before_filter :authenticate
 
   def foobar
+
     @student = User.find_by_student_number(params[:student_number])
     @test = "testi"
 
