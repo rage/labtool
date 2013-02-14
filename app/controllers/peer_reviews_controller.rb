@@ -13,11 +13,13 @@ class PeerReviewsController < ApplicationController
       peer_review.reviewed = reviewed
       peer_review.save
       @label = "cancel"
-      @student_class = "review-assigned"
     else
       review.delete
-      @label ="review"
+      @label = "review"
     end
+
+    @reviewer_class = reviewer_class reviewer
+    @reviewed_class = reviewed_class reviewed
 
     @selector = "#b#{params[:reviewer]}-#{params[:reviewed]} form input:last"
     @class_selector = "#b#{params[:reviewer]}-#{params[:reviewed]}"
@@ -27,6 +29,24 @@ class PeerReviewsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def reviewer_class reviewer
+    if reviewer.user.assigned_reviews.count > 1
+      return "many-reviews-assigned"
+    elsif reviewer.user.assigned_reviews.count == 1
+      return "review-assigned"
+    end
+    ""
+  end
+
+  def reviewed_class reviewed
+    if reviewed.user.assigned_reviewers.count > 1
+      return "many-reviewers-assigned"
+    elsif reviewed.user.assigned_reviewers.count == 1
+      return "review-assigned"
+    end
+    ""
   end
 
   def index

@@ -4,13 +4,13 @@ $("<%=@class_selector%>").removeClass();
 $("<%=@student_selector%>").removeClass();
 $("<%=@review_target_selector%>").removeClass();
 
+$("<%=@student_selector%>").addClass("<%=@reviewer_class%>");
+$("<%=@review_target_selector%>").addClass("rotate <%=@reviewed_class%>");
+
 <% if @label=="cancel" %>
   $("<%=@class_selector%>").addClass("cancel");
-  $("<%=@student_selector%>").addClass("<%=@student_class%>");
-  $("<%=@review_target_selector%>").addClass("rotate <%=@student_class%>");
 <% else %>
   $("<%=@class_selector%>").addClass("review");
-  $("<%=@review_target_selector%>").addClass("rotate");
 <% end %>
 
 

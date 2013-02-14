@@ -56,6 +56,14 @@
     color: green;
 }
 
+.many-reviews-assigned {
+    background: red;
+}
+
+.many-reviewers-assigned {
+    color: red;
+}
+
 .review-assigned a:link {
     color: green;
 }
