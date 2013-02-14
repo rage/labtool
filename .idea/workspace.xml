@@ -2,17 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/mypage_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/mypage_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/mypage/show.html.erb" afterPath="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="labtool.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/toggle_review.js.erb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360843824706" ignored="false" />
     <file path="/user.rb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360765081496" ignored="false" />
     <file path="/mypage_controller.rb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360758405428" ignored="false" />
-    <file path="/peer_reviews_controller.rb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360845301005" ignored="false" />
+    <file path="/peer_reviews_controller.rb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360848472579" ignored="false" />
     <file path="/application.css" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360844084723" ignored="false" />
     <file path="/index.html.erb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360844395639" ignored="false" />
     <file path="/application.html.erb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360757013708" ignored="false" />
@@ -45,16 +43,16 @@
       <file leaf-file-name="mypage_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/mypage_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="38" selection-start="328" selection-end="359" vertical-scroll-proportion="0.0">
+            <state line="1" column="2" selection-start="49" selection-end="81" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="4" selection-start="1383" selection-end="1388" vertical-scroll-proportion="0.68636364">
+            <state line="25" column="104" selection-start="582" selection-end="582" vertical-scroll-proportion="-15.625">
               <folding />
             </state>
           </provider>
@@ -69,10 +67,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="peer_reviews_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="peer_reviews_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="59" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0">
+            <state line="21" column="116" selection-start="719" selection-end="719" vertical-scroll-proportion="0.34845132">
               <folding />
             </state>
           </provider>
@@ -110,8 +108,8 @@
         <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/mypage_controller.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
       </list>
     </option>
   </component>
@@ -785,23 +783,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="104" selection-start="582" selection-end="582" vertical-scroll-proportion="-15.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/mypage_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="38" selection-start="328" selection-end="359" vertical-scroll-proportion="0.0">
+        <state line="1" column="2" selection-start="49" selection-end="81" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="59" selection-start="764" selection-end="764" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="4" selection-start="1383" selection-end="1388" vertical-scroll-proportion="0.68636364">
+        <state line="21" column="116" selection-start="719" selection-end="719" vertical-scroll-proportion="0.34845132">
           <folding />
         </state>
       </provider>

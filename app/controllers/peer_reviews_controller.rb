@@ -1,4 +1,6 @@
 class PeerReviewsController < ApplicationController
+  skip_before_filter :authenticate, :only => :complete_review
+
   def complete_review
     review = PeerReview.find(params[:review])
     review.update_attributes :done => true
