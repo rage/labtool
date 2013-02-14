@@ -1,4 +1,11 @@
 class PeerReviewsController < ApplicationController
+  def complete_review
+    review = PeerReview.find(params[:review])
+    review.update_attributes :done => true
+
+    redirect_to "/mypage/#{review.reviewer.user.student_number}"
+  end
+
 
   def toggle_review
     reviewer = User.find(params[:reviewer]).current_registration

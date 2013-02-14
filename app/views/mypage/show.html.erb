@@ -36,24 +36,36 @@
     </div>
 <% end %>
 
-<h3>Code to review</h3>
+<% if @user.assigned_reviews.count>0 %>
+  <h3>Code to review</h3>
 
-<% @user.assigned_reviews.each do |review| %>
-    <%= form_tag('/foo', :remote => true) do %>
+  <% @user.assigned_reviews.each do |review| %>
+    <% if not review.done %>
+      <%= form_tag('/complete_review') do %>
+        <%= link_to review.reviewed.repository, review.reviewed.repository %>
+        <%= hidden_field_tag 'review', review.id %>
+        <%= submit_tag "click when done"  %>
+      <% end %>
+    <% else %>
       <%= link_to review.reviewed.repository, review.reviewed.repository %>
-      <%= hidden_field_tag 'reviewer', "1" %>
-      <%= hidden_field_tag 'reviewed', "2" %>
-      <%= submit_tag "click when done"  %>
+      <em>reviewed!</em>
     <% end %>
     <br/>
+  <% end %>
+<% else %>
+  <h3>No code assigned to you for review</h3>
 <% end %>
 
-<h3>Your reviewers</h3>
+<% if @user.assigned_reviewers.count>0 %>
+  <h3>Your reviewers</h3>
 
-<% @user.assigned_reviewers.each do |review| %>
+  <% @user.assigned_reviewers.each do |review| %>
     <%= link_to(review.reviewer.repository, review.reviewer.repository)  %>
     <em><%= review.done()?"ready":"not done yet" %></em>
     <br/>
+  <% end %>
+<% else %>
+    <h3>Nobody assigned to review your code</h3>
 <% end %>
 
 <% if @user.past_registrations.count>0 %>
