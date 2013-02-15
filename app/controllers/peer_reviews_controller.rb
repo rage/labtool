@@ -40,26 +40,8 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  def reviewer_class reviewer
-    if reviewer.user.assigned_reviews.count > 1
-      return "many-reviews-assigned"
-    elsif reviewer.user.assigned_reviews.count == 1
-      return "review-assigned"
-    end
-    ""
-  end
-
-  def reviewed_class reviewed
-    if reviewed.user.assigned_reviewers.count > 1
-      return "many-reviewers-assigned"
-    elsif reviewed.user.assigned_reviewers.count == 1
-      return "review-assigned"
-    end
-    ""
-  end
-
   def index
-    @peer_reviews = PeerReview.all
+    @peer_reviews = PeerReview.current_round_for Course.active
     @students = User.select{|s| s.current_registration }
 
     respond_to do |format|
@@ -118,8 +100,6 @@ class PeerReviewsController < ApplicationController
     end
   end
 
-  # DELETE /peer_reviews/1
-  # DELETE /peer_reviews/1.json
   def destroy
     @peer_review = PeerReview.find(params[:id])
     @peer_review.destroy
@@ -129,4 +109,25 @@ class PeerReviewsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def reviewer_class reviewer
+    if reviewer.user.assigned_reviews.count > 1
+      return "many-reviews-assigned"
+    elsif reviewer.user.assigned_reviews.count == 1
+      return "review-assigned"
+    end
+    ""
+  end
+
+  def reviewed_class reviewed
+    if reviewed.user.assigned_reviewers.count > 1
+      return "many-reviewers-assigned"
+    elsif reviewed.user.assigned_reviewers.count == 1
+      return "review-assigned"
+    end
+    ""
+  end
+
 end

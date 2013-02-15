@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h2> <%= "#{@user.forename} #{@user.surename}" %> </h2>
+<h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
 
 <p>
   <b>Student number:</b>
@@ -12,7 +12,7 @@
   <%= @user.email %>
 </p>
 
-<h3>Current work:</h3>
+<h2>Current work:</h2>
 <div>
   <p><%= @user.current_registration.topic %></p>
 
@@ -20,7 +20,7 @@
 </div>
 
 <% if @user.current_registration.feedback.size > 0 %>
-<h4 class="button" id="review">Show weekly reviews</h4>
+<h3 class="button" id="review">Show weekly reviews</h3>
 <% end %>
 
 <div class="reviews">
@@ -54,6 +54,33 @@
   <% end -%>
 </div>
 
+<% if @user.assigned_reviews.count>0 %>
+  <h3>Code to review</h3>
+
+  <% @user.assigned_reviews.each do |review| %>
+    <%= link_to review.reviewed.repository, review.reviewed.repository %>
+    <% if not review.done %>
+      <em>not yet reviewed</em>
+    <% else %>
+      <em>reviewed!</em>
+    <% end %>
+    <br/>
+  <% end %>
+<% else %>
+  <h3>No code assigned for review</h3>
+<% end %>
+
+<% if @user.assigned_reviewers.count>0 %>
+  <h3>Reviews for the code</h3>
+
+  <% @user.assigned_reviewers.each do |review| %>
+    <%= "#{review.reviewer.user}:"  %>
+    <em><%= review.done()?"ready":"not done yet" %></em>
+    <br/>
+  <% end %>
+<% else %>
+    <h3>Nobody assigned to review users code</h3>
+<% end %>
 
 <br/>
 

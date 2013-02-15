@@ -14,6 +14,15 @@ class User < ActiveRecord::Base
     registrations.first
   end
 
+  def registered_to course
+    registrations.map(&:course).include? course
+  end
+
+  def registration_to course
+    registrations.select{ |r| r.course==course  }.first
+  end
+
+
   def week_feedbacks
     current_registration.week_feedbacks
   end
@@ -25,6 +34,20 @@ class User < ActiveRecord::Base
   def assigned_to_review user
     return "cancel" if includes?( current_registration.review_targets, user.current_registration)
     "review"
+  end
+
+  def reviewed user, course
+    review_status = status( registration_to(course).review_targets, user.registration_to(course) )
+    return "" if review_status == nil
+    return "assigned" if review_status==false
+    "done"
+  end
+
+  def status review_targets, searched
+    review_targets.each { |r|
+      return r.done if r.reviewed == searched
+    }
+    nil
   end
 
   def includes? review_targets, searched

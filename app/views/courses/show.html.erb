@@ -5,6 +5,31 @@
   <%= @course.period %>
 </h3>
 
+<h3>Current code review</h3>
+
+<% if @course.review_round==0 %>
+    <p>not started yet</p>
+    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+      <%= submit_tag "start"  %>
+    <% end %>
+<% elsif @course.review_round<2 %>
+    <p> round: <%= @course.review_round %></p>
+    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+      <%= submit_tag "next round"  %>
+    <% end %>
+<% elsif @course.review_round<3 %>
+    <p> round: <%= @course.review_round %></p>
+    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+      <%= submit_tag "finnish"  %>
+    <% end %>
+<% else %>
+    <p>finished for this course</p>
+<% end %>
+
+
 <h3>Registrations</h3>
 
 <table>
@@ -30,7 +55,38 @@
 <% end %>
 </table>
 
+<h3>Code reviews</h3>
 
+<% if @course.review_round>0 %>
+  <h4>Round 1</h4>
+  <table>
+    <tr class="bar">
+      <th></th>
+      <% @students.each do |student| %>
+        <th  class='rotate'><%= student %></th>
+      <% end %>
+    </tr>
+    <% @students.each do |student| %>
+        <tr>
+          <td><%= link_to student, student %></td>
+          <% @students.each do |reviewed| %>
+            <td class='left'>
+               <%= student.reviewed(reviewed, @course) %>
+            </td>
+          <% end %>
+        </tr>
+    <% end %>
+  </tr>
+  </table>
+<% end %>
+
+<% if @course.review_round>1 %>
+    <h4>Round 2</h4>
+    foo
+<% end %>
+
+<h3>Misc</h3>
 
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>
+

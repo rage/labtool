@@ -1,28 +1,15 @@
 class CoursesController < ApplicationController
-  # GET /courses
-  # GET /courses.json
+
   def index
     @courses = Course.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @courses }
-    end
   end
 
-  # GET /courses/1
-  # GET /courses/1.json
+
   def show
     @course = Course.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @course }
-    end
+    @students = User.select{ |s| s.registered_to @course }
   end
 
-  # GET /courses/new
-  # GET /courses/new.json
   def new
     @course = Course.new
 
@@ -32,15 +19,15 @@ class CoursesController < ApplicationController
     end
   end
 
-  # GET /courses/1/edit
+
   def edit
     @course = Course.find(params[:id])
   end
 
-  # POST /courses
-  # POST /courses.json
+
   def create
     @course = Course.new(params[:course])
+    @course.review_round = 0
 
     respond_to do |format|
       if @course.save
@@ -53,8 +40,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  # PUT /courses/1
-  # PUT /courses/1.json
   def update
     @course = Course.find(params[:id])
 
@@ -69,8 +54,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  # DELETE /courses/1
-  # DELETE /courses/1.json
   def destroy
     @course = Course.find(params[:id])
     @course.destroy
