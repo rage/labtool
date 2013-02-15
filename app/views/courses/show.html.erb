@@ -11,19 +11,19 @@
     <p>not started yet</p>
     <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
       <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "start"  %>
+      <%= submit_tag "start", :confirm => "Are you sure?" %>
     <% end %>
 <% elsif @course.review_round<2 %>
     <p> round: <%= @course.review_round %></p>
     <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
       <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "next round"  %>
+      <%= submit_tag "next round", :confirm => "Are you sure?"  %>
     <% end %>
 <% elsif @course.review_round<3 %>
     <p> round: <%= @course.review_round %></p>
     <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
       <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "finnish"  %>
+      <%= submit_tag "finnish", :confirm => "Are you sure?"  %>
     <% end %>
 <% else %>
     <p>finished for this course</p>
