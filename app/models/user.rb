@@ -9,9 +9,12 @@ class User < ActiveRecord::Base
     "#{forename} #{surename}"
   end
 
-  # FIXTHIS!
   def current_registration
     registrations.first
+    registrations.each { |r|
+      return r if r.course == Course.active
+    }
+    nil
   end
 
   def registered_to course
@@ -32,7 +35,7 @@ class User < ActiveRecord::Base
   end
 
   def assigned_to_review user
-    return "cancel" if includes?( current_registration.review_targets, user.current_registration)
+    return "cancel" if includes?( current_registration.review_targets_for(Course.active.review_round), user.current_registration)
     "review"
   end
 
@@ -43,9 +46,23 @@ class User < ActiveRecord::Base
     "done"
   end
 
+  def reviewed_in_round user, course, round
+    review_status = status_in_round( registration_to(course).review_targets, user.registration_to(course), round )
+    return "" if review_status == nil
+    return "assigned" if review_status==false
+    "done"
+  end
+
   def status review_targets, searched
     review_targets.each { |r|
       return r.done if r.reviewed == searched
+    }
+    nil
+  end
+
+  def status_in_round review_targets, searched, round
+    review_targets.each { |r|
+      return r.done if r.reviewed == searched and r.round == round
     }
     nil
   end
@@ -59,11 +76,11 @@ class User < ActiveRecord::Base
   end
 
   def assigned_reviews
-    current_registration.review_targets
+    current_registration.review_targets_for Course.active.review_round
   end
 
   def assigned_reviewers
-    current_registration.reviewers
+    current_registration.reviewers_for Course.active.review_round
   end
 
   def self.find_or_create params

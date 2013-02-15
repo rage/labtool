@@ -13,6 +13,8 @@ Labtool::Application.routes.draw do
 
   resources :sessions
 
+  match 'courses/:id/activity' => 'courses#activity', :via => :post
+
   match 'mypage' => 'mypage#index', :via => :get
   match 'mypage' => 'mypage#redirect', :via => :post
   match 'mypage/:student_number' => 'mypage#show',  :via => :get

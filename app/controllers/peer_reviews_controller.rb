@@ -43,6 +43,7 @@ class PeerReviewsController < ApplicationController
   def index
     @peer_reviews = PeerReview.current_round_for Course.active
     @students = User.select{|s| s.current_registration }
+    @course = Course.active
 
     respond_to do |format|
       format.html # index.html.erb

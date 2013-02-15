@@ -20,7 +20,9 @@ class MypageController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_student_number(session[:student_number])
+    number = session[:student_number]
+    number = params[:id] if admin?
+    @user = User.find_by_student_number(number)
   end
 
   def update

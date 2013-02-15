@@ -1,5 +1,19 @@
 <h1>Assign peer reviews for students</h1>
 
+<h3>Course: <%= @course %></h3>
+
+<% if @course.review_round==0 %>
+
+    <h4>reviews not started</h4>
+
+<% elsif @course.review_round>2 %>
+
+    <h4>reviews completed</h4>
+
+<% else%>
+
+<h4>review round <%= @course.review_round %></h4>
+
 <p>Rows represent reviewers and columns targets of review</p>
 
 <table>
@@ -42,4 +56,8 @@
         <% end %>
       </tr>
   <% end %>
+<% end %>
+
+
+
 </table>

@@ -71,7 +71,7 @@
           <td><%= link_to student, student %></td>
           <% @students.each do |reviewed| %>
             <td class='left'>
-               <%= student.reviewed(reviewed, @course) %>
+               <%= student.reviewed_in_round(reviewed, @course, 1) %>
             </td>
           <% end %>
         </tr>
@@ -82,7 +82,25 @@
 
 <% if @course.review_round>1 %>
     <h4>Round 2</h4>
-    foo
+    <table>
+      <tr class="bar">
+        <th></th>
+        <% @students.each do |student| %>
+          <th  class='rotate'><%= student %></th>
+        <% end %>
+      </tr>
+      <% @students.each do |student| %>
+          <tr>
+            <td><%= link_to student, student %></td>
+            <% @students.each do |reviewed| %>
+              <td class='left'>
+                 <%= student.reviewed_in_round(reviewed, @course, 2) %>
+              </td>
+            <% end %>
+          </tr>
+      <% end %>
+    </tr>
+    </table>
 <% end %>
 
 <h3>Misc</h3>

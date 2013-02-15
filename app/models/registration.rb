@@ -4,8 +4,6 @@ class Registration < ActiveRecord::Base
   belongs_to :course
   belongs_to :user
   has_many :week_feedbacks
-  #has_many :review_targets, :class_name => "PeerReview", :foreign_key => "reviewed_id"
-  #has_many :reviewers, :class_name => "PeerReview", :foreign_key => "reviewer_id"
 
   def self.current
     Registration.all.select{|r| r.course.active }
@@ -15,8 +13,16 @@ class Registration < ActiveRecord::Base
     Registration.all.reject{|r| r.course.active }
   end
 
+  def review_targets_for round
+    review_targets.select{ |p| p.round == round }
+  end
+
   def review_targets
     PeerReview.select{ |p| p.reviewer_id == id}
+  end
+
+  def reviewers_for round
+    reviewers.select{ |p| p.round == round }
   end
 
   def reviewers

@@ -4,6 +4,12 @@ class CoursesController < ApplicationController
     @courses = Course.all
   end
 
+  def activity
+    Course.all.each do |c|
+      c.update_attributes :active => c.id == params[:id].to_i
+    end
+    redirect_to courses_path
+  end
 
   def show
     @course = Course.find(params[:id])

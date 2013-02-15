@@ -48,6 +48,10 @@
     background-color: green;
 }
 
+.active {
+    background-color: #dddddd;
+}
+
 .review {
     text-align: center;
 }

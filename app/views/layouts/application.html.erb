@@ -12,18 +12,18 @@
   <%= link_to 'register', "/register"%>
   <%= link_to 'my page', "/mypage" %>
   |
-  <% if current_user %>
-    <%= current_user.email %>
-    <%= link_to "logout", logout_path %>
-  <% else %>
-    <%= link_to "login", login_path %>
-  <%end %>
   <% if admin? %>
     <%= link_to 'registrations', registrations_url %>
     <%= link_to 'peer reviews', peer_reviews_url %>
     <%= link_to 'courses', courses_url %>
     <%= link_to 'users', users_url %>
   <% end %>
+  <% if current_user %>
+    <%= link_to "logout", logout_path %>
+      <%= current_user.email %>
+  <% else %>
+    <%= link_to "login", login_path %>
+  <%end %>
 </nav>
 
 <%= yield %>
