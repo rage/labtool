@@ -5,7 +5,7 @@ $("<%=@student_selector%>").removeClass();
 $("<%=@review_target_selector%>").removeClass();
 
 $("<%=@student_selector%>").addClass("<%=@reviewer_class%>");
-$("<%=@review_target_selector%>").addClass("rotate <%=@reviewed_class%>");
+$("<%=@review_target_selector%>").addClass("vertical <%=@reviewed_class%>");
 
 <% if @label=="cancel" %>
   $("<%=@class_selector%>").addClass("cancel");

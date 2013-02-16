@@ -16,16 +16,16 @@
 
 <p>Rows represent reviewers and columns targets of review</p>
 
-<table>
+<table class="bordered" style="padding-top: 20px;">
   <tr class="bar">
     <th></th>
     <% @students.each do |student| %>
         <% if student.assigned_reviewers.count>1 %>
-            <th id='<%= "r#{student.id}"%>' class='many-reviewers-assigned rotate'><%= student %></th>
+            <th id='<%= "r#{student.id}"%>' class='many-reviewers-assigned vertical'><%= student %></th>
         <% elsif student.assigned_reviewers.count>0 %>
-            <th id='<%= "r#{student.id}"%>' class='review-assigned rotate'><%= student %></th>
+            <th id='<%= "r#{student.id}"%>' class='review-assigned vertical'><%= student %></th>
         <% else %>
-            <th id='<%= "r#{student.id}"%>' class='rotate'><%= student %></th>
+            <th id='<%= "r#{student.id}"%>' class='vertical'><%= student %></th>
         <% end %>
     <% end %>
   </tr>

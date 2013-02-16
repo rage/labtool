@@ -26,7 +26,6 @@
     background:#999999;
 }
 
-
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -58,7 +57,7 @@
 }
 
 .bar {
-    height: 200px;
+    height: 50px;
 }
 
 .review-assigned {
@@ -80,11 +79,39 @@
     color: green;
 }
 
-td {
-    padding: 1px;;
-}
-
 .striped tbody td:nth-of-type(even),
 .striped thead th:nth-of-type(even){
 	background:rgba(255,255,136,0.5);
+}
+
+table div.rotated {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  writing-mode:tb-rl;
+  white-space: nowrap;
+}
+
+thead th {
+  vertical-align: top;
+    text-align: right;
+}
+
+table .vertical {
+  white-space: nowrap;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.rotated {
+    padding-left: 20px;
+}
+
+th  {
+	border: 1px dotted gray;
+}
+
+td  {
+	border: 1px dotted gray;
 }
