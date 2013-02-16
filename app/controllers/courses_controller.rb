@@ -34,6 +34,7 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(params[:course])
     @course.review_round = 0
+    @course.week = 0
 
     respond_to do |format|
       if @course.save

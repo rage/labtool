@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/mypage/show.html.erb" afterPath="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/courses_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/courses_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/course.rb" afterPath="$PROJECT_DIR$/app/models/course.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/week_feedback.rb" afterPath="$PROJECT_DIR$/app/models/week_feedback.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/courses/show.html.erb" afterPath="$PROJECT_DIR$/app/views/courses/show.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.erb" afterPath="$PROJECT_DIR$/app/views/users/show.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="labtool.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,64 +47,37 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="week_feedback.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/week_feedback.rb">
+      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="3" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+            <state line="56" column="56" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-15.541667">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="week_feedbacks_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/week_feedbacks_controller.rb">
+      <file leaf-file-name="toggle_review.js.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="59" selection-start="956" selection-end="956" vertical-scroll-proportion="0.0">
+            <state line="16" column="49" selection-start="572" selection-end="572" vertical-scroll-proportion="-10.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/week_feedbacks/_form.html.erb">
+      <file leaf-file-name="peer_reviews_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="8" selection-start="475" selection-end="475" vertical-scroll-proportion="-10.0">
+            <state line="39" column="53" selection-start="1411" selection-end="1411" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="976" selection-end="976" vertical-scroll-proportion="-12.5">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="12" selection-start="835" selection-end="835" vertical-scroll-proportion="0.5188679">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="user.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/user.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="0" selection-start="283" selection-end="495" vertical-scroll-proportion="-2.625">
+            <state line="77" column="22" selection-start="1841" selection-end="1841" vertical-scroll-proportion="0.5577617">
               <folding />
             </state>
           </provider>
@@ -115,22 +96,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/registration.rb" />
-        <option value="$PROJECT_DIR$/app/views/registrations/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/courses/show.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/application.js" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
         <option value="$PROJECT_DIR$/app/views/mypage/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/models/week_feedback.rb" />
         <option value="$PROJECT_DIR$/app/views/week_feedbacks/edit.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/week_feedbacks_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/week_feedbacks/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/mypage/show.html.erb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130216132705_add_week_to_course.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/courses_controller.rb" />
+        <option value="$PROJECT_DIR$/app/models/course.rb" />
+        <option value="$PROJECT_DIR$/app/views/courses/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/week_feedback.rb" />
+        <option value="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
       </list>
     </option>
   </component>
@@ -196,29 +177,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="labtool" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="labtool" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="week_feedbacks" />
+              <option name="myItemId" value="db" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -258,7 +217,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mypage" />
+              <option name="myItemId" value="peer_reviews" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -308,7 +267,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -698,74 +657,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="61" selection-start="335" selection-end="335" vertical-scroll-proportion="-4.375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="64" selection-start="1652" selection-end="1652" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="1" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/mypage/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.58303887">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/registrations_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="78" selection-start="946" selection-end="946" vertical-scroll-proportion="0.5412668">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/courses_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="655" selection-end="655" vertical-scroll-proportion="0.8768382">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="23" selection-start="766" selection-end="766" vertical-scroll-proportion="-0.92239857">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/week_feedback.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="3" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/week_feedbacks/edit.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="80" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/week_feedbacks_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="59" selection-start="956" selection-end="956" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -777,16 +671,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130213193824_support_for_multiple_peer_reviews.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="283" selection-end="495" vertical-scroll-proportion="-2.625">
+        <state line="1" column="0" selection-start="62" selection-end="272" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130216132705_add_week_to_course.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
+        <state line="6" column="33" selection-start="149" selection-end="149" vertical-scroll-proportion="0.17274472">
           <folding />
         </state>
       </provider>
@@ -798,16 +692,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/models/course.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="976" selection-end="976" vertical-scroll-proportion="-12.5">
+        <state line="13" column="17" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="5" selection-start="91" selection-end="91" vertical-scroll-proportion="0.13812155">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="12" selection-start="835" selection-end="835" vertical-scroll-proportion="0.5188679">
+        <state line="42" column="25" selection-start="999" selection-end="999" vertical-scroll-proportion="0.6886792">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/courses_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="10" selection-start="252" selection-end="252" vertical-scroll-proportion="0.25932205">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/week_feedbacks_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="59" selection-start="956" selection-end="956" vertical-scroll-proportion="0.40677965">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/week_feedback.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="0.28596187">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="90" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.7052441">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="56" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-15.541667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="49" selection-start="572" selection-end="572" vertical-scroll-proportion="-10.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="53" selection-start="1411" selection-end="1411" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="22" selection-start="1841" selection-end="1841" vertical-scroll-proportion="0.5577617">
           <folding />
         </state>
       </provider>

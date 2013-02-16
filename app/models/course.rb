@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  attr_accessible :period, :year, :review_round, :active
+  attr_accessible :period, :year, :review_round, :active, :week
 
   has_many :registrations
 

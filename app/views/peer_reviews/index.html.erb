@@ -28,6 +28,7 @@
             <th id='<%= "r#{student.id}"%>' class='vertical'><%= student %></th>
         <% end %>
     <% end %>
+    <th class="vertical" style="font-style: italic;">assigned reviews</th>
   </tr>
 
   <% @students.each do |student| %>
@@ -52,12 +53,17 @@
 
             <% end %>
             </td>
-
         <% end %>
+        <td style="text-align: center;" id='<%= "reviews#{student.id}"%>'> <%= student.assigned_reviews.count %></td>
       </tr>
   <% end %>
+    <tr>
+      <td style="font-style: italic;">assigned reviewers</td>
+      <% @students.each do |student| %>
+         <td style="text-align: center;" id='<%= "reviewers#{student.id}"%>'><%= student.assigned_reviewers.count %></td>
+      <% end %>
+    </tr>
 <% end %>
-
 
 
 </table>

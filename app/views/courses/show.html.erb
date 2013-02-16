@@ -5,6 +5,21 @@
   <%= @course.period %>
 </h2>
 
+<% if @course.week<7 %>
+
+  <p><strong>Week: <%= @course.week %></strong></p>
+
+  <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+    <%= hidden_field_tag 'course[week]', @course.week+1 %>
+    <%= submit_tag "next week", :confirm => "Are you sure?"  %>
+  <% end %>
+
+<% else %>
+
+  <p><strong>Course over</strong></p>
+
+<% end %>
+
 <h3>Registrations</h3>
 
 <table class="striped">
