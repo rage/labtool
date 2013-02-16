@@ -7,7 +7,7 @@
 
 <h3>Registrations</h3>
 
-<table>
+<table class="striped">
   <tr>
     <th></th>
     <th></th>
@@ -78,7 +78,7 @@
 
 <% if @course.review_round>0 %>
   <h4>Round 1</h4>
-  <table>
+  <table class="striped">
     <tr class="bar">
       <th></th>
       <% @students.each do |student| %>
@@ -101,7 +101,7 @@
 
 <% if @course.review_round>1 %>
     <h4>Round 2</h4>
-    <table>
+    <table class="striped">
       <tr class="bar">
         <th></th>
         <% @students.each do |student| %>
