@@ -36,8 +36,12 @@ class PeerReviewsController < ApplicationController
     @review_target_selector = "#r#{params[:reviewed]}"
     @reviews_count_selector = "#reviews#{params[:reviewer]}"
     @reviewers_count_selector = "#reviewers#{params[:reviewed]}"
-    @reviewers_count = reviewer.user.assigned_reviews.count
-    @reviews_count = reviewed.user.assigned_reviewers.count
+    @reviewers_count = reviewed.user.assigned_reviewers.count
+    @reviews_count = reviewer.user.assigned_reviews.count
+
+    puts "******************"
+    puts "reviewers #{@reviewers_count}"
+    puts "reviews #{@reviews_count}"
 
     respond_to do |format|
       format.js

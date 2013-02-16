@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/courses_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/courses_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/course.rb" afterPath="$PROJECT_DIR$/app/models/course.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/week_feedback.rb" afterPath="$PROJECT_DIR$/app/models/week_feedback.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/courses/show.html.erb" afterPath="$PROJECT_DIR$/app/views/courses/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" afterPath="$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.erb" afterPath="$PROJECT_DIR$/app/views/users/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
     </list>
     <ignored path="labtool.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,28 +48,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="peer_reviews_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="50" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.58474576">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="toggle_review.js.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/toggle_review.js.erb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="16" column="49" selection-start="572" selection-end="572" vertical-scroll-proportion="-10.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="peer_reviews_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="53" selection-start="1411" selection-end="1411" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="22" selection-start="1841" selection-end="1841" vertical-scroll-proportion="0.5577617">
               <folding />
             </state>
           </provider>
@@ -741,9 +724,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="56" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-15.541667">
+        <state line="73" column="0" selection-start="1801" selection-end="1801" vertical-scroll-proportion="0.44945848">
           <folding />
         </state>
       </provider>
@@ -755,16 +738,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/peer_reviews/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="53" selection-start="1411" selection-end="1411" vertical-scroll-proportion="0.0">
+        <state line="56" column="56" selection-start="2119" selection-end="2119" vertical-scroll-proportion="-15.541667">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/peer_reviews_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="22" selection-start="1841" selection-end="1841" vertical-scroll-proportion="0.5577617">
+        <state line="39" column="50" selection-start="1410" selection-end="1410" vertical-scroll-proportion="0.58474576">
           <folding />
         </state>
       </provider>
