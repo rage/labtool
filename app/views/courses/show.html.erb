@@ -1,9 +1,54 @@
 <p id="notice"><%= notice %></p>
 
-<h3>
+<h2>
   <%= @course.year %>,
   <%= @course.period %>
-</h3>
+</h2>
+
+<h3>Registrations</h3>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th colspan="6">Week points</th>
+    <th colspan="2">Reviews</th>
+    <th></th>
+  </tr>
+
+  <tr>
+    <th>Student</th>
+    <th>Topic</th>
+    <th></th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+    <th>1</th>
+    <th>2</th>
+    <th></th>
+  </tr>
+
+<% @course.registrations.each do |registration| %>
+  <tr>
+    <td><%= link_to registration.user, registration.user %></td>
+    <td><%= link_to registration.topic, registration  %></td>
+    <td><%= link_to registration.repository, registration.repository %>&nbsp;&nbsp;</td>
+    <td><%= registration.points_for_week 1  %></td>
+    <td><%= registration.points_for_week 2  %></td>
+    <td><%= registration.points_for_week 3  %></td>
+    <td><%= registration.points_for_week 4  %></td>
+    <td><%= registration.points_for_week 5  %></td>
+    <td><%= registration.points_for_week 6  %>&nbsp;&nbsp;</td>
+    <td><%= registration.review_status_for_week 1%></td>
+    <td><%= registration.review_status_for_week 2%></td>
+    <td><%= link_to 'View or give feedback ', registration.user %></td>
+  </tr>
+<% end %>
+</table>
 
 <h3>Current code review</h3>
 
@@ -29,32 +74,6 @@
     <p>finished for this course</p>
 <% end %>
 
-
-<h3>Registrations</h3>
-
-<table>
-  <tr>
-    <th>Student</th>
-    <th>Topic</th>
-    <th>Repository</th>
-    <th>Course</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @course.registrations.each do |registration| %>
-  <tr>
-    <td><%= link_to registration.user, registration.user %></td>
-    <td><%= link_to registration.topic, registration  %></td>
-    <td><%= link_to registration.repository, registration.repository %></td>
-    <td><%= link_to link_to registration.course, registration.course %></td>
-    <td><%= link_to 'Edit', edit_registration_path(registration) %></td>
-    <td><%= link_to 'Destroy', registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
 <h3>Code reviews</h3>
 
 <% if @course.review_round>0 %>
@@ -63,7 +82,7 @@
     <tr class="bar">
       <th></th>
       <% @students.each do |student| %>
-        <th  class='rotate'><%= student %></th>
+        <th class='rotate'><div><%= student %></div></th>
       <% end %>
     </tr>
     <% @students.each do |student| %>

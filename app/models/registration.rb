@@ -31,6 +31,32 @@ class Registration < ActiveRecord::Base
 
   def feedback_given
     "#{feedback.map(&:week)}"[1..-2]
+    (1..6).inject("") { |points, n|
+      points += (points_for_week n)+" "
+    }
+  end
+
+  def review_status
+    r1 = review_targets_for 1
+    r2 = review_targets_for 2
+    ([ stringify(r1) ,  stringify(r2)]).join(" ")
+  end
+
+  def review_status_for_week week
+    stringify(review_targets_for week)
+  end
+
+  def stringify r
+    return "-" if  r.empty?
+    return "todo" if not r.first.done
+    "done"
+  end
+
+  def points_for_week week
+    week_feedbacks.each{ |f|
+      return f.points.to_s if f.week == week
+    }
+    return "-"
   end
 
   def feedback

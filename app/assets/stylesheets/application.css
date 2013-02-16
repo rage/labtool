@@ -26,6 +26,7 @@
     background:#999999;
 }
 
+
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -77,4 +78,13 @@
 }
 .review-assigned a:visited {
     color: green;
+}
+
+td {
+    padding: 1px;;
+}
+
+tbody td:nth-of-type(even),
+thead th:nth-of-type(even){
+	background:rgba(255,255,136,0.5);
 }
