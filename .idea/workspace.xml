@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/courses/_form.html.erb" afterPath="$PROJECT_DIR$/app/views/courses/_form.html.erb" />
-    </list>
+    <list default="true" id="f6431c41-9fe0-4573-9597-f1ac7e2206ed" name="Default" comment="" />
     <ignored path="labtool.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/toggle_review.js.erb" changelist="f6431c41-9fe0-4573-9597-f1ac7e2206ed" time="1360843824706" ignored="false" />
@@ -66,10 +64,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/courses/_form.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="21" selection-start="580" selection-end="580" vertical-scroll-proportion="0.6226415">
+            <state line="22" column="21" selection-start="580" selection-end="580" vertical-scroll-proportion="-13.75">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="18" selection-start="111" selection-end="111" vertical-scroll-proportion="0.19337016">
               <folding />
             </state>
           </provider>
@@ -686,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="5" selection-start="91" selection-end="91" vertical-scroll-proportion="0.13812155">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/mypage/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="25" selection-start="999" selection-end="999" vertical-scroll-proportion="0.6886792">
@@ -765,7 +765,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/courses/_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="21" selection-start="580" selection-end="580" vertical-scroll-proportion="0.6226415">
+        <state line="22" column="21" selection-start="580" selection-end="580" vertical-scroll-proportion="-13.75">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/courses/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="18" selection-start="111" selection-end="111" vertical-scroll-proportion="0.19337016">
           <folding />
         </state>
       </provider>
