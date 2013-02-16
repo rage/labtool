@@ -34,10 +34,17 @@ class WeekFeedbacksController < ApplicationController
   def create
     params[:week_feedback]['text'] = params[:week_feedback]['text'].lstrip.rstrip
     week_feedback = WeekFeedback.new(params[:week_feedback])
-    registration = Registration.find(params[:registration].keys.first)
+    #registration = Registration.find(params[:registration].keys.first)
+    registration = Registration.find(params[:registration])
     registration.week_feedbacks << week_feedback
 
-    redirect_to registration.user, notice: 'Week feedback was successfully created.'
+    if week_feedback.valid?
+      redirect_to registration.user, notice: 'Week feedback was successfully created.'
+    else
+      @week_feedback = week_feedback
+      @registration = registration
+      render :action => "edit"
+    end
   end
 
   def update

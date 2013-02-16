@@ -21,8 +21,23 @@
       <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
     </div>
 
+    <h3>Weekly feedbacks</h3>
+
+    <table>
+      <tr>
+        <% (1..6).each do |week| %>
+            <th style="width: 50px"> <%= week %></th>
+        <% end %>
+      </tr>
+      <tr>
+          <% (1..6).each do |week| %>
+            <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week  %></td>
+          <% end %>
+      </tr>
+    </table>
+
     <% if @user.current_registration.feedback.size > 0 %>
-        <h3 class="button" id="review">Show weekly reviews</h3>
+        <h3 class="button" id="review">Show weekly feedbacks</h3>
     <% end %>
 
     <div class="reviews">
@@ -51,7 +66,7 @@
           <br/>
           <%= text_area_tag 'week_feedback[text]', nil, :size => "100x10" %>
           <br/>
-          <%= hidden_field :registration, @user.current_registration.id %>
+          <%= hidden_field_tag  :registration, @user.current_registration.id %>
           <%= submit_tag 'Save' %>
       <% end -%>
     </div>
