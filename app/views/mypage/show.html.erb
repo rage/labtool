@@ -21,6 +21,21 @@
       <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
     </div>
 
+    <h3>Weekly feedbacks</h3>
+
+    <table>
+      <tr>
+        <% (1..6).each do |week| %>
+            <th style="width: 50px"> <%= week %></th>
+        <% end %>
+      </tr>
+      <tr>
+          <% (1..6).each do |week| %>
+            <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week  %></td>
+          <% end %>
+      </tr>
+    </table>
+
     <% if @user.current_registration.feedback.size > 0 %>
         <h4 class="button" id="review">Show weekly reviews</h4>
     <% end %>
