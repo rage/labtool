@@ -51,8 +51,30 @@
     </div>
 <% end %>
 
+<h3>Code reviews</h3>
+
+<p><%= "participate review 1: #{@user.current_registration.participates_review 1}" %></p>
+
+<% if Course.active.review_registration=="open" and Course.active.review_round==1 %>
+    <%= form_tag('/toggle_review_participation') do %>
+      <%= hidden_field_tag 'registration', @user.current_registration.id %>
+      <%= hidden_field_tag 'round', 1 %>
+      <%= submit_tag label(@user.current_registration.participates_review(1)) %>
+    <% end %>
+<% end %>
+
+<p><%= "participate review 2: #{@user.current_registration.participates_review 2}" %></p>
+
+<% if Course.active.review_registration=="open" and Course.active.review_round==2 %>
+  <%= form_tag('/toggle_review_participation') do %>
+    <%= hidden_field_tag 'registration', @user.current_registration.id %>
+    <%= hidden_field_tag 'round', 2 %>
+    <%= submit_tag label(@user.current_registration.participates_review(2)) %>
+  <% end %>
+<% end %>
+
 <% if @user.assigned_reviews.count>0 %>
-  <h3>Code to review</h3>
+  <h4>Code to review</h4>
 
   <% @user.assigned_reviews.each do |review| %>
     <% if not review.done %>
@@ -68,11 +90,11 @@
     <br/>
   <% end %>
 <% else %>
-  <h3>No code assigned to you for review</h3>
+  <h4>No code assigned to you for review</h4>
 <% end %>
 
 <% if @user.assigned_reviewers.count>0 %>
-  <h3>Your reviewers</h3>
+  <h4>Your reviewers</h4>
 
   <% @user.assigned_reviewers.each do |review| %>
     <%= link_to(review.reviewer.repository, review.reviewer.repository)  %>
@@ -80,8 +102,10 @@
     <br/>
   <% end %>
 <% else %>
-    <h3>Nobody assigned to review your code</h3>
+    <h4>Nobody assigned to review your code</h4>
 <% end %>
+
+
 
 <% if @user.past_registrations.count>0 %>
     <h3>Past registrations:</h3>

@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect]
+  skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect, :toggle_participation]
 
   def index
     @registrations = Registration.current
@@ -8,7 +8,6 @@ class RegistrationsController < ApplicationController
 
   def show
     @registration = Registration.find(params[:id])
-
   end
 
   def new
@@ -23,10 +22,19 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def toggle_participation
+    @registration = Registration.find(params[:registration])
+    @registration.toggle_review_participation params[:round].to_i
+    @registration.save
+    redirect_to "/mypage/#{@registration.user.student_number}", notice: 'Code review participation status changed'
+  end
+
   def create
     course = Course.find_by_active(true)
     user = User.find_or_create(params[:user])
     @registration = Registration.new(params[:registration])
+    @registration.participate_review1 = true
+    @registration.participate_review2 = true
     user.registrations << @registration
     course.registrations << @registration
     session[:student_number] = user.student_number

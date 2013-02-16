@@ -1,2 +1,0 @@
-module WeekFeedbackHelper
-end

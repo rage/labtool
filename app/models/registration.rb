@@ -13,6 +13,27 @@ class Registration < ActiveRecord::Base
     Registration.all.reject{|r| r.course.active }
   end
 
+  def toggle_review_participation round
+    if round==1
+      if participate_review1?
+        self.participate_review1=false
+      else
+        self.participate_review1=true
+      end
+    else
+      if participate_review2?
+        self.participate_review2=false
+      else
+        self.participate_review2=true
+      end
+    end
+  end
+
+  def participates_review round
+    return participate_review1 if round==1
+    participate_review2
+  end
+
   def review_targets_for round
     review_targets.select{ |p| p.round == round }
   end

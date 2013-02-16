@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
     registrations.select{ |r| r.course==course  }.first
   end
 
-
   def week_feedbacks
     current_registration.week_feedbacks
   end

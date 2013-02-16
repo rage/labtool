@@ -50,7 +50,10 @@ class PeerReviewsController < ApplicationController
 
   def index
     @peer_reviews = PeerReview.current_round_for Course.active
-    @students = User.select{|s| s.current_registration }
+    @students = User.select do |s|
+      s.current_registration and
+      s.current_registration.participates_review(Course.active.review_round)
+    end
     @course = Course.active
 
     respond_to do |format|
