@@ -14,6 +14,12 @@ class PeerReview < ActiveRecord::Base
     end
   end
 
+  def self.for course, round
+    PeerReview.select do |p|
+      p.course == course and p.round == round
+    end
+  end
+
   def self.current_for course
     PeerReview.select do |p|
       p.course == course and p.round == course.review_round

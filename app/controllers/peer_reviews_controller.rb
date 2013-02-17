@@ -2,29 +2,49 @@ class PeerReviewsController < ApplicationController
   skip_before_filter :authenticate, :only => :complete_review
 
   def generate
-    PeerReview.delete_for Course.active
+
 
     students = User.select do |s|
       s.current_registration and
       s.current_registration.participates_review(Course.active.review_round)
     end
 
-    registrations = students.map(&:current_registration)
+    i = 0
+    begin
+      PeerReview.delete_for Course.active
 
-    up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
+      registrations = students.map(&:current_registration).shuffle
 
-    (0..up_to).each do |i|
-      create_peer_review registrations[i], registrations[registrations.size-i-1]
-    end
+      up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
 
-    if registrations.size.odd?
-      (registrations.size/2..registrations.size-2).each do |i|
-        create_peer_review registrations[i], registrations[registrations.size-i-2]
+      (0..up_to).each do |i|
+        create_peer_review registrations[i], registrations[registrations.size-i-1]
       end
-      create_peer_review registrations.last, registrations[registrations.size/2]
-    end
+
+      if registrations.size.odd?
+        (registrations.size/2..registrations.size-2).each do |i|
+          create_peer_review registrations[i], registrations[registrations.size-i-2]
+        end
+        create_peer_review registrations.last, registrations[registrations.size/2]
+      end
+
+      i+=1
+    end until unique_assignment
 
     redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
+  end
+
+  def unique_assignment
+    return true if Course.active.review_round == 1
+    this_round = PeerReview.current_round_for Course.active
+    prev_round = PeerReview.for Course.active, 1
+    this_round.each do |this|
+      prev_round.each do |prev| 
+        return false if this.reviewer == prev.reviewer and this.reviewed == prev.reviewed
+      end
+    end
+
+    true
   end
 
   def create_peer_review reviewer, reviewed
