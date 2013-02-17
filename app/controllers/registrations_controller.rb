@@ -32,13 +32,19 @@ class RegistrationsController < ApplicationController
   def create
     course = Course.find_by_active(true)
     user = User.find_or_create(params[:user])
+
     @registration = Registration.new(params[:registration])
-    @registration.participate_review1 = true
-    @registration.participate_review2 = true
-    user.registrations << @registration
-    course.registrations << @registration
-    session[:student_number] = user.student_number
-    redirect_to "/mypage/#{user.student_number}", notice: 'Registration done!'
+    if user.valid?
+      @registration.participate_review1 = true
+      @registration.participate_review2 = true
+      user.registrations << @registration
+      course.registrations << @registration
+      session[:student_number] = user.student_number
+      redirect_to "/mypage/#{user.student_number}", notice: 'Registration done!'
+    else
+      @user = user
+      render :action => "edit"
+    end
   end
 
 

@@ -34,7 +34,6 @@ class WeekFeedbacksController < ApplicationController
   def create
     params[:week_feedback]['text'] = params[:week_feedback]['text'].lstrip.rstrip
     week_feedback = WeekFeedback.new(params[:week_feedback])
-    #registration = Registration.find(params[:registration].keys.first)
     registration = Registration.find(params[:registration])
     registration.week_feedbacks << week_feedback
 

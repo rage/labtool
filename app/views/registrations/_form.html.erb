@@ -11,22 +11,34 @@
     </div>
   <% end %>
 
+    <% if @user and @user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this registration from being saved:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
   <div class="field">
     <%= label_tag 'forename' %><br />
-    <%= text_field_tag 'user[forename]' %>
+    <%= text_field_tag 'user[forename]', (@user.forename if @user) %>
   </div>
   <div class="field">
       <%= label_tag 'surename' %><br />
-      <%= text_field_tag 'user[surename]' %>
+      <%= text_field_tag 'user[surename]', (@user.surename if @user) %>
   </div>
 
   <div class="field">
     <%= label_tag 'email' %><br />
-    <%= text_field_tag 'user[email]' %>
+    <%= text_field_tag 'user[email]', (@user.email if @user) %>
   </div>
   <div class="field">
       <%= label_tag 'student number' %><br />
-      <%= text_field_tag 'user[student_number]' %>
+      <%= text_field_tag 'user[student_number]', (@user.student_number if @user) %>
   </div>
 
   <div class="field">

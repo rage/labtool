@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :registrations
+  validates :student_number, :numericality => {:only_integer => true}
 
   def to_s
     "#{forename} #{surename}"

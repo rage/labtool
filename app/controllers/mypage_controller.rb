@@ -2,7 +2,7 @@ class MypageController < ApplicationController
   skip_before_filter :authenticate
 
   def redirect
-    number = params[:student_number]
+    number = params[:student_number].lstrip.rstrip
     if ( User.where(:student_number => number).empty?)
       redirect_to "/mypage", :notice => "'#{number}' is not a know student number"
     else
