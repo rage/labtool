@@ -48,7 +48,11 @@
                 <%= form_tag('/toggle_review', :remote => true) do %>
                   <%= hidden_field_tag 'reviewer', student.id %>
                   <%= hidden_field_tag 'reviewed', reviewed.id %>
-                  <%= submit_tag student.assigned_to_review reviewed  %>
+                  <% if  Course.active.review_registration=="closed" %>
+                      <%= submit_tag student.assigned_to_review(reviewed), :confirm => "Are you sure? Registration is already closed!" %>
+                  <% else %>
+                    <%= submit_tag student.assigned_to_review(reviewed) %>
+                  <% end %>
                 <% end %>
 
             <% end %>

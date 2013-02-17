@@ -1,108 +1,179 @@
 <p id="notice"><%= notice %></p>
+<h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
 
-<h2> <%= "#{@user.forename} #{@user.surename}"%> </h2>
+<div style="background: #cccccc;">
+  <p>
+    <b>Student number:</b>
+    <%= @user.student_number %>
+  </p>
 
-<p>
-  <b>Student number:</b>
-  <%= @user.student_number %>
-</p>
+  <p>
+    <b>Email:</b>
+    <%= @user.email %>
+  </p>
 
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
+</div>
 
 <% if @user.current_registration %>
 
-    <h3>Current work:</h3>
-    <div>
-      <p><%= @user.current_registration.topic %></p>
+    <h2>Current work</h2>
 
-      <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
-    </div>
+    <div class="rounded">
 
-    <h3>Weekly feedbacks</h3>
+      <div>
+        <p><strong><%= @user.current_registration.topic %></strong></p>
 
-    <table>
-      <tr>
-        <% (1..6).each do |week| %>
-            <th style="width: 50px"> <%= week %></th>
-        <% end %>
-      </tr>
-      <tr>
+        <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+      </div>
+
+      <h3>Points in weekly feedbacks</h3>
+
+      <table>
+        <tr>
           <% (1..6).each do |week| %>
-            <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week  %></td>
+              <th style="width: 50px"> <%= week %></th>
           <% end %>
-      </tr>
-    </table>
+        </tr>
+        <tr>
+          <% (1..6).each do |week| %>
+              <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week %></td>
+          <% end %>
+        </tr>
+      </table>
 
-    <% if @user.current_registration.feedback.size > 0 %>
-        <h4 class="button" id="review">Show weekly reviews</h4>
-    <% end %>
-
-    <div class="reviews">
-      <ul>
-        <% @user.current_registration.feedback.each do |fb| %>
-            <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
-              <pre><%= fb.text %></pre>
-            </li>
-        <% end %>
-      </ul>
-    </div>
-<% end %>
-
-<h3>Code reviews</h3>
-
-<p><%= "participate review 1: #{@user.current_registration.participates_review 1}" %></p>
-
-<% if Course.active.review_registration=="open" and Course.active.review_round==1 %>
-    <%= form_tag('/toggle_review_participation') do %>
-      <%= hidden_field_tag 'registration', @user.current_registration.id %>
-      <%= hidden_field_tag 'round', 1 %>
-      <%= submit_tag label(@user.current_registration.participates_review(1)) %>
-    <% end %>
-<% end %>
-
-<p><%= "participate review 2: #{@user.current_registration.participates_review 2}" %></p>
-
-<% if Course.active.review_registration=="open" and Course.active.review_round==2 %>
-  <%= form_tag('/toggle_review_participation') do %>
-    <%= hidden_field_tag 'registration', @user.current_registration.id %>
-    <%= hidden_field_tag 'round', 2 %>
-    <%= submit_tag label(@user.current_registration.participates_review(2)) %>
-  <% end %>
-<% end %>
-
-<% if @user.assigned_reviews.count>0 %>
-  <h4>Code to review</h4>
-
-  <% @user.assigned_reviews.each do |review| %>
-    <% if not review.done %>
-      <%= form_tag('/complete_review') do %>
-        <%= link_to review.reviewed.repository, review.reviewed.repository %>
-        <%= hidden_field_tag 'review', review.id %>
-        <%= submit_tag "click when done"  %>
+      <% if @user.current_registration.feedback.size > 0 %>
+          <h4 class="button" id="review">Show weekly feedback</h4>
       <% end %>
-    <% else %>
-      <%= link_to review.reviewed.repository, review.reviewed.repository %>
-      <em>reviewed!</em>
+
+      <div class="reviews">
+        <ul>
+          <% @user.current_registration.feedback.each do |fb| %>
+              <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
+                <pre><%= fb.text %></pre>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+
+    <h2>Code reviews</h2>
+
+    <% if Course.active.review_round>1  %>
+
+    <div class="rounded">
+
+      <h3>round 2</h3>
+
+      <p><%= "participate review 2: #{@user.current_registration.participates_review 2}" %></p>
+
+      <% if Course.active.review_registration=="open" and Course.active.review_round==2 %>
+          <%= form_tag('/toggle_review_participation') do %>
+              <%= hidden_field_tag 'registration', @user.current_registration.id %>
+              <%= hidden_field_tag 'round', 2 %>
+              <%= submit_tag label(@user.current_registration.participates_review(2)) %>
+          <% end %>
+      <% end %>
+
+      <% if @user.assigned_reviews_in(2).count>0 and Course.active.review_registration=="closed" %>
+          <h4>Code to review</h4>
+
+          <% @user.assigned_reviews_in(2).each do |review| %>
+
+              <% if not review.done %>
+                  <% if Course.active.review_round==2 %>
+                      <%= form_tag('/complete_review') do %>
+                          <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                          <%= hidden_field_tag 'review', review.id %>
+                          <%= submit_tag "click when done" %>
+                      <% end %>
+                  <% else %>
+                      <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                      <em>not done</em>
+                  <% end %>
+              <% else %>
+                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  <em>reviewed!</em>
+              <% end %>
+
+          <% end %>
+      <% else %>
+          <h4>No code assigned to you for review</h4>
+      <% end %>
+
+      <% if @user.assigned_reviewers_in(2).count>0 and Course.active.review_registration=="closed" %>
+          <h4>Your reviewer</h4>
+
+          <% @user.assigned_reviewers_in(2).each do |review| %>
+              <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
+              <em><%= review.done() ? "ready" :"not done yet" %></em>
+              <br/>
+          <% end %>
+      <% else %>
+          <h4>Nobody assigned to review your code</h4>
+      <% end %>
+
+    </div>
+
     <% end %>
-    <br/>
-  <% end %>
-<% else %>
-  <h4>No code assigned to you for review</h4>
-<% end %>
 
-<% if @user.assigned_reviewers.count>0 %>
-  <h4>Your reviewers</h4>
+    <div class="rounded">
 
-  <% @user.assigned_reviewers.each do |review| %>
-    <%= link_to(review.reviewer.repository, review.reviewer.repository)  %>
-    <em><%= review.done()?"ready":"not done yet" %></em>
-    <br/>
-  <% end %>
-<% else %>
-    <h4>Nobody assigned to review your code</h4>
+      <h3>round 1</h3>
+
+      <p><%= "participate review 1: #{(@user.current_registration.participates_review 1)?"yes":"no"}" %></p>
+
+      <% if Course.active.review_registration=="open" and Course.active.review_round==1 %>
+          <%= form_tag('/toggle_review_participation') do %>
+              <%= hidden_field_tag 'registration', @user.current_registration.id %>
+              <%= hidden_field_tag 'round', 1 %>
+              <%= submit_tag label(@user.current_registration.participates_review(1)) %>
+          <% end %>
+      <% end %>
+
+      <% if (@user.assigned_reviews_in(1).count>0 and Course.active.review_registration=="closed") or
+            (@user.assigned_reviews_in(1).count>0 and Course.active.review_round>1 )%>
+
+          <h4>Code to review</h4>
+
+          <% @user.assigned_reviews_in(1).each do |review| %>
+              <% if not review.done %>
+                  <% if Course.active.review_round==1 %>
+                      <%= form_tag('/complete_review') do %>
+                          <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                          <%= hidden_field_tag 'review', review.id %>
+                          <%= submit_tag "click when done" %>
+                      <% end %>
+                  <% else %>
+                      <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                      <em>not done</em>
+                  <% end %>
+              <% else %>
+                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  <em>reviewed!</em>
+              <% end %>
+
+          <% end %>
+      <% else %>
+          <h4>No code assigned to you for review yet</h4>
+      <% end %>
+
+      <% if (@user.assigned_reviewers_in(1).count>0 and Course.active.review_registration=="closed") or
+            (@user.assigned_reviewers_in(1).count>0 and Course.active.review_round>1 ) %>
+          <h4>Your reviewer</h4>
+
+          <% @user.assigned_reviewers_in(1).each do |review| %>
+              <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
+              <em><%= review.done() ? "ready" :"not done yet" %></em>
+              <br/>
+          <% end %>
+      <% else %>
+          <h4>Nobody assigned to review your code yet</h4>
+      <% end %>
+
+
+    </div>
+
 <% end %>
 
 

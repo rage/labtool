@@ -26,6 +26,19 @@
     background:#999999;
 }
 
+.rounded{
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px;
+    padding: 0px 15px 15px 15px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+}
+
+.indent{
+    margin: 20px;
+}
+
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);

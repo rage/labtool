@@ -41,15 +41,15 @@ class User < ActiveRecord::Base
   def reviewed user, course
     review_status = status( registration_to(course).review_targets, user.registration_to(course) )
     return "" if review_status == nil
-    return "assigned" if review_status==false
-    "done"
+    return "todo" if review_status==false
+    "DONE"
   end
 
   def reviewed_in_round user, course, round
     review_status = status_in_round( registration_to(course).review_targets, user.registration_to(course), round )
     return "" if review_status == nil
-    return "assigned" if review_status==false
-    "done"
+    return "todo" if review_status==false
+    "DONE"
   end
 
   def status review_targets, searched
@@ -72,6 +72,14 @@ class User < ActiveRecord::Base
     }
 
     false
+  end
+
+  def assigned_reviews_in round
+    current_registration.review_targets_for round
+  end
+
+  def assigned_reviewers_in round
+    current_registration.reviewers_for round
   end
 
   def assigned_reviews

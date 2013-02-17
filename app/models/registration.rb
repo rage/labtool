@@ -70,7 +70,7 @@ class Registration < ActiveRecord::Base
   def stringify r
     return "-" if  r.empty?
     return "todo" if not r.first.done
-    "done"
+    "DONE"
   end
 
   def points_for_week week

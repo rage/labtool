@@ -1,26 +1,32 @@
 <p id="notice"><%= notice %></p>
 
-<h2>
+<h1>
   <%= @course.year %>,
   <%= @course.period %>
-</h2>
+</h1>
 
-<% if @course.week<7 %>
+<div class="rounded">
 
-  <p><strong>Week: <%= @course.week %></strong></p>
+  <% if @course.week<7 %>
 
-  <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-    <%= hidden_field_tag 'course[week]', @course.week+1 %>
-    <%= submit_tag "next week", :confirm => "Are you sure?"  %>
+      <p><strong>Week: <%= @course.week %></strong></p>
+
+      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+          <%= hidden_field_tag 'course[week]', @course.week+1 %>
+          <%= submit_tag "next week", :confirm => "Are you sure?" %>
+      <% end %>
+
+  <% else %>
+
+      <p><strong>Course over</strong></p>
+
   <% end %>
 
-<% else %>
-
-  <p><strong>Course over</strong></p>
-
-<% end %>
+</div>
 
 <h3>Registrations</h3>
+
+<div class="indent">
 
 <table class="striped">
   <tr>
@@ -47,114 +53,143 @@
     <th></th>
   </tr>
 
-<% @course.registrations.each do |registration| %>
-  <tr>
-    <td><%= link_to registration.user, registration.user %></td>
-    <td><%= link_to registration.topic, registration  %></td>
-    <td><%= link_to registration.repository, registration.repository %>&nbsp;&nbsp;</td>
-    <td><%= registration.points_for_week 1  %></td>
-    <td><%= registration.points_for_week 2  %></td>
-    <td><%= registration.points_for_week 3  %></td>
-    <td><%= registration.points_for_week 4  %></td>
-    <td><%= registration.points_for_week 5  %></td>
-    <td><%= registration.points_for_week 6  %>&nbsp;&nbsp;</td>
-    <td><%= registration.review_status_for_week 1%></td>
-    <td><%= registration.review_status_for_week 2%></td>
-    <td><%= link_to 'View or give feedback ', registration.user %></td>
-  </tr>
-<% end %>
+  <% @course.registrations.each do |registration| %>
+      <tr>
+        <td><%= link_to registration.user, registration.user %></td>
+        <td><%= link_to registration.topic, registration %></td>
+        <td><%= link_to registration.repository, registration.repository %>&nbsp;&nbsp;</td>
+        <td><%= registration.points_for_week 1 %></td>
+        <td><%= registration.points_for_week 2 %></td>
+        <td><%= registration.points_for_week 3 %></td>
+        <td><%= registration.points_for_week 4 %></td>
+        <td><%= registration.points_for_week 5 %></td>
+        <td><%= registration.points_for_week 6 %>&nbsp;&nbsp;</td>
+        <td><%= registration.review_status_for_week 1 %></td>
+        <td><%= registration.review_status_for_week 2 %></td>
+        <td><%= link_to 'View or give feedback ', registration.user %></td>
+      </tr>
+  <% end %>
 </table>
+
+</div>
 
 <h3>Current code review</h3>
 
-<% if @course.review_round==0 %>
-    <p>not started yet</p>
-    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "start", :confirm => "Are you sure?" %>
-    <% end %>
-<% elsif @course.review_round<2 %>
-    <p>
-      registration: <%= @course.review_registration %>
-    </p>
-    <% if  @course.review_registration=="open" %>
-      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-        <%= hidden_field_tag 'course[state]', 0  %>
-        <%= submit_tag "close registration", :confirm => "Are you sure?"  %>
-      <% end %>
-    <% else %>
-      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-        <%= hidden_field_tag 'course[state]', 1  %>
-        <%= submit_tag "open registration", :confirm => "Are you sure?"  %>
-      <% end %>
-    <% end %>
+<div class="rounded">
 
-    <p> round: <%= @course.review_round %></p>
-    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "next round", :confirm => "Are you sure?"  %>
-    <% end %>
-<% elsif @course.review_round<3 %>
-    <p>
-      registration: <%= @course.review_registration %>
-    </p>
+  <% if @course.review_round==0 %>
+      <p>not started yet</p>
+      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+          <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+          <%= submit_tag "start", :confirm => "Are you sure?" %>
+      <% end %>
+  <% elsif @course.review_round<2 %>
+      <p>
+        registration: <%= @course.review_registration %>
+      </p>
+      <% if  @course.review_registration=="open" %>
+          <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+              <%= hidden_field_tag 'course[state]', 0 %>
+              <%= submit_tag "close registration", :confirm => "Are you sure?" %>
+          <% end %>
+      <% else %>
+          <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+              <%= hidden_field_tag 'course[state]', 1 %>
+              <%= submit_tag "open registration", :confirm => "Are you sure?" %>
+          <% end %>
+      <% end %>
 
-    <p> round: <%= @course.review_round %></p>
-    <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
-      <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
-      <%= submit_tag "finnish", :confirm => "Are you sure?"  %>
-    <% end %>
-<% else %>
-    <p>finished for this course</p>
-<% end %>
+      <p> round: <%= @course.review_round %></p>
+      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+          <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+          <%= submit_tag "next round", :confirm => "Are you sure?" %>
+      <% end %>
+  <% elsif @course.review_round<3 %>
+      <p>
+        registration: <%= @course.review_registration %>
+      </p>
+
+      <% if  @course.review_registration=="open" %>
+          <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+              <%= hidden_field_tag 'course[state]', 0 %>
+              <%= submit_tag "close registration", :confirm => "Are you sure?" %>
+          <% end %>
+      <% else %>
+          <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+              <%= hidden_field_tag 'course[state]', 1 %>
+              <%= submit_tag "open registration", :confirm => "Are you sure?" %>
+          <% end %>
+      <% end %>
+
+      <p> round: <%= @course.review_round %></p>
+      <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
+          <%= hidden_field_tag 'course[review_round]', @course.review_round+1 %>
+          <%= submit_tag "finnish", :confirm => "Are you sure?" %>
+      <% end %>
+  <% else %>
+      <p>finished for this course</p>
+  <% end %>
+
+  <p><em>Intention is that students register and you assign reviewers when the registration to a round is open.
+     When you close the status, students can see the repo that is assigned to them for review.</em></p>
+
+</div>
 
 <h3>Code reviews</h3>
 
-<% if @course.review_round>0 %>
-  <h4>Round 1</h4>
-  <table class="striped">
-    <tr class="bar">
-      <th></th>
-      <% @students.each do |student| %>
-        <th class='vertical'><div><%= student %></div></th>
-      <% end %>
-    </tr>
-    <% @students.each do |student| %>
-        <tr>
-          <td><%= link_to student, student %></td>
-          <% @students.each do |reviewed| %>
-            <td class='left'>
-               <%= student.reviewed_in_round(reviewed, @course, 1) %>
-            </td>
+<div class="rounded">
+
+  <% if @course.review_round>1 %>
+      <h4>Round 2</h4>
+      <table class="striped">
+        <tr class="bar">
+          <th></th>
+          <% @students.each do |student| %>
+              <th class='vertical'>
+                <div><%= student %></div>
+              </th>
           <% end %>
         </tr>
-    <% end %>
-  </tr>
-  </table>
-<% end %>
-
-<% if @course.review_round>1 %>
-    <h4>Round 2</h4>
-    <table class="striped">
-      <tr class="bar">
-        <th></th>
         <% @students.each do |student| %>
-          <th class='vertical'><div><%= student %></div></th>
+            <tr>
+              <td><%= link_to student, student %></td>
+              <% @students.each do |reviewed| %>
+                  <td class='left'>
+                    <%= student.reviewed_in_round(reviewed, @course, 2) %>
+                  </td>
+              <% end %>
+            </tr>
         <% end %>
-      </tr>
-      <% @students.each do |student| %>
-          <tr>
-            <td><%= link_to student, student %></td>
-            <% @students.each do |reviewed| %>
-              <td class='left'>
-                 <%= student.reviewed_in_round(reviewed, @course, 2) %>
-              </td>
-            <% end %>
-          </tr>
-      <% end %>
-    </tr>
-    </table>
-<% end %>
+        </tr>
+      </table>
+  <% end %>
+
+  <% if @course.review_round>0 %>
+      <h4>Round 1</h4>
+      <table class="striped">
+        <tr class="bar">
+          <th></th>
+          <% @students.each do |student| %>
+              <th class='vertical'>
+                <div><%= student %></div>
+              </th>
+          <% end %>
+        </tr>
+        <% @students.each do |student| %>
+            <tr>
+              <td><%= link_to student, student %></td>
+              <% @students.each do |reviewed| %>
+                  <td class='left'>
+                    <%= student.reviewed_in_round(reviewed, @course, 1) %>
+                  </td>
+              <% end %>
+            </tr>
+        <% end %>
+        </tr>
+      </table>
+  <% end %>
+
+</div>
 
 <h3>Misc</h3>
 
