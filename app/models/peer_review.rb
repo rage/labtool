@@ -8,6 +8,18 @@ class PeerReview < ActiveRecord::Base
     reviewer.course
   end
 
+  def self.delete_for course
+    PeerReview.current_for(course).each do |p|
+      p.delete
+    end
+  end
+
+  def self.current_for course
+    PeerReview.select do |p|
+      p.course == course and p.round == course.review_round
+    end
+  end
+
   def self.find_matching reviewer, reviewed, round
     PeerReview.all.each do |p|
       return p if p.round==round and p.reviewer==reviewer and p.reviewed == reviewed

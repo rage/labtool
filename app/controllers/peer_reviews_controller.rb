@@ -1,6 +1,45 @@
 class PeerReviewsController < ApplicationController
   skip_before_filter :authenticate, :only => :complete_review
 
+  def generate
+    PeerReview.delete_for Course.active
+
+    students = User.select do |s|
+      s.current_registration and
+      s.current_registration.participates_review(Course.active.review_round)
+    end
+
+    registrations = students.map(&:current_registration)
+
+    up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
+
+    (0..up_to).each do |i|
+      create_peer_review registrations[i], registrations[registrations.size-i-1]
+    end
+
+    if registrations.size.odd?
+      (registrations.size/2..registrations.size-2).each do |i|
+        create_peer_review registrations[i], registrations[registrations.size-i-2]
+      end
+      create_peer_review registrations.last, registrations[registrations.size/2]
+    end
+
+    redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
+  end
+
+  def create_peer_review reviewer, reviewed
+    round = reviewer.course.review_round
+    peer_review = PeerReview.new :done => :false, :round => round
+    peer_review.reviewer = reviewer
+    peer_review.reviewed = reviewed
+    peer_review.save
+  end
+
+  def reset
+    PeerReview.delete_for Course.active
+    redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
+  end
+
   def complete_review
     review = PeerReview.find(params[:review])
     review.update_attributes :done => true
@@ -38,10 +77,6 @@ class PeerReviewsController < ApplicationController
     @reviewers_count_selector = "#reviewers#{params[:reviewed]}"
     @reviewers_count = reviewed.user.assigned_reviewers.count
     @reviews_count = reviewer.user.assigned_reviews.count
-
-    puts "******************"
-    puts "reviewers #{@reviewers_count}"
-    puts "reviews #{@reviews_count}"
 
     respond_to do |format|
       format.js
