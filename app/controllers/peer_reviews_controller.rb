@@ -2,29 +2,8 @@ class PeerReviewsController < ApplicationController
   skip_before_filter :authenticate, :only => :complete_review
 
   def generate
-    students = User.select do |s|
-      s.current_registration and
-      s.current_registration.participates_review(Course.active.review_round)
-    end
-
     begin
-      PeerReview.delete_for Course.active
-
-      registrations = students.map(&:current_registration).shuffle
-
-      up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
-
-      (0..up_to).each do |i|
-        create_peer_review registrations[i], registrations[registrations.size-i-1]
-      end
-
-      if registrations.size.odd?
-        (registrations.size/2..registrations.size-2).each do |i|
-          create_peer_review registrations[i], registrations[registrations.size-i-2]
-        end
-        create_peer_review registrations.last, registrations[registrations.size/2]
-      end
-
+      generate_peer_review_assignment
     end until unique_assignment
 
     redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
@@ -69,8 +48,9 @@ class PeerReviewsController < ApplicationController
     reviewer_id = reviewer.user.id
     reviewed_id = reviewed.user.id
 
-    @reviewer_class = reviewer_class reviewer
-    @reviewed_class = reviewed_class reviewed
+    @reviewer_class = class_for reviewer, 'review'
+
+    @reviewed_class = class_for reviewed, 'reviewer'
 
     @selector = "#b#{reviewer_id}-#{reviewed_id} form input:last"
     @class_selector = "#b#{reviewer_id}-#{reviewed_id}"
@@ -124,6 +104,25 @@ class PeerReviewsController < ApplicationController
 
   private
 
+  def generate_peer_review_assignment
+    PeerReview.delete_for Course.active
+
+    registrations = User.review_participants.map(&:current_registration).shuffle
+
+    up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
+
+    (0..up_to).each do |i|
+      create_peer_review registrations[i], registrations[registrations.size-i-1]
+    end
+
+    if registrations.size.odd?
+      (registrations.size/2..registrations.size-2).each do |i|
+        create_peer_review registrations[i], registrations[registrations.size-i-2]
+      end
+      create_peer_review registrations.last, registrations[registrations.size/2]
+    end
+  end
+
   def unique_assignment
     return true if Course.active.review_round == 1
     this_round = PeerReview.current_round_for Course.active
@@ -145,20 +144,13 @@ class PeerReviewsController < ApplicationController
     peer_review.save
   end
 
-  def reviewer_class reviewer
-    if reviewer.user.assigned_reviews.count > 1
-      return "many-reviews-assigned"
-    elsif reviewer.user.assigned_reviews.count == 1
-      return "review-assigned"
-    end
-    ""
-  end
-
-  def reviewed_class reviewed
-    if reviewed.user.assigned_reviewers.count > 1
-      return "many-reviewers-assigned"
-    elsif reviewed.user.assigned_reviewers.count == 1
-      return "review-assigned"
+  def class_for object, klass
+    method = "assigned_#{klass}s".to_sym
+    count = object.user.send(method).count
+    if count > 1
+      return "many-#{klass}s-assigned"
+    elsif count == 1
+      return "#{klass}-assigned"
     end
     ""
   end

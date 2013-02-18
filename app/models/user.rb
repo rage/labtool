@@ -99,4 +99,11 @@ class User < ActiveRecord::Base
     params['password_confirmation'] = params['student_number']
     User.create params
   end
+
+  def self.review_participants
+    User.select do |s|
+          s.current_registration and
+          s.current_registration.participates_review(Course.active.review_round)
+    end
+  end
 end

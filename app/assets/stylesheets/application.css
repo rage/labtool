@@ -77,6 +77,10 @@
     color: green;
 }
 
+.reviewer-assigned {
+    color: green;
+}
+
 .many-reviews-assigned {
     background: red;
 }
