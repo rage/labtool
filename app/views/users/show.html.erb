@@ -66,6 +66,10 @@
           <br/>
           <%= text_area_tag 'week_feedback[text]', nil, :size => "100x10" %>
           <br/>
+          <%= label_tag 'notify by email' %>
+          <%= check_box_tag 'notify', true, true %>
+          <br/>
+          <br/>
           <%= hidden_field_tag  :registration, @user.current_registration.id %>
           <%= submit_tag 'Save' %>
       <% end -%>

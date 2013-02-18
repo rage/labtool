@@ -25,6 +25,11 @@
     <%= f.text_area :text, :size => "100x10" %>
   </div>
 
+  <%= label_tag 'notify by email' %>
+  <%= check_box_tag 'notify', true, true %>
+  <br/>
+  <br/>
+
   <%= hidden_field_tag 'registration', @registration.id  %>
 
   <div class="actions">

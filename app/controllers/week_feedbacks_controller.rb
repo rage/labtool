@@ -22,7 +22,7 @@ class WeekFeedbacksController < ApplicationController
     @week_feedback = WeekFeedback.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @week_feedback }
     end
   end
@@ -38,6 +38,13 @@ class WeekFeedbacksController < ApplicationController
     registration.week_feedbacks << week_feedback
 
     if week_feedback.valid?
+      if params[:notify]
+        student = week_feedback.user
+        reviewer = current_user
+        # should be              student.email
+        NotificationMailer.email(reviewer.email, reviewer.email, "ks. #{mypage_url+'/'+student.student_number}", " viikon #{week_feedback.week} palaute").deliver
+      end
+
       redirect_to registration.user, notice: 'Week feedback was successfully created.'
     else
       @week_feedback = week_feedback

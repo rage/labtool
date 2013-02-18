@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    NotificationMailer.email("mluukkai@iki.fi", "mluukkai@iki.fi", "ks. #{mypage_url+'/'+@user.student_number}", " viikon X palaute").deliver
   end
 
   def new
