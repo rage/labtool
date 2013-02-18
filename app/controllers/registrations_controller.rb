@@ -49,6 +49,8 @@ class RegistrationsController < ApplicationController
 
 
   def update
+#    do_update :registration, params
+
     @registration = Registration.find(params[:id])
 
     if @registration.update_attributes(params[:registration])

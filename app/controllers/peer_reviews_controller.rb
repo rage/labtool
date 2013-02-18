@@ -114,13 +114,7 @@ class PeerReviewsController < ApplicationController
   end
 
   def update
-    @peer_review = PeerReview.find(params[:id])
-
-    if @peer_review.update_attributes(params[:peer_review])
-      redirect_to @peer_review, notice: 'Peer review was successfully updated.'
-    else
-      render action: "edit"
-    end
+    do_update :peer_review, params
   end
 
   def destroy

@@ -16,4 +16,16 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_user, :authenticate, :admin?
+
+  def do_update symbol, params
+    name = symbol.to_s
+    klass = name.classify.constantize
+    instance = klass.find( params[:id] )
+    instance_variable_set("@#{name}", instance)
+    if instance.update.attributes(params[symbol] )
+      redirect_to instance, :notice => "#{klass} was successfully updated."
+    else
+      render :action => "edit"
+    end
+  end
 end
