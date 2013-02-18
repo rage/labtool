@@ -79,6 +79,10 @@ class Registration < ActiveRecord::Base
     "DONE"
   end
 
+  def feedback
+    week_feedbacks.sort_by{ |f| f[:week] }
+  end
+
   def points_for_week week
     week_feedbacks.each{ |f|
       return f.points.to_s if f.week == week
@@ -86,7 +90,10 @@ class Registration < ActiveRecord::Base
     return "-"
   end
 
-  def feedback
-    week_feedbacks.sort_by{ |f| f[:week] }
+  def feedback_for_week week
+    week_feedbacks.each{ |f|
+      return f if f.week == week
+    }
+    return nil
   end
 end
