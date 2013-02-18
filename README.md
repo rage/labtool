@@ -14,5 +14,5 @@ Käyttöohjeita:
 
 Koodin laadunvalvonta:
 
-https://codeclimate.com/github/mluukkai/labtool
+- https://codeclimate.com/github/mluukkai/labtool
 
