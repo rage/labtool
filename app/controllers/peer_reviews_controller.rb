@@ -30,27 +30,6 @@ class PeerReviewsController < ApplicationController
     redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
   end
 
-  def unique_assignment
-    return true if Course.active.review_round == 1
-    this_round = PeerReview.current_round_for Course.active
-    prev_round = PeerReview.for Course.active, 1
-    this_round.each do |this|
-      prev_round.each do |prev|
-        return false if this.reviewer == prev.reviewer and this.reviewed == prev.reviewed
-      end
-    end
-
-    true
-  end
-
-  def create_peer_review reviewer, reviewed
-    round = reviewer.course.review_round
-    peer_review = PeerReview.new :done => :false, :round => round
-    peer_review.reviewer = reviewer
-    peer_review.reviewed = reviewed
-    peer_review.save
-  end
-
   def reset
     PeerReview.delete_for Course.active
     redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
@@ -72,31 +51,35 @@ class PeerReviewsController < ApplicationController
     review = PeerReview.find_matching reviewer, reviewed, round
 
     if review.nil?
-      peer_review = PeerReview.new :done => :false, :round => round
-      peer_review.reviewer = reviewer
-      peer_review.reviewed = reviewed
-      peer_review.save
+      create_peer_review reviewer, reviewed
       @label = "cancel"
     else
       review.delete
       @label = "review"
     end
 
-    @reviewer_class = reviewer_class reviewer
-    @reviewed_class = reviewed_class reviewed
-
-    @selector = "#b#{params[:reviewer]}-#{params[:reviewed]} form input:last"
-    @class_selector = "#b#{params[:reviewer]}-#{params[:reviewed]}"
-    @student_selector = "#s#{params[:reviewer]}"
-    @review_target_selector = "#r#{params[:reviewed]}"
-    @reviews_count_selector = "#reviews#{params[:reviewer]}"
-    @reviewers_count_selector = "#reviewers#{params[:reviewed]}"
-    @reviewers_count = reviewed.user.assigned_reviewers.count
-    @reviews_count = reviewer.user.assigned_reviews.count
+    prepare_for_js reviewer, reviewed
 
     respond_to do |format|
       format.js
     end
+  end
+
+  def prepare_for_js(reviewer, reviewed)
+    reviewer_id = reviewer.user.id
+    reviewed_id = reviewed.user.id
+
+    @reviewer_class = reviewer_class reviewer
+    @reviewed_class = reviewed_class reviewed
+
+    @selector = "#b#{reviewer_id}-#{reviewed_id} form input:last"
+    @class_selector = "#b#{reviewer_id}-#{reviewed_id}"
+    @student_selector = "#s#{reviewer_id}"
+    @review_target_selector = "#r#{reviewed_id}"
+    @reviews_count_selector = "#reviews#{reviewer_id}"
+    @reviewers_count_selector = "#reviewers#{reviewed_id}"
+    @reviewers_count = reviewed.user.assigned_reviewers.count
+    @reviews_count = reviewer.user.assigned_reviews.count
   end
 
   def index
@@ -146,6 +129,27 @@ class PeerReviewsController < ApplicationController
   end
 
   private
+
+  def unique_assignment
+    return true if Course.active.review_round == 1
+    this_round = PeerReview.current_round_for Course.active
+    prev_round = PeerReview.for Course.active, 1
+    this_round.each do |this|
+      prev_round.each do |prev|
+        return false if this.reviewer == prev.reviewer and this.reviewed == prev.reviewed
+      end
+    end
+
+    true
+  end
+
+  def create_peer_review(reviewer, reviewed)
+    round = reviewer.course.review_round
+    peer_review = PeerReview.new :done => :false, :round => round
+    peer_review.reviewer = reviewer
+    peer_review.reviewed = reviewed
+    peer_review.save
+  end
 
   def reviewer_class reviewer
     if reviewer.user.assigned_reviews.count > 1
