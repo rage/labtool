@@ -34,4 +34,15 @@ Labtool::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "mail.cs.helsinki.fi",
+    :port                 => 587,
+    :domain               => 'cs.helsinki.fi',
+    :user_name            => ENV['USERNAME'],
+    :password             => ENV['PASSWORD'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
 end
