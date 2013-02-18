@@ -2,14 +2,11 @@ class PeerReviewsController < ApplicationController
   skip_before_filter :authenticate, :only => :complete_review
 
   def generate
-
-
     students = User.select do |s|
       s.current_registration and
       s.current_registration.participates_review(Course.active.review_round)
     end
 
-    i = 0
     begin
       PeerReview.delete_for Course.active
 
@@ -28,7 +25,6 @@ class PeerReviewsController < ApplicationController
         create_peer_review registrations.last, registrations[registrations.size/2]
       end
 
-      i+=1
     end until unique_assignment
 
     redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
@@ -39,7 +35,7 @@ class PeerReviewsController < ApplicationController
     this_round = PeerReview.current_round_for Course.active
     prev_round = PeerReview.for Course.active, 1
     this_round.each do |this|
-      prev_round.each do |prev| 
+      prev_round.each do |prev|
         return false if this.reviewer == prev.reviewer and this.reviewed == prev.reviewed
       end
     end
@@ -110,29 +106,14 @@ class PeerReviewsController < ApplicationController
       s.current_registration.participates_review(Course.active.review_round)
     end
     @course = Course.active
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @peer_reviews }
-    end
   end
 
   def show
     @peer_review = PeerReview.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @peer_review }
-    end
   end
 
   def new
     @peer_review = PeerReview.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @peer_review }
-    end
   end
 
   def edit
@@ -142,39 +123,26 @@ class PeerReviewsController < ApplicationController
   def create
     @peer_review = PeerReview.new(params[:peer_review])
 
-    respond_to do |format|
-      if @peer_review.save
-        format.html { redirect_to @peer_review, notice: 'Peer review was successfully created.' }
-        format.json { render json: @peer_review, status: :created, location: @peer_review }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @peer_review.errors, status: :unprocessable_entity }
-      end
+    if @peer_review.save
+      redirect_to @peer_review, notice: 'Peer review was successfully created.'
+    else
+      render action: "new"
     end
   end
 
   def update
     @peer_review = PeerReview.find(params[:id])
 
-    respond_to do |format|
-      if @peer_review.update_attributes(params[:peer_review])
-        format.html { redirect_to @peer_review, notice: 'Peer review was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @peer_review.errors, status: :unprocessable_entity }
-      end
+    if @peer_review.update_attributes(params[:peer_review])
+      redirect_to @peer_review, notice: 'Peer review was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
   def destroy
     @peer_review = PeerReview.find(params[:id])
     @peer_review.destroy
-
-    respond_to do |format|
-      format.html { redirect_to peer_reviews_url }
-      format.json { head :no_content }
-    end
   end
 
   private
