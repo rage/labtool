@@ -12,3 +12,7 @@ Käyttöohjeita:
 - opiskelija käyttää järjestelmää kirjautumatta
 - admin-käyttäjätunnukset tuotu labraohjaajille, email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
 
+Koodin laadunvalvonta:
+
+- https://codeclimate.com/github/mluukkai/labtool
+
