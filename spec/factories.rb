@@ -8,10 +8,42 @@ FactoryGirl.define do
     student_number 1
   end
 
-  # This will use the User class (Admin would have been guessed)
+  factory :admin, :class => User do
+    forename "Brian"
+    surename  "Doe"
+    password "foobar"
+    password_confirmation "foobar"
+    email "admin@example.com"
+    student_number 2
+    admin true
+  end
+
   factory :registration do
+    topic "Beerguide"
     repository  "http://www.github.com/foobar"
-    association :user
+  end
+
+  factory :old_registration, :class => Registration do
+    topic "Waterguide"
+    repository  "http://www.github.com/wasser"
+  end
+
+  factory :course do
+    year 2013
+    period "periodi III"
+    review_round 1
+    week 1
+    state 1
+    active true
+  end
+
+  factory :inactive_course, :class => Course do
+    year 2013
+    period "periodi II"
+    review_round 1
+    week 1
+    state 1
+    active false
   end
 end
 

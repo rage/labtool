@@ -63,5 +63,6 @@ class RegistrationsController < ApplicationController
   def destroy
     @registration = Registration.find(params[:id])
     @registration.destroy
+    redirect_to registrations_path, :notice => 'Registration destroyed'
   end
 end
