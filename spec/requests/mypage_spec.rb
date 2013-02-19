@@ -11,7 +11,7 @@ describe "mypage" do
     page.should have_content 'Enter your student number to give a peer review'
   end
 
-  describe "an existing userpage" do
+  describe "of an existing user" do
     it "when navigated shows the user email and student number" do
       visit mypage_path
       fill_in "student_number", :with => '1'
@@ -26,7 +26,7 @@ describe "mypage" do
     end
   end
 
-  describe "an non existing userpage" do
+  describe "of a nonexisting user"  do
     it "when navigated, redirects back to frontpage" do
       visit mypage_path
       fill_in "student_number", :with => '2'

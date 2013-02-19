@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>User:</b>
+  <%= link_to @registration.user @registration.user %>
+</p>
+
+<p>
   <b>Topic:</b>
   <%= @registration.topic %>
 </p>
@@ -9,6 +14,5 @@
   <b>Repository:</b>
   <%= @registration.repository %>
 </p>
-
 
 <%= link_to 'Edit', edit_registration_path(@registration) %>

@@ -59,7 +59,7 @@ describe "registration" do
       click_button "Create Registration"
     end
 
-    describe "second registration by the same" do
+    describe "second registration by the same user" do
       before do
         visit root_path
         click_link "register"
@@ -85,43 +85,65 @@ describe "registration" do
     end
 
     describe "administrator" do
-     before do
-       @admin = FactoryGirl.create(:admin)
-       visit root_path
-       click_link "login"
-       fill_in "email", :with => @admin.email
-       fill_in "password", :with => "foobar"
-       click_button "Log in"
+      before do
+        @admin = FactoryGirl.create(:admin)
+        visit root_path
+        click_link "login"
+        fill_in "email", :with => @admin.email
+        fill_in "password", :with => "foobar"
+        click_button "Log in"
+      end
 
-     end
+      it "can see registrations" do
+        click_link 'registrations'
 
-     it "can see registrations" do
-       click_link 'registrations'
+        page.should have_content "Listing registrations"
+        page.should have_content "Jim Doe"
+        page.should have_content "beermemo"
+        page.should have_content "http://example.com"
+      end
 
-       page.should have_content "Listing registrations"
-       page.should have_content "Jim Doe"
-       page.should have_content "beermemo"
-       page.should have_content "http://example.com"
-     end
+      it "can view a registration" do
+        registration = Registration.first
+        visit registration_path(registration.id)
+        page.should have_content "User: #{registration.user}"
+        page.should have_content "Topic: #{registration.topic}"
+        page.should have_content "Repository: #{registration.repository}"
+      end
 
-     it "can delete a registration" do
-       click_link 'registrations'
-       expect {
-         click_link "Destroy"
-       }.to change { @course.registrations.count }.by(-1)
-     end
+      it "can edit a registration" do
+        registration = Registration.first
+        visit registration_path(registration.id)
+        click_link "Edit"
 
-     it "is redirected back to reviews page with a proper notice after deleting a registration" do
-       click_link 'registrations'
-       click_link "Destroy"
-       page.should have_content "Listing registrations"
-       page.should have_content "Registration destroyed"
-       page.should_not have_content "Jim Doe"
-       page.should_not have_content "beermemo"
-       page.should_not have_content "http://example.com"
-     end
+        page.should have_content "Editing registration of #{registration.user}"
 
-   end
+        fill_in "registration_topic", :with => "Whitebeermemo"
+        click_button "Update Registration"
+        page.should have_content "Registration was successfully updated"
+        page.should have_content "User: #{registration.user}"
+        page.should have_content "Topic: Whitebeermemo"
+        page.should have_content "Repository: #{registration.repository}"
+      end
+
+      it "can delete a registration" do
+        click_link 'registrations'
+        expect {
+          click_link "Destroy"
+        }.to change { @course.registrations.count }.by(-1)
+      end
+
+      it "is redirected back to reviews page with a proper notice after deleting a registration" do
+        click_link 'registrations'
+        click_link "Destroy"
+        page.should have_content "Listing registrations"
+        page.should have_content "Registration destroyed"
+        page.should_not have_content "Jim Doe"
+        page.should_not have_content "beermemo"
+        page.should_not have_content "http://example.com"
+      end
+
+    end
 
   end
 

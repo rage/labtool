@@ -15,8 +15,11 @@ class RegistrationsController < ApplicationController
   end
 
   def edit
-    if session[:student_number]
+    if session[:student_number] and not admin?
       @user = User.find_by_student_number(session[:student_number])
+    elsif admin?
+      @registration = Registration.find(params[:id])
+      render "admin_edit"
     else
       redirect_to "/mypage", :notice => "enter your student number"
     end
@@ -49,15 +52,7 @@ class RegistrationsController < ApplicationController
 
 
   def update
-#    do_update :registration, params
-
-    @registration = Registration.find(params[:id])
-
-    if @registration.update_attributes(params[:registration])
-      redirect_to @registration, notice: 'Registration was successfully updated.'
-    else
-      render action: "edit"
-    end
+    do_update :registration, params
   end
 
   def destroy
