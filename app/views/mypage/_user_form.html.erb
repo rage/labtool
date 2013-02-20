@@ -17,12 +17,6 @@
       <%= text_field_tag 'user[email]', @user.email %>
     </div>
 
-    <div class="field">
-      <%= label_tag 'student number' %>
-      <br/>
-      <%= text_field_tag 'user[student_number]', @user.student_number %>
-    </div>
-
     <% if @user.current_registration %>
 
       <div class="field">

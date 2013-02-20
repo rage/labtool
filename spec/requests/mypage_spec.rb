@@ -51,8 +51,8 @@ describe "mypage" do
     end
 
     it "it is possible to start editing own information" do
-      click_link "Edit"
-      page.should have_content "Editing registration"
+      click_link "Edit your information"
+      page.should have_content "Editing your information"
     end
 
     describe "and navigated to editing to own information" do
@@ -71,7 +71,5 @@ describe "mypage" do
       end
     end
   end
-
-
 
 end

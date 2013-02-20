@@ -1,5 +1,7 @@
 class RegistrationsController < ApplicationController
-  skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect, :toggle_participation]
+  skip_before_filter :authenticate, :only => [:new, :create, :redirect, :toggle_participation]
+#  skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect, :toggle_participation]
+
 
   def index
     @registrations = Registration.current
@@ -15,21 +17,15 @@ class RegistrationsController < ApplicationController
   end
 
   def edit
-    if session[:student_number] and not admin?
-      @user = User.find_by_student_number(session[:student_number])
-    elsif admin?
-      @registration = Registration.find(params[:id])
-      render "admin_edit"
-    else
-      redirect_to "/mypage", :notice => "enter your student number"
-    end
+    @registration = Registration.find(params[:id])
+    render "admin_edit"
   end
 
   def toggle_participation
     @registration = Registration.find(params[:registration])
     @registration.toggle_review_participation params[:round].to_i
     @registration.save
-    redirect_to "/mypage/#{@registration.user.student_number}", notice: 'Code review participation status changed'
+    redirect_to "/mypage/#{@registration.user.student_number}", :notice => 'Code review participation status changed'
   end
 
   def create
@@ -49,7 +45,6 @@ class RegistrationsController < ApplicationController
       render :action => "edit"
     end
   end
-
 
   def update
     do_update :registration, params

@@ -82,6 +82,7 @@ describe "registration" do
           click_button "Create Registration"
         }.to change { User.count }.by(0)
       end
+
     end
 
     describe "administrator" do
@@ -142,7 +143,6 @@ describe "registration" do
         page.should_not have_content "beermemo"
         page.should_not have_content "http://example.com"
       end
-
     end
 
   end
@@ -177,7 +177,6 @@ describe "registration" do
       page.should have_content "beermemo"
       page.should have_content "http://example.com"
     end
-
   end
 
 end

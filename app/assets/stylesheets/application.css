@@ -26,6 +26,22 @@
     background:#999999;
 }
 
+.button a{
+    font-weight: bold;
+    color: #000000;
+    text-decoration:none;
+}
+
+.button a:visited{
+    color: #000000;
+    text-decoration:none;
+}
+
+.button a:hover{
+    background-color: transparent;
+    text-decoration:none;
+}
+
 .rounded{
     border-style: solid;
     border-width: 1px;
@@ -132,3 +148,35 @@ th  {
 td  {
 	border: 1px dotted gray;
 }
+
+.small-button{
+    text-align: center;
+    border:2px solid #a1a1a1;
+    padding:0px 20px;
+    background:#dddddd;
+    width:150px;
+    height: 20px;
+    border-radius:10px;
+    -moz-border-radius:10px;
+}
+
+.small-button:hover{
+    background:#999999;
+}
+
+.small-button a{
+    font-weight: bold;
+    color: #000000;
+    text-decoration:none;
+}
+
+.small-button a:visited{
+    color: #000000;
+    text-decoration:none;
+}
+
+.small-button a:hover{
+    background-color: transparent;
+    text-decoration:none;
+}
+

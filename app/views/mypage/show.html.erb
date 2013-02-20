@@ -71,7 +71,7 @@
               <%= form_tag('/toggle_review_participation') do %>
                   <%= hidden_field_tag 'registration', @user.current_registration.id %>
                   <%= hidden_field_tag 'round', 2 %>
-                  <%= submit_tag label(@user.current_registration.participates_review(2)) %>
+                  <%= submit_tag label(@user.current_registration.participates_review(2) ),:class => "small-button" %>
               <% end %>
           <% end %>
 
@@ -85,7 +85,7 @@
                           <%= form_tag('/complete_review') do %>
                               <%= link_to review.reviewed.repository, review.reviewed.repository %>
                               <%= hidden_field_tag 'review', review.id %>
-                              <%= submit_tag "click when done" %>
+                              <%= submit_tag "click when done",:class => "small-button" %>
                           <% end %>
                       <% else %>
                           <%= link_to review.reviewed.repository, review.reviewed.repository %>
@@ -127,7 +127,7 @@
           <%= form_tag('/toggle_review_participation') do %>
               <%= hidden_field_tag 'registration', @user.current_registration.id %>
               <%= hidden_field_tag 'round', 1 %>
-              <%= submit_tag label(@user.current_registration.participates_review(1)) %>
+              <%= submit_tag label(@user.current_registration.participates_review(1) ),:class => "small-button" %>
           <% end %>
       <% end %>
 
@@ -142,7 +142,7 @@
                       <%= form_tag('/complete_review') do %>
                           <%= link_to review.reviewed.repository, review.reviewed.repository %>
                           <%= hidden_field_tag 'review', review.id %>
-                          <%= submit_tag "click when done" %>
+                          <%= submit_tag "click when done",:class => "small-button" %>
                       <% end %>
                   <% else %>
                       <%= link_to review.reviewed.repository, review.reviewed.repository %>
@@ -205,6 +205,6 @@
 
 <% end %>
 
-<h3>Misc</h3>
-
-<%= link_to 'Edit', "/mypage/#{@user.student_number}", :method => :post %>
+<div class="button">
+    <%= link_to 'Edit your information', "/mypage/#{@user.student_number}", :method => :post %>
+</div>
