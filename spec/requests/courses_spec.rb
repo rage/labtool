@@ -28,13 +28,41 @@ describe "course" do
     page.should have_content "round: #{@course.review_round}"
   end
 
-  it "informaton can be edited"
+  it "can be created and is then shown at courses page" do
+    visit new_course_path
+    fill_in "course_year", :with => 2100
+    fill_in "course_period", :with => "periodi X"
+    fill_in "course_week", :with => 0
+    click_button "Create Course"
+
+    visit courses_path
+    page.should have_content "2100"
+    page.should have_content "periodi X"
+  end
+
+  it "informaton can be updated and is then shown at courses page" do
+    visit edit_course_path(@course.id)
+    fill_in "course_period", :with => "periodi V"
+    click_button "Update Course"
+
+    page.should have_content "Course was successfully updated."
+
+    visit courses_path
+    page.should have_content "periodi V"
+  end
+
+  it "can be deleted after which user is redirected to courses page and a proper notification is shown" do
+    visit courses_path
+    expect{ first(:link, "Destroy").click }.to change { Course.all.count }.by(-1)
+    page.should have_content 'Listing courses'
+    page.should have_content 'Course was destroyed'
+  end
 
   it "week can be advanced"
 
   it "code review status can be changed"
 
-  it "can be deleted"
+  it "can be activated/inactivated"
 
   describe "with registrations" do
 
