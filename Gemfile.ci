@@ -4,9 +4,6 @@ gem 'rails', '3.2.11'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'linecache19', '0.5.13'
-  gem 'ruby-debug-base19', '0.11.26'
-  gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'rspec-rails'
   gem "factory_girl_rails"
   gem "capybara"
@@ -27,14 +24,8 @@ gem 'simplecov', :require => false, :group => :test
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'bcrypt-ruby'
 gem 'jquery-rails'
-
-
