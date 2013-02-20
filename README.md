@@ -15,4 +15,5 @@ Käyttöohjeita:
 Koodin laadunvalvonta:
 
 - https://codeclimate.com/github/mluukkai/labtool
+- https://travis-ci.org/mluukkai/labtool
 
