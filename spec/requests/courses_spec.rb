@@ -58,11 +58,19 @@ describe "course" do
     page.should have_content 'Course was destroyed'
   end
 
+  it "can be activated/inactivated" do
+    visit courses_path
+    click_link "make active"
+
+    Course.find(@course.id).active.should be false
+    Course.find(@inactive_course.id).active.should be true
+  end
+
   it "week can be advanced"
 
   it "code review status can be changed"
 
-  it "can be activated/inactivated"
+  it "active course shown in 'current course' link"
 
   describe "with registrations" do
 
