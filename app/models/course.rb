@@ -1,7 +1,7 @@
 class Course < ActiveRecord::Base
   attr_accessible :period, :year, :review_round, :active, :week, :state
 
-  has_many :registrations
+  has_many :registrations, :dependent => :destroy
 
   def review_registration
     return "open" if state == 1

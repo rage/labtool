@@ -198,5 +198,5 @@
 <% end %>
 
 
-<%= link_to 'Drop from current course', @user.current_registration, method: :delete, data: {confirm: 'Are you sure?'} %>
-<%= link_to 'Edit', edit_user_path(@user) %>
+<%= link_to 'Drop from current course', @user.current_registration, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
+<%= link_to 'Edit', edit_user_path(@user), :class => 'small-button' %>
