@@ -31,9 +31,9 @@ FactoryGirl.define do
   factory :course do
     year 2013
     period "periodi III"
-    review_round 1
+    review_round 0
     week 1
-    state 1
+    state 0
     active true
   end
 

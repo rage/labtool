@@ -25,7 +25,7 @@ describe "course" do
     visit course_path(@course.id)
     page.should have_content "#{@course.year}, #{@course.period}"
     page.should have_content "Week: #{@course.week}"
-    page.should have_content "round: #{@course.review_round}"
+    page.should have_content "not started yet"
   end
 
   it "can be created and is then shown at courses page" do
@@ -38,6 +38,14 @@ describe "course" do
     visit courses_path
     page.should have_content "2100"
     page.should have_content "periodi X"
+  end
+
+  it "can not be created with invalid parameters" do
+    visit new_course_path
+    expect{
+      fill_in "course_year", :with => 1
+      click_button "Create Course"
+    }.to change{Course.all.count}.by(0)
   end
 
   it "informaton can be updated and is then shown at courses page" do
@@ -66,11 +74,36 @@ describe "course" do
     Course.find(@inactive_course.id).active.should be true
   end
 
-  it "week can be advanced"
+  it "week can be advanced" do
+    visit course_path(@course.id)
+    expect{
+      click_button "next week"
+    }.to change{Course.find(@course.id).week}.by(1)
+    page.should have_content "Week: 2"
+  end
 
-  it "code review status can be changed"
+  it "code review round can be advanced" do
+    visit course_path(@course.id)
+    page.should have_content "not started yet"
+    click_button "start"
+    page.should have_content "round: 1"
+    click_button "next round"
+    page.should have_content "round: 2"
+    click_button "finnish"
+    page.should have_content "finished for this course"
+    page.should_not have_content "registration: open"
+    page.should_not have_content "registration: closed"
+  end
 
-  it "active course shown in 'current course' link"
+  it "code review registration status can be changed" do
+    visit course_path(@course.id)
+    click_button "start"
+    page.should have_content "registration: closed"
+    click_button "open registration"
+    page.should have_content "registration: open"
+    click_button "close registration"
+    page.should have_content "registration: closed"
+  end
 
   describe "with registrations" do
 
