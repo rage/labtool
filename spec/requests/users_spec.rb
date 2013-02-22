@@ -77,13 +77,13 @@ describe "user" do
 
   it "can be deleted" do
     expect {
-      page.driver.submit :delete, user_path(@user.id),{}
+      page.driver.submit :delete, user_path(@user.id), {}
     }.to change { User.all.count }.by(-1)
   end
 
   it "deletion does not leave a registration" do
     expect {
-      page.driver.submit :delete, user_path(@user.id),{}
+      page.driver.submit :delete, user_path(@user.id), {}
     }.to change { Registration.all.count }.by(-1)
   end
 end
