@@ -71,37 +71,6 @@ class PeerReviewsController < ApplicationController
     @course = Course.active
   end
 
-  def show
-    @peer_review = PeerReview.find(params[:id])
-  end
-
-  def new
-    @peer_review = PeerReview.new
-  end
-
-  def edit
-    @peer_review = PeerReview.find(params[:id])
-  end
-
-  def create
-    @peer_review = PeerReview.new(params[:peer_review])
-
-    if @peer_review.save
-      redirect_to @peer_review, notice: 'Peer review was successfully created.'
-    else
-      render action: "new"
-    end
-  end
-
-  def update
-    do_update :peer_review, params
-  end
-
-  def destroy
-    @peer_review = PeerReview.find(params[:id])
-    @peer_review.destroy
-  end
-
   private
 
   def generate_peer_review_assignment

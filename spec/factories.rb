@@ -17,6 +17,15 @@ FactoryGirl.define do
     student_number 2
   end
 
+  factory :user3, :class => User do
+    forename "Jack"
+    surename  "Doe"
+    password "foo"
+    password_confirmation "foo"
+    email "bar@bar.com"
+    student_number 3
+  end
+
   factory :admin, :class => User do
     forename "Brian"
     surename  "Doe"

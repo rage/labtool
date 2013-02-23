@@ -36,7 +36,7 @@
             <% if student.assigned_reviewers.count>1 %>
                 <th id='<%= "r#{student.id}" %>' class='many-reviewers-assigned vertical'><%= student %></th>
             <% elsif student.assigned_reviewers.count>0 %>
-                <th id='<%= "r#{student.id}" %>' class='review-assigned vertical'><%= student %></th>
+                <th id='<%= "r#{student.id}" %>' class='reviewer-assigned vertical'><%= student %></th>
             <% else %>
                 <th id='<%= "r#{student.id}" %>' class='vertical'><%= student %></th>
             <% end %>
