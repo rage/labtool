@@ -24,8 +24,7 @@ Labtool::Application.routes.draw do
   match 'complete_review' => 'peer_reviews#complete_review'
   match 'reset_reviews' => 'peer_reviews#reset'
   match 'generate_reviews' => 'peer_reviews#generate'
-
-  match 'toggle_review_participation' => 'registrations#toggle_participation'
+  match 'toggle_review_participation' => 'peer_reviews#toggle_participation'
 
   root :to => 'mypage#index'
 end

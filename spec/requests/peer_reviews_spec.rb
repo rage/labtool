@@ -53,7 +53,7 @@ describe "peer review" do
         elements_with_class('.many-reviews-assigned').size.should == 0
         elements_with_class('.many-reviewers-assigned').size.should == 0
 
-        review_assignment_should_be_good
+        review_assignment_should_be_good_for_round 1
       end
     end
 
@@ -166,23 +166,171 @@ describe "peer review" do
 
   end
 
+  describe "second review round" do
+    before do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user2)
+      @user3 = FactoryGirl.create(:user3)
+      @students = [@user1, @user2, @user3]
+      @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => true, :participate_review2 => true)
 
-  describe "if not all do not participate"
+      visit peer_reviews_path
+      click_button "generate default review assignments"
+      @course.update_attributes(:review_round => 2)
+      visit peer_reviews_path
+    end
 
-  describe "second round does not contain same assigned pair that the first"
+    it "at start no one has assigned reviews" do
+      page.should have_content "Assign peer reviews for students"
+      page.should have_content "Course: #{@course}"
+      page.should have_content "review round 2, registration open"
+
+      @students.each { |s|
+        page.should have_content s.to_s
+      }
+
+      elements_with_class('.review-assigned').size.should == 0
+      elements_with_class('.many-reviews-assigned').size.should == 0
+      elements_with_class('.reviewer-assigned').size.should == 0
+      elements_with_class('.many-reviewers-assigned').size.should == 0
+    end
+
+    it "review assignment generation assigns one review and reviewee for each participant" do
+      (1..5).each do
+        click_button "generate default review assignments"
+
+        student_names = @students.map(&:to_s)
+
+        elements_with_class('.review-assigned').size.should == 3
+        elements_with_class('.reviewer-assigned').size.should == 3
+        elements_with_class('.review-assigned').should =~ student_names
+        elements_with_class('.reviewer-assigned').should =~ student_names
+
+        elements_with_class('.many-reviews-assigned').size.should == 0
+        elements_with_class('.many-reviewers-assigned').size.should == 0
+
+        review_assignment_should_be_good_for_round 2
+      end
+    end
+
+    it "does not contain same assigned pair as in the first round" do
+      (1..5).each do
+        click_button "generate default review assignments"
+        review_assignments_should_not_collide_for_rounds
+      end
+    end
+
+  end
+
+  describe "if not all do not participate" do
+    before do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user2)
+      @user3 = FactoryGirl.create(:user3)
+      @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => false, :participate_review2 => false)
+
+      visit peer_reviews_path
+      click_button "generate default review assignments"
+    end
+
+    it "only the participating ones will get reviews and reviewers" do
+      page.should have_content "Assign peer reviews for students"
+      page.should have_content "Course: #{@course}"
+      page.should have_content "review round 1, registration open"
+
+      page.should have_content @user1.to_s
+      page.should have_content @user2.to_s
+      page.should_not have_content @user3.to_s
+
+      elements_with_class('.review-assigned').size.should == 2
+      elements_with_class('.many-reviews-assigned').size.should == 0
+      elements_with_class('.reviewer-assigned').size.should == 2
+      elements_with_class('.many-reviewers-assigned').size.should == 0
+
+      student_ids = [@user1.id, @user2.id]
+      reviewers = PeerReview.select { |p| p.round==1 }.map { |p| p.reviewer.user.id }
+      revieweds = PeerReview.select { |p| p.round==1 }.map { |p| p.reviewed.user.id }
+
+      (reviewers.sort == student_ids.sort).should be true
+      (revieweds.sort == student_ids.sort).should be true
+    end
+  end
+
+  describe "if user cancels the participation" do
+    before do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user2)
+      @user3 = FactoryGirl.create(:user3)
+      @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => true, :participate_review2 => true)
+
+      visit mypage_path
+      fill_in "student_number", :with => @user1.student_number
+      click_button "start!"
+
+      click_button "cancel participation"
+    end
+
+    it "he is not shown in assignment generation page" do
+      visit peer_reviews_path
+
+      page.should_not have_content @user1.to_s
+    end
+
+    it "no assignment is generated for him" do
+      visit peer_reviews_path
+
+      click_button "generate default review assignments"
+
+      elements_with_class('.review-assigned').size.should == 2
+      elements_with_class('.many-reviews-assigned').size.should == 0
+      elements_with_class('.reviewer-assigned').size.should == 2
+      elements_with_class('.many-reviewers-assigned').size.should == 0
+
+      student_ids = [@user2.id, @user3.id]
+      reviewers = PeerReview.select { |p| p.round==1 }.map { |p| p.reviewer.user.id }
+      revieweds = PeerReview.select { |p| p.round==1 }.map { |p| p.reviewed.user.id }
+
+      (reviewers.sort == student_ids.sort).should be true
+      (revieweds.sort == student_ids.sort).should be true
+    end
+
+    it "he still decide to participate the review" do
+      visit mypage_path
+      fill_in "student_number", :with => @user1.student_number
+      click_button "start!"
+
+      click_button "participate"
+
+      visit peer_reviews_path
+
+      page.should have_content @user1.to_s
+    end
+  end
+
+  def review_assignments_should_not_collide_for_rounds
+    pairs1 = PeerReview.select { |p| p.round==1 }.map { |p| [p.reviewer.id, p.reviewed.id] }
+    pairs2 = PeerReview.select { |p| p.round==2 }.map { |p| [p.reviewer.id, p.reviewed.id] }
+
+    (pairs1 & pairs2).should == []
+  end
 
   def button_for user1, user2
     "#b#{user1.id}-#{user2.id}"
   end
 
-  def review_assignment_should_be_good
+  def review_assignment_should_be_good_for_round round
     student_ids = @students.map(&:id)
-    reviewers = PeerReview.all.map { |p| [p.reviewer.id] }
-    revieweds = PeerReview.all.map { |p| [p.reviewed.id] }
-    pairs = PeerReview.all.map { |p| [p.reviewer.id, p.reviewed.id] }
+    reviewers = PeerReview.select { |p| p.round==round }.map { |p| p.reviewer.user.id }
+    revieweds = PeerReview.select { |p| p.round==round }.map { |p| p.reviewed.user.id }
 
-    reviewers =~ student_ids
-    revieweds =~ student_ids
+    (reviewers.sort == student_ids.sort).should be true
+    (revieweds.sort == student_ids.sort).should be true
   end
 
   def elements_with_class klass
@@ -192,4 +340,5 @@ describe "peer review" do
     end
     es
   end
+
 end

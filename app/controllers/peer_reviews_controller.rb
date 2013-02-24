@@ -1,5 +1,19 @@
 class PeerReviewsController < ApplicationController
-  skip_before_filter :authenticate, :only => :complete_review
+  skip_before_filter :authenticate, :only => [ :complete_review, :toggle_participation ]
+
+  def complete_review
+    review = PeerReview.find(params[:review])
+    review.update_attributes :done => true
+
+    redirect_to "/mypage/#{review.reviewer.user.student_number}"
+  end
+
+  def toggle_participation
+    @registration = Registration.find(params[:registration])
+    @registration.toggle_review_participation params[:round].to_i
+    @registration.save
+    redirect_to "/mypage/#{@registration.user.student_number}", :notice => 'Code review participation status changed'
+  end
 
   def generate
     begin
@@ -13,14 +27,6 @@ class PeerReviewsController < ApplicationController
     PeerReview.delete_for Course.active
     redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
   end
-
-  def complete_review
-    review = PeerReview.find(params[:review])
-    review.update_attributes :done => true
-
-    redirect_to "/mypage/#{review.reviewer.user.student_number}"
-  end
-
 
   def toggle_review
     reviewer = User.find(params[:reviewer]).current_registration

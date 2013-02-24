@@ -1,7 +1,5 @@
 class RegistrationsController < ApplicationController
-  skip_before_filter :authenticate, :only => [:new, :create, :redirect, :toggle_participation]
-#  skip_before_filter :authenticate, :only => [:new, :edit, :create, :update, :redirect, :toggle_participation]
-
+  skip_before_filter :authenticate, :only => [:new, :create, :redirect]
 
   def index
     @registrations = Registration.current
@@ -19,13 +17,6 @@ class RegistrationsController < ApplicationController
   def edit
     @registration = Registration.find(params[:id])
     render "admin_edit"
-  end
-
-  def toggle_participation
-    @registration = Registration.find(params[:registration])
-    @registration.toggle_review_participation params[:round].to_i
-    @registration.save
-    redirect_to "/mypage/#{@registration.user.student_number}", :notice => 'Code review participation status changed'
   end
 
   def create
