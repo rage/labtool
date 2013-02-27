@@ -19,6 +19,22 @@ class Registration < ActiveRecord::Base
     end
   end
 
+  def has_instructor_notes
+    week_feedbacks.each do |fb|
+      return true unless fb.hidden_text.nil? or fb.hidden_text.empty?
+    end
+
+    false
+  end
+
+  def last_instructor_note_digest
+    [6,5,4,3,2,1].each do |w|
+      fb = feedback_for_week w
+      return fb.hidden_text unless fb.nil? or fb.hidden_text.nil? or fb.hidden_text.empty?
+    end
+    ""
+  end
+
   def toggle_activity
     self.active = active==false
 

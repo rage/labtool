@@ -13,4 +13,9 @@ module CoursesHelper
     return "dropped" if not registration.active
     ""
   end
+
+  def notes registration
+    return "" unless registration.has_instructor_notes
+    "on"
+  end
 end

@@ -51,6 +51,28 @@ describe "week feedback" do
     page.should have_content "good stuff, boy!"
   end
 
+  it "last instructor note is shown on course page" do
+    visit user_path @user.id
+
+    fill_in "week_feedback_week", :with => 1
+    fill_in "week_feedback_points", :with => 2
+    fill_in "week_feedback_text", :with => "good stuff, boy!"
+    fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
+    click_button "Save"
+
+    visit user_path @user.id
+
+    fill_in "week_feedback_week", :with => 2
+    fill_in "week_feedback_points", :with => 2
+    fill_in "week_feedback_text", :with => "good stuff, boy!"
+    fill_in "week_feedback_hidden_text", :with => "well done"
+    click_button "Save"
+
+    visit course_path @course.id
+
+    page.should have_content "well done"
+    page.should_not have_content "couldvebeen"
+  end
 
   describe "when already exists" do
     before do
