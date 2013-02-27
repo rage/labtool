@@ -20,11 +20,13 @@ describe "week feedback" do
     fill_in "week_feedback_week", :with => 1
     fill_in "week_feedback_points", :with => 2
     fill_in "week_feedback_text", :with => "good stuff, boy!"
+    fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
     click_button "Save"
 
     page.should have_content "Week feedback was successfully created."
     page.should have_content "week: 1, points: 2"
     page.should have_content "good stuff, boy!"
+    page.should have_content "but couldvebeen better"
   end
 
   it "should have correct parameters until saved and shown" do
@@ -57,6 +59,7 @@ describe "week feedback" do
       fill_in "week_feedback_week", :with => 1
       fill_in "week_feedback_points", :with => 2
       fill_in "week_feedback_text", :with => "good stuff, boy!"
+      fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
       click_button "Save"
       fill_in "week_feedback_week", :with => 2
       fill_in "week_feedback_points", :with => 1
@@ -67,6 +70,7 @@ describe "week feedback" do
     it "it can be edited" do
       fill_in "week_feedback_points", :with => 3
       fill_in "week_feedback_text", :with => "better than expected!"
+      fill_in "week_feedback_hidden_text", :with => "splendid"
       click_button "Save"
 
       page.should have_content "Week feedback already exists!"
@@ -77,6 +81,7 @@ describe "week feedback" do
       page.should have_content "Week feedback was successfully updated"
       page.should have_content "week: 1, points: 3"
       page.should have_content "better than expected!"
+      page.should have_content "splendid"
     end
 
     it "editing should not allow saving invalid parameters" do

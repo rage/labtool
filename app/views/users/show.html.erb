@@ -66,6 +66,14 @@
           <% @user.current_registration.feedback.each do |fb| %>
               <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
                 <pre><%= fb.text %></pre>
+                <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
+                    <div class="instronly">
+                      instructor notes:
+                      <div style="padding: 4px;">
+                        <pre><%= fb.hidden_text %></pre>
+                      </div>
+                    </div>
+                <% end %>
               </li>
           <% end %>
         </ul>
@@ -83,9 +91,16 @@
             <br/>
             <%= text_field_tag 'week_feedback[points]' %>
             <br/>
-            <%= label_tag 'comments' %>
+            <%= label_tag 'comments for student' %>
             <br/>
             <%= text_area_tag 'week_feedback[text]', nil, :size => "100x10" %>
+            <br/>
+
+            <div class="instronly" style="padding: 4px;">
+              <%= label_tag 'comments visible only to instructors' %>
+              <br/>
+              <%= text_area_tag 'week_feedback[hidden_text]', nil, :size => "100x10" %>
+            </div>
             <br/>
             <%= label_tag 'notify by email' %>
             <%= check_box_tag 'notify', true, true %>
@@ -220,8 +235,8 @@
 
 
 <div style="padding: 0 0 0 0">
-<%= link_to 'Edit user data', edit_user_path(@user), :class => 'small-button' %>
+  <%= link_to 'Edit user data', edit_user_path(@user), :class => 'small-button' %>
 </div>
 <div style="padding: 20px 0 0 0">
-<%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
+  <%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
 </div>

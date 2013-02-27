@@ -12,46 +12,46 @@
  *= require_tree .
  */
 
-.button{
+.button {
     text-align: center;
-    border:2px solid #a1a1a1;
-    padding:5px 20px;
-    background:#dddddd;
-    width:300px;
-    border-radius:10px;
-    -moz-border-radius:10px;
+    border: 2px solid #a1a1a1;
+    padding: 5px 20px;
+    background: #dddddd;
+    width: 300px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
 }
 
-.button:hover{
-    background:#999999;
+.button:hover {
+    background: #999999;
 }
 
-.button a{
+.button a {
     font-weight: bold;
     color: #000000;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.button a:visited{
+.button a:visited {
     color: #000000;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.button a:hover{
+.button a:hover {
     background-color: transparent;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.rounded{
+.rounded {
     border-style: solid;
     border-width: 1px;
     margin: 10px;
     padding: 0px 15px 15px 15px;
-    border-radius:10px;
-    -moz-border-radius:10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
 }
 
-.indent{
+.indent {
     margin: 20px;
 }
 
@@ -60,7 +60,7 @@
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation = 3);
     text-align: left;
 }
 
@@ -68,7 +68,7 @@
     text-align: center;
 }
 
-.left{
+.left {
     text-align: center;
 }
 
@@ -108,79 +108,86 @@
 .review-assigned a:link {
     color: green;
 }
+
 .review-assigned a:visited {
     color: green;
 }
 
 .striped tbody td:nth-of-type(even),
-.striped thead th:nth-of-type(even){
-	background:rgba(255,255,136,0.5);
+.striped thead th:nth-of-type(even) {
+    background: rgba(255, 255, 136, 0.5);
 }
 
 table div.rotated {
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  writing-mode:tb-rl;
-  white-space: nowrap;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    writing-mode: tb-rl;
+    white-space: nowrap;
 }
 
 thead th {
-  vertical-align: top;
+    vertical-align: top;
     text-align: right;
 }
 
 table .vertical {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 table {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .rotated {
     padding-left: 20px;
 }
 
-th  {
-	border: 1px dotted gray;
+th {
+    border: 1px dotted gray;
 }
 
-td  {
-	border: 1px dotted gray;
+td {
+    border: 1px dotted gray;
 }
 
-.small-button{
+.small-button {
     text-align: center;
-    border:2px solid #a1a1a1;
-    padding:0px 20px;
-    background:#dddddd;
-    width:150px;
+    border: 2px solid #a1a1a1;
+    padding: 0px 20px;
+    background: #dddddd;
+    width: 150px;
     height: 20px;
-    border-radius:10px;
-    -moz-border-radius:10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
 }
 
-.small-button:hover{
-    background:#999999;
+.small-button:hover {
+    background: #999999;
 }
 
-.small-button a{
+.small-button a {
     font-weight: bold;
     color: #000000;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.small-button a:visited{
+.small-button a:visited {
     color: #000000;
-    text-decoration:none;
+    text-decoration: none;
 }
 
-.small-button a:hover{
+.small-button a:hover {
     background-color: transparent;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 .dropped {
     background: #aaaaaa;
 }
 
+.instronly {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #bbbbbb;
+    background: #bbbbbb;
+}
