@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
   end
 
   def current_registration
-    registrations.first
     registrations.each { |r|
       return r if r.course == Course.active
     }

@@ -260,6 +260,35 @@ describe "peer review" do
     end
   end
 
+  describe "if user is marked as inactive" do
+    before do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user2)
+      @user3 = FactoryGirl.create(:user3)
+      @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      visit peer_reviews_path
+
+      click_button "generate default review assignments"
+      visit user_path @user1.id
+      click_button "Make inactive"
+    end
+
+    it "his peer review assignments are deleted" do
+      current_reviews = PeerReview.select { |p| p.round = @course.review_round }
+
+      current_reviews.map(&:reviewer_id).should_not include @user1.current_registration.id
+      current_reviews.map(&:reviewed_id).should_not include @user1.current_registration.id
+    end
+
+    it "he is not shown at peer review assignment page" do
+      visit peer_reviews_path
+
+      page.should_not have_content @user1.to_s
+    end
+  end
+
   describe "if user cancels the participation" do
     before do
       @user1 = FactoryGirl.create(:user)

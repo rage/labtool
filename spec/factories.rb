@@ -38,6 +38,7 @@ FactoryGirl.define do
 
   factory :registration do
     topic "Beerguide"
+    active true
     repository  "http://www.github.com/foobar"
   end
 

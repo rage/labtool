@@ -1,8 +1,19 @@
 class RegistrationsController < ApplicationController
   skip_before_filter :authenticate, :only => [:new, :create, :redirect]
 
+  def toggle_activity
+    @registration = Registration.find(params[:registration])
+    @registration.toggle_activity
+    @registration.save
+    redirect_to :back, :notice=> 'Registration status changed'
+  end
+
   def index
-    @registrations = Registration.current
+    @registrations = Registration.current.select{|r| r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }
+    passive_registrations = Registration.current.select{|r| not r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }
+
+    @registrations += passive_registrations
+
     @past_registrations = Registration.past
   end
 
@@ -27,6 +38,7 @@ class RegistrationsController < ApplicationController
     if user.valid?
       @registration.participate_review1 = true
       @registration.participate_review2 = true
+      @registration.active = true
       user.registrations << @registration
       course.registrations << @registration
       session[:student_number] = user.student_number

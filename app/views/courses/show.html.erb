@@ -53,8 +53,8 @@
     <th></th>
   </tr>
 
-  <% @course.registrations.each do |registration| %>
-      <tr>
+  <% sort(@course.registrations).each do |registration| %>
+      <tr class='<%= active registration %>'>
         <td><%= link_to registration.user, registration.user %></td>
         <td><%= link_to registration.topic, registration %></td>
         <td><%= link_to registration.repository, registration.repository %>&nbsp;&nbsp;</td>

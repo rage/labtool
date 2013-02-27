@@ -14,15 +14,16 @@
   </tr>
 
   <% @registrations.each do |registration| %>
-      <tr>
+      <tr class='<%= active registration %>'>
         <td><%= link_to registration.user, registration.user %></td>
         <td><%= link_to registration.topic, registration %></td>
         <td><%= link_to registration.repository, registration.repository %></td>
         <td><%= link_to link_to registration.course, registration.course %></td>
-                    <td><%= link_to 'Destroy', registration, method: :delete, data: {confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', registration, method: :delete, data: {confirm: 'Are you sure?' } %></td>
       </tr>
   <% end %>
 </table>
+
 
 <% if @past_registrations.count > 0 %>
     <h3>Past courses</h3>

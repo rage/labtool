@@ -72,7 +72,8 @@ class PeerReviewsController < ApplicationController
     @peer_reviews = PeerReview.current_round_for Course.active
     @students = User.select do |s|
       s.current_registration and
-      s.current_registration.participates_review(Course.active.review_round)
+      s.current_registration.participates_review(Course.active.review_round) and
+      s.current_registration.active
     end
     @course = Course.active
   end

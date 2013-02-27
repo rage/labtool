@@ -67,10 +67,19 @@ describe "user" do
     User.last.registrations.count.should == 0
   end
 
+  it "can be made inactivate from the courrent course" do
+    visit user_path @user.id
+    click_button "Make inactive"
+
+    User.find(@user.id).current_registration.active.should be false
+    page.should have_content "Registration status changed"
+  end
+
   it "can be dropped from current course" do
     visit user_path @user.id
+
     expect {
-      click_link "Drop from current course"
+      click_link "Delete the registration"
     }.to change { @user.registrations.count }.by(-1)
     @course.registrations.count.should == 0
   end
@@ -85,5 +94,37 @@ describe "user" do
     expect {
       page.driver.submit :delete, user_path(@user.id), {}
     }.to change { Registration.all.count }.by(-1)
+  end
+
+  describe "when inactive in current course" do
+    before do
+      visit user_path @user.id
+      click_button "Make inactive"
+    end
+
+    it "should be possible to activate the registration" do
+      visit user_path @user.id
+
+      click_button "Activate again"
+
+      User.find(@user.id).current_registration.active.should be true
+      page.should have_content "Registration status changed"
+      elements_with_class('.dropped').size.should == 0
+    end
+
+    it "is indicated with a style in course page" do
+      visit course_path @course.id
+
+      elements_with_class('.dropped').size.should == 1
+      elements_with_class('.dropped').first.should include @user.to_s
+    end
+  end
+
+  def elements_with_class klass
+    es = []
+    all(klass).each do |e|
+      es << e.text
+    end
+    es
   end
 end

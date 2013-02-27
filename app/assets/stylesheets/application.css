@@ -180,3 +180,7 @@ td  {
     text-decoration:none;
 }
 
+.dropped {
+    background: #aaaaaa;
+}
+

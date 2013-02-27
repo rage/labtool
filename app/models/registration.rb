@@ -1,5 +1,5 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :repository, :topic
+  attr_accessible :repository, :topic, :active
 
   belongs_to :course
   belongs_to :user
@@ -16,6 +16,16 @@ class Registration < ActiveRecord::Base
   def self.review_participants course
     Registration.select do |r|
       r.course = course and r.participates_review course.review_round
+    end
+  end
+
+  def toggle_activity
+    self.active = active==false
+
+    if not active
+      PeerReview.all.select{ |r| r.reviewer == self or r.reviewed == self  }.each do |p|
+        p.delete
+      end
     end
   end
 

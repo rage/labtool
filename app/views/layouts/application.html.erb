@@ -2,29 +2,29 @@
 <html>
 <head>
   <title>Labtool</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
 <nav>
-  <%= link_to 'register', "/register"%>
+  <%= link_to 'register', "/register" %>
   <%= link_to 'my page', "/mypage" %>
   |
   <% if admin? %>
-    <%= link_to 'registrations', registrations_url %>
-    <%= link_to 'peer reviews', peer_reviews_url %>
+      <%= link_to 'peer reviews', peer_reviews_url %>
       <%= link_to 'current course', Course.active %>
-    <%= link_to 'courses', courses_url %>
-    <%= link_to 'users', users_url %>
+      <%= link_to 'courses', courses_url %>
+      <%= link_to 'registrations', registrations_url %>
+      <%= link_to 'users', users_url %>
   <% end %>
   <% if current_user %>
-    <%= link_to "logout", logout_path %>
+      <%= link_to "logout", logout_path %>
       <%= current_user.email %>
   <% else %>
-    <%= link_to "login", login_path %>
-  <%end %>
+      <%= link_to "login", login_path %>
+  <% end %>
 </nav>
 
 <%= yield %>

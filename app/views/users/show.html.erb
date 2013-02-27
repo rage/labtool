@@ -21,6 +21,18 @@
 
     <h2>Current work</h2>
 
+    <% if not @user.current_registration.active %>
+        <div class='<%= active @user.current_registration %>' style='margin: 10px; padding: 3px 10px 10px 10px'>
+
+          <p><strong>has dropped from the course</strong></p>
+          <%= form_tag('/toggle_registration') do %>
+              <%= hidden_field_tag 'registration', @user.current_registration.id %>
+              <%= submit_tag "Activate again", :class => "small-button" %>
+          <% end %>
+        </div>
+    <% end %>
+
+
     <div class="rounded">
 
 
@@ -129,42 +141,51 @@
 
       <h3>round 2</h3>
 
-       <p><%= "participate review 2: #{(@user.current_registration.participates_review 1) ? "yes" :"no"}" %></p>
+      <p><%= "participate review 2: #{(@user.current_registration.participates_review 2) ? "yes" :"no"}" %></p>
 
-       <% if @user.assigned_reviews_in(2).count>0 %>
+      <% if @user.assigned_reviews_in(2).count>0 %>
 
-           <h4>Code to review</h4>
+          <h4>Code to review</h4>
 
-           <% @user.assigned_reviews_in(2).each do |review| %>
-               <%= link_to review.reviewed.repository, review.reviewed.repository %>
-               <% if not review.done %>
-                   <em>not done</em>
+          <% @user.assigned_reviews_in(2).each do |review| %>
+              <%= link_to review.reviewed.repository, review.reviewed.repository %>
+              <% if not review.done %>
+                  <em>not done</em>
 
-               <% else %>
-                   <em>reviewed</em>
-               <% end %>
+              <% else %>
+                  <em>reviewed</em>
+              <% end %>
 
-           <% end %>
-       <% else %>
-           <h4>No code assigned for review yet</h4>
-       <% end %>
+          <% end %>
+      <% else %>
+          <h4>No code assigned for review yet</h4>
+      <% end %>
 
-       <% if @user.assigned_reviewers_in(2).count>0 %>
+      <% if @user.assigned_reviewers_in(2).count>0 %>
 
-           <h4>Reviewers</h4>
+          <h4>Reviewers</h4>
 
-           <% @user.assigned_reviewers_in(2).each do |review| %>
-               <%= link_to(review.reviewer.user, review.reviewer.repository) %>
-               <em><%= review.done() ? "ready" :"not done yet" %></em>
-               <br/>
-           <% end %>
-       <% else %>
-           <h4>Nobody assigned to review your code yet</h4>
-       <% end %>
+          <% @user.assigned_reviewers_in(2).each do |review| %>
+              <%= link_to(review.reviewer.user, review.reviewer.repository) %>
+              <em><%= review.done() ? "ready" :"not done yet" %></em>
+              <br/>
+          <% end %>
+      <% else %>
+          <h4>Nobody assigned to review your code yet</h4>
+      <% end %>
 
     </div>
 
+    <% if @user.current_registration.active %>
 
+        <%= form_tag('/toggle_registration') do %>
+            <%= hidden_field_tag 'registration', @user.current_registration.id %>
+            <%= submit_tag "Make inactive",
+                           :class => "small-button",
+                           :confirm => "Are you sure you want to do that? Note that this deletes all the review assignments for the user. \nRemember to do a new assignment!" %>
+        <% end %>
+
+    <% end %>
 
 <% end %>
 
@@ -198,5 +219,9 @@
 <% end %>
 
 
-<%= link_to 'Drop from current course', @user.current_registration, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
-<%= link_to 'Edit', edit_user_path(@user), :class => 'small-button' %>
+<div style="padding: 0 0 0 0">
+<%= link_to 'Edit user data', edit_user_path(@user), :class => 'small-button' %>
+</div>
+<div style="padding: 20px 0 0 0">
+<%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
+</div>
