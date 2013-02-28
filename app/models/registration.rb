@@ -6,11 +6,11 @@ class Registration < ActiveRecord::Base
   has_many :week_feedbacks
 
   def self.current
-    Registration.all.select{|r| r.course.active }
+    Registration.all.select { |r| r.course.active }
   end
 
   def self.past
-    Registration.all.reject{|r| r.course.active }
+    Registration.all.reject { |r| r.course.active }
   end
 
   def self.review_participants course
@@ -28,7 +28,7 @@ class Registration < ActiveRecord::Base
   end
 
   def last_instructor_note_digest
-    [6,5,4,3,2,1].each do |w|
+    [6, 5, 4, 3, 2, 1].each do |w|
       fb = feedback_for_week w
       return fb.hidden_text unless fb.nil? or fb.hidden_text.nil? or fb.hidden_text.empty?
     end
@@ -39,7 +39,7 @@ class Registration < ActiveRecord::Base
     self.active = active==false
 
     if not active
-      PeerReview.all.select{ |r| r.reviewer == self or r.reviewed == self  }.each do |p|
+      PeerReview.all.select { |r| r.reviewer == self or r.reviewed == self }.each do |p|
         p.delete if p.round == Course.active.review_round
       end
       self.participate_review1 = false
@@ -49,22 +49,14 @@ class Registration < ActiveRecord::Base
 
   def toggle_review_participation round
     if round==1
-      if participate_review1?
-        self.participate_review1 = false
-        PeerReview.all.select{ |r| r.round == 1 and ( r.reviewer == self or r.reviewed == self  ) }.each do |p|
-          p.delete
-        end
-      else
-        self.participate_review1 = true
-      end
+      self.participate_review1 = participate_review1 ? false : true
     else
-      if participate_review2?
-        self.participate_review2 = false
-        PeerReview.all.select{ |r| r.round == w and ( r.reviewer == self or r.reviewed == self  ) }.each do |p|
-          p.delete
-        end
-      else
-        self.participate_review2 = true
+      self.participate_review2 = participate_review2 ? false : true
+    end
+
+    unless participates_review round
+      PeerReview.all.select { |r| r.round == round and (r.reviewer == self or r.reviewed == self) }.each do |p|
+        p.delete
       end
     end
   end
@@ -75,19 +67,19 @@ class Registration < ActiveRecord::Base
   end
 
   def review_targets_for round
-    review_targets.select{ |p| p.round == round }
+    review_targets.select { |p| p.round == round }
   end
 
   def review_targets
-    PeerReview.select{ |p| p.reviewer_id == id}
+    PeerReview.select { |p| p.reviewer_id == id }
   end
 
   def reviewers_for round
-    reviewers.select{ |p| p.round == round }
+    reviewers.select { |p| p.round == round }
   end
 
   def reviewers
-    PeerReview.select{ |p| p.reviewed_id == id}
+    PeerReview.select { |p| p.reviewed_id == id }
   end
 
   def feedback_given
@@ -100,7 +92,7 @@ class Registration < ActiveRecord::Base
   def review_status
     r1 = review_targets_for 1
     r2 = review_targets_for 2
-    ([ stringify(r1) ,  stringify(r2)]).join(" ")
+    ([stringify(r1), stringify(r2)]).join(" ")
   end
 
   def review_status_for_week week
@@ -114,18 +106,18 @@ class Registration < ActiveRecord::Base
   end
 
   def feedback
-    week_feedbacks.sort_by{ |f| f[:week] }
+    week_feedbacks.sort_by { |f| f[:week] }
   end
 
   def points_for_week week
-    week_feedbacks.each{ |f|
+    week_feedbacks.each { |f|
       return f.points.to_s if f.week == week
     }
     return "-"
   end
 
   def feedback_for_week week
-    week_feedbacks.each{ |f|
+    week_feedbacks.each { |f|
       return f if f.week == week
     }
     return nil
