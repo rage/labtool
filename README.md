@@ -13,7 +13,6 @@ Käyttöohjeita:
   - ilmoittautuu ensin sivulle registration
   - käyttää järjestelmää tämän jälkeen my_page-sivun kautta
   - ei siis kirjaudu järjestelmään
-
 - admin-käyttäjätunnukset tuotu labraohjaajille
   - email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
 - admin käyttää valikon sivuista normaalisti vaan seuraavia:
