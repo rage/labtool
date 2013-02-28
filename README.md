@@ -9,8 +9,13 @@ Asiakkaan toivomat ominaisuudet https://github.com/mluukkai/labtool/wiki/feturet
 
 Käyttöohjeita:
 
-- opiskelija käyttää järjestelmää kirjautumatta
-- admin-käyttäjätunnukset tuotu labraohjaajille, email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
+- opiskelija 
+  - ilmoittautuu ensin sivulle registration
+  - käyttää järjestelmää tämän jälkeen my_page-sivun kautta
+  - ei siis kirjaudu järjestelmään
+  
+- admin-käyttäjätunnukset tuotu labraohjaajille
+  - email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
 - admin käyttää valikon sivuista normaalisti vaan seuraavia:
   - peer reviews: koodikatselmoinnin generointi
   - current course: "kaikki muu" olellinen (mm. ilmottautuneet)
