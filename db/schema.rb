@@ -11,17 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227221328) do
+ActiveRecord::Schema.define(:version => 20130228115146) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
     t.string   "period"
     t.boolean  "active"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "review_round"
     t.integer  "week"
     t.integer  "state"
+    t.boolean  "mandatory_reviews"
   end
 
   create_table "peer_reviews", :force => true do |t|
@@ -52,10 +53,9 @@ ActiveRecord::Schema.define(:version => 20130227221328) do
     t.string   "student_number"
     t.string   "email"
     t.boolean  "admin"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "password_digest"
-    t.boolean  "participate_review2"
   end
 
   create_table "week_feedbacks", :force => true do |t|

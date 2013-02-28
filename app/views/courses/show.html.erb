@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
 <h1>
   <%= @course.year %>,
@@ -58,7 +58,7 @@
   <% sort(@course.registrations).each do |registration| %>
       <tr class='<%= active registration %>'>
         <td><%= link_to registration.user, registration.user %></td>
-        <td><%= link_to registration.topic, registration %></td>
+        <td><%= registration.topic %></td>
         <td><%= link_to registration.repository, registration.repository %>&nbsp;&nbsp;</td>
         <td><%= registration.points_for_week 1 %></td>
         <td><%= registration.points_for_week 2 %></td>
@@ -77,6 +77,14 @@
 </div>
 
 <h3>Current code review</h3>
+
+<p><em><strong>
+  <% if @course.mandatory_reviews %>
+      mandatory for all participants
+  <% else %>
+      on voluntary basis
+  <% end %>
+</strong></em></p>
 
 <div class="rounded">
 
@@ -138,7 +146,15 @@
 
 </div>
 
-<h3>Code reviews</h3>
+<h3>Code reviews </h3>
+
+<p><em><strong>
+  <% if @course.mandatory_reviews %>
+    mandatory for all participants
+  <% else %>
+   on voluntary basis
+  <% end %>
+</strong></em></p>
 
 <div class="rounded">
 
@@ -194,8 +210,5 @@
 
 </div>
 
-<h3>Misc</h3>
-
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+<%= link_to 'Edit course data', edit_course_path(@course), :class => 'small-button' %>
 

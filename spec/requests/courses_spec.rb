@@ -105,7 +105,31 @@ describe "course" do
     page.should have_content "registration: closed"
   end
 
-  describe "with registrations" do
+  it "reviews can be made mandatory" do
+    visit edit_course_path(@course.id)
+    choose "course_mandatory_reviews_1"
+    click_button "Update Course"
 
+    page.should have_content "Course was successfully updated."
+    page.should have_content "mandatory for all participants"
+    Course.find(@course.id).mandatory_reviews.should be true
+  end
+
+  describe "if reviewing is mandatory" do
+    before do
+      visit edit_course_path(@course.id)
+      choose "course_mandatory_reviews_1"
+      click_button "Update Course"
+    end
+
+    it "can be made again voluntary" do
+      visit edit_course_path(@course.id)
+      choose "course_mandatory_reviews_0"
+      click_button "Update Course"
+
+      page.should have_content "Course was successfully updated."
+      page.should have_content "on voluntary basis "
+      Course.find(@course.id).mandatory_reviews.should be false
+    end
   end
 end

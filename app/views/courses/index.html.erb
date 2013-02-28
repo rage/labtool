@@ -6,6 +6,7 @@
   <tr>
     <th>Year</th>
     <th>Period</th>
+    <th>Mandatory reviews</th>
     <th></th>
     <th></th>
     <th></th>
@@ -16,6 +17,7 @@
   <tr class='<%= active course %>'>
     <td><%= course.year %></td>
     <td><%= course.period %></td>
+    <td><%= course.mandatory_reviews %></td>
     <td><%= link_to 'Show', course %></td>
     <td><%= link_to 'Edit', edit_course_path(course) %></td>
     <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>

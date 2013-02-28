@@ -67,7 +67,7 @@
 
           <p><%= "participate review 2: #{(@user.current_registration.participates_review 2) ? "yes" :"no"}" %></p>
 
-          <% if @user.current_registration.active and Course.active.review_registration=="open" and Course.active.review_round==2 %>
+          <% if @user.current_registration.active and Course.active.review_registration=="open" and Course.active.review_round==2 and Course.active.mandatory_reviews %>
               <%= form_tag('/toggle_review_participation') do %>
                   <%= hidden_field_tag 'registration', @user.current_registration.id %>
                   <%= hidden_field_tag 'round', 2 %>
@@ -123,7 +123,7 @@
 
       <p><%= "participate review 1: #{(@user.current_registration.participates_review 1) ? "yes" :"no"}" %></p>
 
-      <% if @user.current_registration.active and Course.active.review_registration=="open" and Course.active.review_round==1 %>
+      <% if @user.current_registration.active and Course.active.review_registration=="open" and Course.active.review_round==1 and not Course.active.mandatory_reviews %>
           <%= form_tag('/toggle_review_participation') do %>
               <%= hidden_field_tag 'registration', @user.current_registration.id %>
               <%= hidden_field_tag 'round', 1 %>

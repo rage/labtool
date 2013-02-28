@@ -23,6 +23,12 @@
     Week <br />
     <%= f.text_field :week %>
   </div>
+    <div class="field">
+      Mandatory code reviews: <br />
+      no <%= radio_button("course", :mandatory_reviews, 0, :checked => @course.mandatory_reviews==false)  %> <br/>
+      yes <%= radio_button("course", :mandatory_reviews, 1, :checked => @course.mandatory_reviews) %>
+
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -29,6 +29,7 @@ class CoursesController < ApplicationController
     @course = Course.new(params[:course])
     @course.review_round = 0
     @course.week = 0
+    @course.active = false
 
     if @course.save
       redirect_to @course, :notice => 'Course was successfully created.'

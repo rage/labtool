@@ -329,6 +329,22 @@ describe "peer review" do
     end
   end
 
+  it "student can not cancel review participation if it is set mandatory for the corse" do
+    @user1 = FactoryGirl.create(:user)
+    @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+    @course.mandatory_reviews = true
+    @course.save
+
+    visit mypage_path
+    fill_in "student_number", :with => @user1.student_number
+    click_button "start!"
+
+    expect{
+      click_button "cancel participation"
+    }.to raise_error
+
+  end
+
   describe "if user cancels the participation" do
     before do
       @user1 = FactoryGirl.create(:user)
