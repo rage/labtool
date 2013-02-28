@@ -12,12 +12,12 @@ Käyttöohjeita:
 - opiskelija käyttää järjestelmää kirjautumatta
 - admin-käyttäjätunnukset tuotu labraohjaajille, email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
 - admin käyttää valikon sivuista normaalisti vaan seuraavia:
-- - ­peer reviews: koodikatselmoinnin generointi
-- - current course: "kaikki muu" olellinen (mm. ilmottautuneet)
+  - peer reviews: koodikatselmoinnin generointi
+  - current course: "kaikki muu" olellinen (mm. ilmottautuneet)
 - harvemmin käytettäviä sivuja:
-- - courses: uusine kurssiinstanssien luonti, ja vanhojen tiedot 
-- - registrations: ilmoittautumiset, sekä nykyiset että menneet
-- - users: joskus ilmoittautuneiden käyttäjien tiedot
+  - courses: uusine kurssiinstanssien luonti, ja vanhojen tiedot 
+  - registrations: ilmoittautumiset, sekä nykyiset että menneet
+  - users: joskus ilmoittautuneiden käyttäjien tiedot
 
 Koodin laadunvalvonta:
 
