@@ -122,6 +122,16 @@
 
       <p><%= "participate review 1: #{(@user.current_registration.participates_review 1) ? "yes" :"no"}" %></p>
 
+      <% if  Course.active.review_round==1 %>
+          <%= form_tag('/toggle_review_participation') do %>
+              <%= hidden_field_tag 'registration', @user.current_registration.id %>
+              <%= hidden_field_tag 'round', 1 %>
+              <%= submit_tag label(@user.current_registration.participates_review(1)),
+                             :class => "small-button",
+                             :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
+          <% end %>
+      <% end %>
+
       <% if @user.assigned_reviews_in(1).count>0 %>
 
           <h4>Code to review</h4>
@@ -130,7 +140,6 @@
               <%= link_to review.reviewed.repository, review.reviewed.repository %>
               <% if not review.done %>
                   <em>not done</em>
-
               <% else %>
                   <em>reviewed</em>
               <% end %>
@@ -157,6 +166,16 @@
       <h3>round 2</h3>
 
       <p><%= "participate review 2: #{(@user.current_registration.participates_review 2) ? "yes" :"no"}" %></p>
+
+      <% if  Course.active.review_round<3 %>
+          <%= form_tag('/toggle_review_participation') do %>
+              <%= hidden_field_tag 'registration', @user.current_registration.id %>
+              <%= hidden_field_tag 'round', 2 %>
+              <%= submit_tag label(@user.current_registration.participates_review(2)),
+                             :class => "small-button",
+                             :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
+          <% end %>
+      <% end %>
 
       <% if @user.assigned_reviews_in(2).count>0 %>
 
@@ -197,7 +216,7 @@
             <%= hidden_field_tag 'registration', @user.current_registration.id %>
             <%= submit_tag "Make inactive",
                            :class => "small-button",
-                           :confirm => "Are you sure you want to do that? Note that this deletes all the review assignments for the user. \nRemember to do a new assignment!" %>
+                           :confirm => "Are you sure you want to do that? Note that this deletes all the review assignments for the user. \n\nRemember to do a new assignment!" %>
         <% end %>
 
     <% end %>

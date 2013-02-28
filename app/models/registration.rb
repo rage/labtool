@@ -40,23 +40,31 @@ class Registration < ActiveRecord::Base
 
     if not active
       PeerReview.all.select{ |r| r.reviewer == self or r.reviewed == self  }.each do |p|
-        p.delete
+        p.delete if p.round == Course.active.review_round
       end
+      self.participate_review1 = false
+      self.participate_review2 = false
     end
   end
 
   def toggle_review_participation round
     if round==1
       if participate_review1?
-        self.participate_review1=false
+        self.participate_review1 = false
+        PeerReview.all.select{ |r| r.round == 1 and ( r.reviewer == self or r.reviewed == self  ) }.each do |p|
+          p.delete
+        end
       else
-        self.participate_review1=true
+        self.participate_review1 = true
       end
     else
       if participate_review2?
-        self.participate_review2=false
+        self.participate_review2 = false
+        PeerReview.all.select{ |r| r.round == w and ( r.reviewer == self or r.reviewed == self  ) }.each do |p|
+          p.delete
+        end
       else
-        self.participate_review2=true
+        self.participate_review2 = true
       end
     end
   end

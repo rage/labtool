@@ -222,6 +222,12 @@ describe "peer review" do
       end
     end
 
+    it "if a student is made inactive, the first round reviews are not removed" do
+      visit user_path @user1.id
+      expect{
+        click_button "Make inactive"
+      }.to change{PeerReview.select { |p| p.round==1 }.count}.by(0)
+    end
   end
 
   describe "if not all do not participate" do
@@ -260,7 +266,7 @@ describe "peer review" do
     end
   end
 
-  describe "if user is marked as inactive" do
+  describe "if an review assignment exists and user is marked as inactive" do
     before do
       @user1 = FactoryGirl.create(:user)
       @user2 = FactoryGirl.create(:user2)
@@ -268,24 +274,58 @@ describe "peer review" do
       @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
       @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
       @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => true, :participate_review2 => true)
-      visit peer_reviews_path
 
+      visit peer_reviews_path
       click_button "generate default review assignments"
+
       visit user_path @user1.id
       click_button "Make inactive"
     end
 
     it "his peer review assignments are deleted" do
       current_reviews = PeerReview.select { |p| p.round = @course.review_round }
-
       current_reviews.map(&:reviewer_id).should_not include @user1.current_registration.id
       current_reviews.map(&:reviewed_id).should_not include @user1.current_registration.id
+    end
+  end
+
+  describe "if student is marked as inactive" do
+    before do
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user2)
+      @user3 = FactoryGirl.create(:user3)
+      @registration1 = FactoryGirl.create(:registration, :user => @user1, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration2 = FactoryGirl.create(:registration, :user => @user2, :course => @course, :participate_review1 => true, :participate_review2 => true)
+      @registration3 = FactoryGirl.create(:registration, :user => @user3, :course => @course, :participate_review1 => true, :participate_review2 => true)
+
+      visit user_path @user1.id
+      click_button "Make inactive"
     end
 
     it "he is not shown at peer review assignment page" do
       visit peer_reviews_path
 
       page.should_not have_content @user1.to_s
+    end
+
+    it "no reviews are assigned to him" do
+      visit peer_reviews_path
+      click_button "generate default review assignments"
+
+      current_reviews = PeerReview.select { |p| p.round = @course.review_round }
+      current_reviews.map(&:reviewer_id).should_not include @user1.current_registration.id
+      current_reviews.map(&:reviewed_id).should_not include @user1.current_registration.id
+    end
+
+    it "he can not change participation to reviews" do
+      visit mypage_path
+      fill_in "student_number", :with => @user1.student_number
+      click_button "start!"
+
+      # perhaps not the best way to check that a button does not exist at page
+      expect{
+        click_button "cancel participation"
+      }.to raise_error
     end
   end
 
@@ -303,12 +343,6 @@ describe "peer review" do
       click_button "start!"
 
       click_button "cancel participation"
-    end
-
-    it "he is not shown in assignment generation page" do
-      visit peer_reviews_path
-
-      page.should_not have_content @user1.to_s
     end
 
     it "no assignment is generated for him" do

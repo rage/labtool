@@ -12,7 +12,8 @@ class PeerReviewsController < ApplicationController
     @registration = Registration.find(params[:registration])
     @registration.toggle_review_participation params[:round].to_i
     @registration.save
-    redirect_to "/mypage/#{@registration.user.student_number}", :notice => 'Code review participation status changed'
+    redirect_to :back, :notice => 'Code review participation status changed'
+    #redirect_to "/mypage/#{@registration.user.student_number}", :notice => 'Code review participation status changed'
   end
 
   def generate
@@ -97,10 +98,17 @@ class PeerReviewsController < ApplicationController
       end
       create_peer_review registrations.last, registrations[registrations.size/2]
     end
+
   end
 
   def unique_assignment
     return true if Course.active.review_round == 1
+
+    # there exists some cases where an unique assignment is not possible,.. the following is for those
+    @trials ||= 0
+    @trials += 1
+    return true if @trials == 20
+
     this_round = PeerReview.current_round_for Course.active
     prev_round = PeerReview.for Course.active, 1
     this_round.each do |this|
