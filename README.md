@@ -10,16 +10,16 @@ Asiakkaan toivomat ominaisuudet https://github.com/mluukkai/labtool/wiki/feturet
 Käyttöohjeita:
 
 - opiskelija 
-  - ilmoittautuu ensin sivulle registration
-  - käyttää järjestelmää tämän jälkeen my_page-sivun kautta
-  - ei siis kirjaudu järjestelmään
+  - ilmoittautuu ensin sivulle http://tktl-labtool.herokuapp.com/register
+  - käyttää järjestelmää tämän jälkeen sivun http://tktl-labtool.herokuapp.com/mypage kautta
+  - opiskelija ei siis kirjaudu järjestelmään
 - admin-käyttäjätunnukset tuotu labraohjaajille
   - email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
-- admin käyttää valikon sivuista normaalisti vaan seuraavia:
-  - peer reviews: koodikatselmoinnin generointi
-  - current course: "kaikki muu" olellinen (mm. ilmottautuneet)
+- admin käyttää ylhäällä olevan valikon sivuista normaalisti vaan seuraavia:
+  - peer reviews: sisältää koodikatselmoinnin generoinnin
+  - current course: sisältää kaiken muun menossa olevan kurssin kannalta olellisen (mm. ilmottautuneet)
 - harvemmin käytettäviä sivuja:
-  - courses: uusine kurssiinstanssien luonti, ja vanhojen tiedot 
+  - courses: uusien kurssiinstanssien luonti, ja vanhojen tiedot ja niiden muutokset
   - registrations: ilmoittautumiset, sekä nykyiset että menneet
   - users: joskus ilmoittautuneiden käyttäjien tiedot
 
