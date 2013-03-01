@@ -59,8 +59,44 @@ describe "registration" do
       click_button "Create Registration"
     end
 
-    describe "second registration by the same user" do
+    it "second registration to the same course fails" do
+      visit root_path
+      click_link "register"
+      fill_in "user_forename", :with => "Jim"
+      fill_in "user_surename", :with => "Doe"
+      fill_in "user_email", :with => "jim@example.com"
+      fill_in "user_student_number", :with => "123"
+      fill_in "registration_topic", :with => "watermemo"
+      fill_in "registration_repository", :with => "http://example.com/water"
+
+      expect {
+        click_button "Create Registration"
+      }.to change { @course.registrations.count }.by(0)
+
+      page.should have_content "You have already registered for the current course!"
+      page.should have_content "Jim Doe"
+      page.should have_content "beermemo"
+    end
+
+    it "registrations by another student increases the amount of registrations for the course" do
+      visit root_path
+      click_link "register"
+      fill_in "user_forename", :with => "Joe"
+      fill_in "user_surename", :with => "Doe"
+      fill_in "user_email", :with => "joe@example.com"
+      fill_in "user_student_number", :with => "124"
+      fill_in "registration_topic", :with => "watermemo"
+      fill_in "registration_repository", :with => "http://example.com/water"
+
+       expect {
+         click_button "Create Registration"
+       }.to change { @course.registrations.count }.by(1)
+     end
+
+    describe "second registration by the same use to another course should not increase amount of users" do
       before do
+        @course.update_attributes :active => false
+        @course2 = FactoryGirl.create(:inactive_course, :active => true)
         visit root_path
         click_link "register"
         fill_in "user_forename", :with => "Jim"
@@ -69,15 +105,7 @@ describe "registration" do
         fill_in "user_student_number", :with => "123"
         fill_in "registration_topic", :with => "watermemo"
         fill_in "registration_repository", :with => "http://example.com/water"
-      end
 
-      it "increases the amount of registrations for the course" do
-        expect {
-          click_button "Create Registration"
-        }.to change { @course.registrations.count }.by(1)
-      end
-
-      it "should not increase amount of users" do
         expect {
           click_button "Create Registration"
         }.to change { User.count }.by(0)

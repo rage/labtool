@@ -34,6 +34,10 @@ class RegistrationsController < ApplicationController
     course = Course.find_by_active(true)
     user = User.find_or_create(params[:user])
 
+    if not user.current_registration.nil?
+      return redirect_to "/mypage/#{user.student_number}", notice: "You have already registered for the current course!"
+    end
+
     @registration = Registration.new(params[:registration])
     if user.valid?
       @registration.participate_review1 = true
