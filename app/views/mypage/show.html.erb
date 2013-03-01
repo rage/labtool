@@ -26,18 +26,46 @@
         <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
       </div>
 
-      <h3>Points in weekly feedbacks</h3>
-
       <table>
+        <tr>
+          <th colspan="6">Week feedbacks</th>
+          <th></th>
+          <th colspan="2">Code review</th>
+          <th></th>
+          <th>
+            Total
+          </th>
+        </tr>
         <tr>
           <% (1..6).each do |week| %>
               <th style="width: 50px"> <%= week %></th>
           <% end %>
+          <th>
+
+          </th>
+          <th>
+            1
+          </th>
+          <th>
+            2
+          </th>
+          <th>
+
+          </th>
+          <th>
+            points
+          </th>
         </tr>
+
         <tr>
           <% (1..6).each do |week| %>
               <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week %></td>
           <% end %>
+          <td></td>
+          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review1 %></td>
+          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review2 %></td>
+          <td></td>
+          <td style="width: 50px; ; text-align: center;"><b><%= @user.current_registration.total_points %></b></td>
         </tr>
       </table>
 
@@ -107,10 +135,16 @@
               <% @user.assigned_reviewers_in(2).each do |review| %>
                   <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
                   <em><%= review.done() ? "ready" :"not done yet" %></em>
-                  <br/>
+                  <p/>
               <% end %>
           <% else %>
               <h4>Nobody assigned to review your code</h4>
+          <% end %>
+
+          <% if @user.current_registration.review2 %>
+          <div>
+            <em><b>points given for the second review round: <%= @user.current_registration.review2 %></b></em>
+          </div>
           <% end %>
 
         </div>
@@ -166,12 +200,17 @@
           <% @user.assigned_reviewers_in(1).each do |review| %>
               <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
               <em><%= review.done() ? "ready" :"not done yet" %></em>
-              <br/>
+              <p/>
           <% end %>
       <% else %>
           <h4>Nobody assigned to review your code yet</h4>
       <% end %>
 
+      <% if @user.current_registration.review1 %>
+      <div>
+        <em><b>points given for the first review round: <%= @user.current_registration.review1 %></b></em>
+      </div>
+      <% end %>
 
     </div>
 

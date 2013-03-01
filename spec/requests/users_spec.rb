@@ -120,6 +120,54 @@ describe "user" do
     end
   end
 
+  describe "when review points are given to user" do
+    before do
+      visit user_path @user.id
+
+      choose "registration_review1_1"
+      click_button "give points"
+    end
+
+    it "those are saved" do
+      @user.current_registration.review1.should == 1
+    end
+
+    it "those can be edited" do
+      visit user_path @user.id
+      choose "registration_review1_2"
+      click_button "update points"
+      @user.current_registration.review1.should == 2
+    end
+  end
+
+  describe "when week feedback points and review points are given to user" do
+    before do
+      visit user_path @user.id
+      choose "registration_review1_2"
+      click_button "give points"
+      @user.current_registration.week_feedbacks.create :week => 1, :points => 2
+      @user.current_registration.week_feedbacks.create :week => 3, :points => 3
+      @user.current_registration.week_feedbacks.create :week => 6, :points => 1
+    end
+
+    it "the total is shown on user page" do
+      visit user_path @user.id
+      page.should have_content "8"
+    end
+
+    it "the total is shown on mypage" do
+      visit mypage_path
+      fill_in "student_number", :with => @user.student_number
+      click_button "start!"
+      page.should have_content "8"
+    end
+
+    it "the total is shown on current course registration list" do
+      visit course_path @course.id
+      page.should have_content "8"
+    end
+  end
+
   def elements_with_class klass
     es = []
     all(klass).each do |e|

@@ -48,7 +48,7 @@ describe "course" do
     }.to change{Course.all.count}.by(0)
   end
 
-  it "informaton can be updated and is then shown at courses page" do
+  it "information can be updated and is then shown at courses page" do
     visit edit_course_path(@course.id)
     fill_in "course_period", :with => "periodi V"
     click_button "Update Course"

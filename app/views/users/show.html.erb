@@ -35,25 +35,52 @@
 
     <div class="rounded">
 
-
       <div>
-        <p><%= @user.current_registration.topic %></p>
+        <p><b><%= @user.current_registration.topic %></b></p>
 
         <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
       </div>
 
-      <h3>Weekly feedbacks</h3>
-
       <table>
+        <tr>
+          <th colspan="6">Week feedbacks</th>
+          <th></th>
+          <th colspan="2">Code review</th>
+          <th></th>
+          <th>
+            Total
+          </th>
+        </tr>
         <tr>
           <% (1..6).each do |week| %>
               <th style="width: 50px"> <%= week %></th>
           <% end %>
+          <th>
+
+          </th>
+          <th>
+            1
+          </th>
+          <th>
+            2
+          </th>
+          <th>
+
+          </th>
+          <th>
+            points
+          </th>
         </tr>
+
         <tr>
           <% (1..6).each do |week| %>
               <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week %></td>
           <% end %>
+          <td></td>
+          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review1 %></td>
+          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review2 %></td>
+          <td></td>
+          <td style="width: 50px; ; text-align: center;"><b><%= @user.current_registration.total_points %></b></td>
         </tr>
       </table>
 
@@ -162,6 +189,22 @@
           <h4>Nobody assigned to review your code yet</h4>
       <% end %>
 
+      <div class='rounded' style="margin-top: 20px; padding-top: 20px">
+        <%= form_for(@user.current_registration) do |f| %>
+            <div class="field">
+              <b>Code review points for round 1:</b> <br/>
+              0 <%= radio_button("registration", :review1, 0, :checked => @user.current_registration.review1==0) %>
+              <br/>
+              1 <%= radio_button("registration", :review1, 1, :checked => @user.current_registration.review1==1) %>
+              <br/>
+              2 <%= radio_button("registration", :review1, 2, :checked => @user.current_registration.review1==2) %>
+              <br/>
+            </div>
+            <div class="actions">
+              <%= f.submit review_point_label(@user.current_registration.review1) %>
+            </div>
+        <% end %>
+      </div>
 
       <h3>round 2</h3>
 
@@ -206,6 +249,26 @@
           <% end %>
       <% else %>
           <h4>Nobody assigned to review your code yet</h4>
+      <% end %>
+
+      <% if Course.active.review_round>1 %>
+
+          <div class='rounded' style="margin-top: 20px; padding-top: 20px">
+            <%= form_for(@user.current_registration) do |f| %>
+                <div class="field">
+                  <b>Code review points for round 2:</b> <br/>
+                  0 <%= radio_button("registration", :review2, 0, :checked => @user.current_registration.review2==0) %>
+                  <br/>
+                  1 <%= radio_button("registration", :review2, 1, :checked => @user.current_registration.review2==1) %>
+                  <br/>
+                  2 <%= radio_button("registration", :review2, 2, :checked => @user.current_registration.review2==2) %>
+                  <br/>
+                </div>
+                <div class="actions">
+                  <%= f.submit review_point_label(@user.current_registration.review2) %>
+                </div>
+            <% end %>
+          </div>
       <% end %>
 
     </div>

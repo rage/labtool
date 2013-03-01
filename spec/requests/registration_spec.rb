@@ -149,10 +149,11 @@ describe "registration" do
 
         fill_in "registration_topic", :with => "Whitebeermemo"
         click_button "Update Registration"
+
         page.should have_content "Registration was successfully updated"
-        page.should have_content "User: #{registration.user}"
-        page.should have_content "Topic: Whitebeermemo"
-        page.should have_content "Repository: #{registration.repository}"
+        page.should have_content registration.user
+        page.should have_content "Whitebeermemo"
+        page.should have_content registration.repository
       end
 
       it "can delete a registration" do

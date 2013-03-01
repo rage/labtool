@@ -54,7 +54,9 @@ class RegistrationsController < ApplicationController
   end
 
   def update
-    do_update :registration, params
+    @registration = Registration.find(params[:id])
+    @registration.update_attributes(params[:registration])
+    redirect_to @registration.user, notice: "Registration was successfully updated"
   end
 
   def destroy

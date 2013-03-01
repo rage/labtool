@@ -1,5 +1,5 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :repository, :topic, :active
+  attr_accessible :repository, :topic, :active, :review1, :review2
 
   belongs_to :course
   belongs_to :user
@@ -17,6 +17,16 @@ class Registration < ActiveRecord::Base
     Registration.select do |r|
       r.course = course and r.participates_review course.review_round
     end
+  end
+
+  def total_points
+    points = 0
+    week_feedbacks.each { |f|
+      points+= f.points
+    }
+    points += review1 unless review1.nil?
+    points += review2 unless review2.nil?
+    points
   end
 
   def has_instructor_notes
@@ -96,6 +106,8 @@ class Registration < ActiveRecord::Base
   end
 
   def review_status_for_week week
+    return review1 if not review1.nil? and week==1
+    return review2 if not review1.nil? and week==2
     stringify(review_targets_for week)
   end
 
