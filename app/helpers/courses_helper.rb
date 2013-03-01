@@ -18,4 +18,9 @@ module CoursesHelper
     return "" unless registration.has_instructor_notes
     "on"
   end
+
+  def mandatory course
+    return "yes" if course.mandatory_reviews
+    "no"
+  end
 end
