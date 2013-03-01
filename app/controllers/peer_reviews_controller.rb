@@ -76,6 +76,7 @@ class PeerReviewsController < ApplicationController
       s.current_registration.participates_review(Course.active.review_round) and
       s.current_registration.active
     end
+    @students.sort_by!{ |s| s.surename}
     @course = Course.active
   end
 

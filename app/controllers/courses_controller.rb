@@ -14,7 +14,6 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find(params[:id])
     @students = User.select { |s| s.registered_to @course }.sort_by{ |s| s.surename}
-
   end
 
   def new
