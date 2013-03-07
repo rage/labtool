@@ -2,6 +2,12 @@
 
 <h1>Log in</h1>
 
+<div style="color: #ff0000;">
+<p><strong>NOTE:</strong> logging in is only for administratiors, if you are a student go
+  <%= link_to 'here', "/mypage" %>
+</p>
+</div>
+
 <%= form_tag sessions_path do %>
   <div class="field">
     <%= label_tag :email %>

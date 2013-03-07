@@ -144,7 +144,6 @@ describe "week feedback" do
     mail = ActionMailer::Base.deliveries.last
     mail.subject.should == "[Ohjelmoinnin harjoitustyo] viikon 1 palaute"
     mail.from.should include @admin.email
-    # this is supposed to break when program goes to production
-    mail.to.should include @admin.email
+    mail.to.should include @user.email
   end
 end
