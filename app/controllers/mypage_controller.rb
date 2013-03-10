@@ -4,7 +4,8 @@ class MypageController < ApplicationController
   def redirect
     number = params[:student_number].lstrip.rstrip
     if ( User.where(:student_number => number).empty?)
-      redirect_to "/mypage", :notice => "'#{number}' is not a know student number"
+      redirect_to "/mypage",
+                  :notice => "'#{number}' is not a know student number. Have you already "
     else
       session[:student_number] = number
       redirect_to "/mypage/#{number}"
@@ -20,8 +21,8 @@ class MypageController < ApplicationController
   end
 
   def edit
-    number = session[:student_number].to_i
-    number = params[:student_number].to_i if admin?
+    number = session[:student_number]
+    number = params[:student_number] if admin?
     @user = User.find_by_student_number(number)
   end
 

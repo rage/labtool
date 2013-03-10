@@ -139,29 +139,30 @@ describe "peer review" do
         page.should have_content "No code assigned to you for review yet"
         page.should_not have_content "Code to review"
         page.should have_content @user1.current_registration.repository
-        page.should have_content "not done yet "
+        #page.should have_content "not done yet"
       end
 
-      it "assignment can be marked as done by user" do
-        find(button_for(@user1, @user2)).click_button('review')
-
-        visit mypage_path
-        fill_in "student_number", :with => @user1.student_number
-        click_button "start!"
-
-        click_button "click when done"
-
-        visit mypage_path
-        fill_in "student_number", :with => @user2.student_number
-        click_button "start!"
-
-        page.should have_content "Your reviewer"
-        page.should have_content "No code assigned to you for review yet"
-        page.should_not have_content "Code to review"
-        page.should have_content @user1.current_registration.repository
-        page.should_not have_content "not done yet"
-        page.should have_content "ready"
-      end
+      # feature currently disabled
+      #it "assignment can be marked as done by user" do
+      #  find(button_for(@user1, @user2)).click_button('review')
+      #
+      #  visit mypage_path
+      #  fill_in "student_number", :with => @user1.student_number
+      #  click_button "start!"
+      #
+      #  click_button "click when done"
+      #
+      #  visit mypage_path
+      #  fill_in "student_number", :with => @user2.student_number
+      #  click_button "start!"
+      #
+      #  page.should have_content "Your reviewer"
+      #  page.should have_content "No code assigned to you for review yet"
+      #  page.should_not have_content "Code to review"
+      #  page.should have_content @user1.current_registration.repository
+      #  page.should_not have_content "not done yet"
+      #  page.should have_content "ready"
+      #end
     end
 
   end

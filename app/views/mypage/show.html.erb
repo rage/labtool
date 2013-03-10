@@ -108,6 +108,8 @@
 
               <% @user.assigned_reviews_in(2).each do |review| %>
 
+                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+
                   <% if not review.done %>
                       <% if Course.active.review_round==2 %>
                           <%= form_tag('/complete_review') do %>
@@ -120,11 +122,11 @@
                           <em>not done</em>
                       <% end %>
                   <% else %>
-                      <%= link_to review.reviewed.repository, review.reviewed.repository %>
                       <em>reviewed!</em>
-                  <% end %>
+                  <% end if false %>  <!-- feature is disabled -->
 
               <% end %>
+
           <% else %>
               <h4>No code assigned to you for review</h4>
           <% end %>
@@ -134,7 +136,9 @@
 
               <% @user.assigned_reviewers_in(2).each do |review| %>
                   <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
+                  <!--
                   <em><%= review.done() ? "ready" :"not done yet" %></em>
+                  --> <!-- feature is disabled -->
                   <p/>
               <% end %>
           <% else %>
@@ -172,6 +176,8 @@
           <h4>Code to review</h4>
 
           <% @user.assigned_reviews_in(1).each do |review| %>
+              <%= link_to review.reviewed.repository, review.reviewed.repository %>
+
               <% if not review.done %>
                   <% if Course.active.review_round==1 %>
                       <%= form_tag('/complete_review') do %>
@@ -186,9 +192,10 @@
               <% else %>
                   <%= link_to review.reviewed.repository, review.reviewed.repository %>
                   <em>reviewed!</em>
-              <% end %>
+              <% end if false %>  <!-- feature is disabled -->
 
           <% end %>
+
       <% else %>
           <h4>No code assigned to you for review yet</h4>
       <% end %>
@@ -199,7 +206,9 @@
 
           <% @user.assigned_reviewers_in(1).each do |review| %>
               <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
-              <em><%= review.done() ? "ready" :"not done yet" %></em>
+              <!--
+                <em><%= review.done() ? "ready" :"not done yet" %></em>
+              --> <!-- feature disabled -->
               <p/>
           <% end %>
       <% else %>

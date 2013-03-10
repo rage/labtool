@@ -1,22 +1,12 @@
-<h2>Enter your student number to give a peer review</h2>
+<h2>Enter your student number to see your course feedback</h2>
 
-<p class="error"><%= notice %></p>
+<p class="error"><%= notice %>
+<%= link_to "registered", "/register" unless notice.nil? %>
+<%= "to the course?" unless notice.nil? %>
+</p>
 
 <%= form_tag('/mypage',:method => :post) do -%>
   <%= text_field_tag 'student_number', session[:student_number] %>
   <%= submit_tag 'start!', :class => "small-button" %>
 <% end -%>
 
-<!--
-<div class="data">
-foobar
-</div>
-
-<%= button_to 'test', "foobar", remote: true %>
-
-<%= form_tag('/foobar',:remote => true) do -%>
-  <%= text_field_tag 'student_number', session[:student_number] %>
-  <%= submit_tag 'start!', :class => "small-button" %>
-<% end -%>
-
--->

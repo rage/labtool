@@ -191,3 +191,7 @@ td {
     border-color: #bbbbbb;
     background: #bbbbbb;
 }
+
+.error {
+    color: #ff0000;
+}

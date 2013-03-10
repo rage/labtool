@@ -5,7 +5,7 @@ FactoryGirl.define do
     password "foobar"
     password_confirmation "foobar"
     email "foo@bar.com"
-    student_number 1
+    student_number "000000001"
   end
 
   factory :user2, :class => User do
@@ -14,7 +14,7 @@ FactoryGirl.define do
     password "foo"
     password_confirmation "foo"
     email "bar@foo.com"
-    student_number 2
+    student_number "000000002"
   end
 
   factory :user3, :class => User do
@@ -23,7 +23,7 @@ FactoryGirl.define do
     password "foo"
     password_confirmation "foo"
     email "bar@bar.com"
-    student_number 3
+    student_number "000000003"
   end
 
   factory :admin, :class => User do
@@ -32,19 +32,19 @@ FactoryGirl.define do
     password "foobar"
     password_confirmation "foobar"
     email "admin@example.com"
-    student_number 5
+    student_number "000000005"
     admin true
   end
 
   factory :registration do
     topic "Beerguide"
     active true
-    repository  "http://www.github.com/foobar"
+    repository  "https://github.com/uu/foobar"
   end
 
   factory :old_registration, :class => Registration do
     topic "Waterguide"
-    repository  "http://www.github.com/wasser"
+    repository  "https://github.com/aa/wasser"
   end
 
   factory :course do

@@ -24,7 +24,7 @@
     <% end %>
 
   <div class="field">
-    <%= label_tag 'forename' %><br />
+    <%= label_tag 'first name' %><br />
     <%= text_field_tag 'user[forename]', (@user.forename if @user) %>
   </div>
   <div class="field">
@@ -47,7 +47,7 @@
   </div>
 
   <div class="field">
-    Repository<br/>
+    Github repository in form <em>https://github.com/youraccount/yourrepo</em><br/>
     <%= f.text_field :repository %>
   </div>
   <div class="actions">

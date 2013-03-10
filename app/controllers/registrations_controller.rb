@@ -35,18 +35,19 @@ class RegistrationsController < ApplicationController
     user = User.find_or_create(params[:user])
 
     if not user.current_registration.nil?
-      return redirect_to "/mypage/#{user.student_number}", notice: "You have already registered for the current course!"
+      return redirect_to "/mypage/#{user.student_number}",
+                         :notice => "You have already registered for the current course!"
     end
 
     @registration = Registration.new(params[:registration])
-    if user.valid?
+    if user.valid? and @registration.valid?
       @registration.participate_review1 = true
       @registration.participate_review2 = true
       @registration.active = true
       user.registrations << @registration
       course.registrations << @registration
       session[:student_number] = user.student_number
-      redirect_to "/mypage/#{user.student_number}", notice: 'Registration done!'
+      redirect_to "/mypage/#{user.student_number}", :notice =>'Registration done!'
     else
       @user = user
       render :action => "edit"
@@ -56,7 +57,7 @@ class RegistrationsController < ApplicationController
   def update
     @registration = Registration.find(params[:id])
     @registration.update_attributes(params[:registration])
-    redirect_to @registration.user, notice: "Registration was successfully updated"
+    redirect_to @registration.user, :notice => "Registration was successfully updated"
   end
 
   def destroy

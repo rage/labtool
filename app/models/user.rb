@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :registrations, :dependent => :destroy
-  validates :student_number, :numericality => {:only_integer => true}
+
+  validates :student_number,
+            :format => { :with => /0\d{8}/,
+            :message => "should start with 0 and be followed by 8 digits" }
 
   def to_s
     "#{forename} #{surename}"
@@ -48,6 +51,7 @@ class User < ActiveRecord::Base
   def reviewed_in_round user, course, round
     review_status = status_in_round( registration_to(course).review_targets, user.registration_to(course), round )
     return "" if review_status == nil
+    return "X"
     return "todo" if review_status==false
     "DONE"
   end

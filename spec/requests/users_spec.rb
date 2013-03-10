@@ -52,14 +52,14 @@ describe "user" do
     fill_in "user_email", :with => 'own@address.com'
     fill_in "user_forename", :with => "Brian"
     fill_in "user_surename", :with => "McBrain"
-    fill_in "user_student_number", :with => "1234567"
+    fill_in "user_student_number", :with => "012345678"
     fill_in "user_password", :with => "pw"
     fill_in "user_password_confirmation", :with => "pw"
     click_button "Create User"
     page.should have_content 'User was successfully created.
 '
     visit users_path
-    page.should have_content "1234567"
+    page.should have_content "012345678"
     page.should have_content "Brian"
     page.should have_content "McBrain"
     page.should have_content "own@address.com"

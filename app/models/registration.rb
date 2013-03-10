@@ -5,6 +5,10 @@ class Registration < ActiveRecord::Base
   belongs_to :user
   has_many :week_feedbacks
 
+  validates :repository,
+            :format => { :with => /https:\/\/github.com\/.+\/.+/,
+            :message => "copy/paste your repo address here from browser address line" }
+
   def self.current
     Registration.all.select { |r| r.course.active }
   end
@@ -107,12 +111,13 @@ class Registration < ActiveRecord::Base
 
   def review_status_for_week week
     return review1 if not review1.nil? and week==1
-    return review2 if not review1.nil? and week==2
+    return review2 if not review2.nil? and week==2
     stringify(review_targets_for week)
   end
 
   def stringify r
     return "-" if  r.empty?
+    return "X"
     return "todo" if not r.first.done
     "DONE"
   end
