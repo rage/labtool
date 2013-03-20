@@ -5,8 +5,8 @@ module CoursesHelper
   end
 
   def sort registrations
-    reg = registrations.select{ |r| r.active }.sort_by{ |r| r.user.surename }
-    reg + registrations.select{ |r| not r.active }.sort_by{ |r| r.user.surename }
+    reg = registrations.select{ |r| r.active }.sort_by{ |r| r.user.surename.downcase }
+    reg + registrations.select{ |r| not r.active }.sort_by{ |r| r.user.surename.downcase }
   end
 
   def active registration
