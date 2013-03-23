@@ -74,13 +74,16 @@
       <% end %>
 
       <div class="reviews">
-        <ul>
-          <% @user.current_registration.feedback.each do |fb| %>
-              <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
-                <pre><%= fb.text %></pre>
-              </li>
-          <% end %>
-        </ul>
+
+        <% @user.current_registration.feedback.each do |fb| %>
+            <div style="margin: 20px;;">
+              <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
+
+              <div><%= rendered(fb.text) %></div>
+            </div>
+            <hr/>
+        <% end %>
+
       </div>
 
     </div>
@@ -146,9 +149,9 @@
           <% end %>
 
           <% if @user.current_registration.review2 %>
-          <div>
-            <em><b>points given for the second review round: <%= @user.current_registration.review2 %></b></em>
-          </div>
+              <div>
+                <em><b>points given for the second review round: <%= @user.current_registration.review2 %></b></em>
+              </div>
           <% end %>
 
         </div>
@@ -216,9 +219,9 @@
       <% end %>
 
       <% if @user.current_registration.review1 %>
-      <div>
-        <em><b>points given for the first review round: <%= @user.current_registration.review1 %></b></em>
-      </div>
+          <div>
+            <em><b>points given for the first review round: <%= @user.current_registration.review1 %></b></em>
+          </div>
       <% end %>
 
     </div>

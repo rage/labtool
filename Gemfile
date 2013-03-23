@@ -22,6 +22,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'redcarpet'
+
 gem 'simplecov', :require => false, :group => :test
 
 group :assets do

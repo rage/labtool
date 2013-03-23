@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<p id="notice" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
 <h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
 
@@ -89,26 +89,37 @@
       <% end %>
 
       <div class="reviews">
-        <ul>
+
           <% @user.current_registration.feedback.each do |fb| %>
-              <li><%= "week: #{fb.week}, points: #{fb.points}, comments:" %>
-                <pre><%= fb.text %></pre>
+              <div style="margin: 20px;">
+                <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
+                <div style="margin: 10px;">
+                    <%= rendered(fb.text) %>
+                </div>
                 <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
                     <div class="instronly">
                       instructor notes:
-                      <div style="padding: 4px;">
-                        <pre><%= fb.hidden_text %></pre>
+                      <div style="padding: 6px; marigin: 10px">
+                        <%= rendered(fb.hidden_text) %>
                       </div>
                     </div>
                 <% end %>
-              </li>
+              </div>
+
+             <hr/>
           <% end %>
-        </ul>
+
       </div>
 
       <h4 class="button" id="review-form">Give a new or edit feedback</h4>
 
       <div class="review-form">
+
+        <div style="background-color: #dddddd; margin: 10px;">
+          Text fields can be formatted with
+          <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
+        </div>
+
         <%= form_tag("/week_feedbacks") do -%>
             <%= label_tag 'week' %>
             <br/>
