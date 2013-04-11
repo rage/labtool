@@ -30,7 +30,16 @@ $(document).ready(function () {
     $(".button#review").click(toggle_reviews);
 
     $('table').rotateTableCellContent();
+
+    var activateStudent = function (e){
+      var id = e.target.id
+      $("."+id).toggleClass( "activestudent" )
+    };
+
+    $(".activable").click(activateStudent);
+
 });
+
 
 (function ($) {
   $.fn.rotateTableCellContent = function (options) {

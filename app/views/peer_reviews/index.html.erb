@@ -34,29 +34,30 @@
         <th></th>
         <% @students.each do |student| %>
             <% if student.assigned_reviewers.count>1 %>
-                <th id='<%= "r#{student.id}" %>' class='many-reviewers-assigned vertical'><%= student %></th>
+                <th id='<%= "r#{student.id}" %>' class='<%="many-reviewers-assigned vertical s#{student.id}"%>'><%= student %></th>
             <% elsif student.assigned_reviewers.count>0 %>
-                <th id='<%= "r#{student.id}" %>' class='reviewer-assigned vertical'><%= student %></th>
+                <th id='<%= "r#{student.id}" %>' class='<%="reviewer-assigned vertical s#{student.id}"%>'><%= student %></th>
             <% else %>
-                <th id='<%= "r#{student.id}" %>' class='vertical'><%= student %></th>
+                <th id='<%= "r#{student.id}" %>' class='<%="vertical s#{student.id}"%>'><%= student %></th>
             <% end %>
         <% end %>
         <th class="vertical" style="font-style: italic;">assigned reviews</th>
       </tr>
 
       <% @students.each do |student| %>
-          <tr>
+
+          <tr class='<%="s#{student.id}" %>'>
             <% if student.assigned_reviews.count>1 %>
-                <td id='<%= "s#{student.id}" %>' class='<%= "many-reviews-assigned" %>'><%= link_to student, student %></td>
+                <td id='<%= "s#{student.id}" %>' class='<%= "many-reviews-assigned activable" %>'><%= link_to student, student %></td>
             <% elsif student.assigned_reviews.count>0 %>
-                <td id='<%= "s#{student.id}" %>' class='<%= "review-assigned" %>'><%= link_to student, student %></td>
+                <td id='<%= "s#{student.id}" %>' class='<%= "review-assigned activable" %>'><%= link_to student, student %></td>
             <% else %>
-                <td id='<%= "s#{student.id}" %>'><%= link_to student, student %></td>
+                <td id='<%= "s#{student.id}" %>' class="activable"><%= link_to student, student %></td>
             <% end %>
 
             <% @students.each do |reviewed| %>
                 <td id='<%= "b#{student.id}-#{reviewed.id}" %>'
-                    class='<%= student.assigned_to_review reviewed %>'>
+                    class='<%="#{student.assigned_to_review(reviewed)} s#{reviewed.id}" %>'>
                   <% if student.id!=reviewed.id %>
                       <%= form_tag('/toggle_review', :remote => true) do %>
                           <%= hidden_field_tag 'reviewer', student.id %>
@@ -73,6 +74,7 @@
             <% end %>
             <td style="text-align: center;" id='<%= "reviews#{student.id}" %>'> <%= student.assigned_reviews.count %></td>
           </tr>
+
       <% end %>
       <tr>
         <td style="font-style: italic;">assigned reviewers</td>
