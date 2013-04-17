@@ -82,22 +82,43 @@ class PeerReviewsController < ApplicationController
 
   private
 
+  def do_pairing
+    reviewers = User.review_participants.map(&:current_registration).map(&:id)
+    review_targets = User.review_participants.map(&:current_registration).map(&:id).shuffle
+
+    reviewers.inject([]) do |result, reviewer|
+      target = review_targets.first
+      review_targets.slice!(0)
+      result << [reviewer, target]
+    end
+  end
+
+  def valid_pairing(pairs, trials)
+    pairs.each { |pair|
+      return false if pair.first == pair.last
+    }
+
+    # it could be possible that a totally nonsymmetrical assignment can not be created
+    return true if trials == 10
+
+    otherw = pairs.inject([]) { |result, pair|
+      result << [ pair.last, pair.first ]
+    }
+
+    (pairs&otherw).empty?
+  end
+
   def generate_peer_review_assignment
     PeerReview.delete_for Course.active
 
-    registrations = User.review_participants.map(&:current_registration).shuffle
+    trials = 0
+    begin
+      pairs = do_pairing
+      trials += 1
+    end until valid_pairing pairs, trials
 
-    up_to = registrations.size.even? ? (registrations.size-1) : (registrations.size/2-1)
-
-    (0..up_to).each do |i|
-      create_peer_review registrations[i], registrations[registrations.size-i-1]
-    end
-
-    if registrations.size.odd?
-      (registrations.size/2..registrations.size-2).each do |i|
-        create_peer_review registrations[i], registrations[registrations.size-i-2]
-      end
-      create_peer_review registrations.last, registrations[registrations.size/2]
+    pairs.each do |pair|
+      create_peer_review Registration.find(pair.first), Registration.find(pair.last)
     end
 
   end
