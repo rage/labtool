@@ -23,7 +23,7 @@ describe "course" do
 
   it "can be viewed individually and the details are shown" do
     visit course_path(@course.id)
-    page.should have_content "#{@course.year}, #{@course.period}"
+    page.should have_content "#{@course.period}, #{@course.year}"
     page.should have_content "Week: #{@course.week}"
     page.should have_content "not started yet"
   end
