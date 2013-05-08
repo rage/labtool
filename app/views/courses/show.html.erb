@@ -114,7 +114,7 @@
       <p>
         registration: <%= @course.review_registration %>
       </p>
-      <% if  @course.review_registration=="open" %>
+      <% if @course.review_registration=="open" %>
           <%= form_tag("/courses/#{@course.id}", :method => :put) do %>
               <%= hidden_field_tag 'course[state]', 0 %>
               <%= submit_tag "close registration", :confirm => "Are you sure?" %>

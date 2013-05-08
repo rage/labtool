@@ -31,6 +31,7 @@ class RegistrationsController < ApplicationController
   end
 
   def create
+
     course = Course.find_by_active(true)
     user = User.find_or_create(params[:user])
 
