@@ -90,24 +90,25 @@
 
       <div class="reviews">
 
-          <% @user.current_registration.feedback.each do |fb| %>
-              <div style="margin: 20px;">
-                <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
-                <div style="margin: 10px;">
-                    <%= rendered(fb.text) %>
-                </div>
-                <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
-                    <div class="instronly">
-                      instructor notes:
-                      <div style="padding: 6px; marigin: 10px">
-                        <%= rendered(fb.hidden_text) %>
-                      </div>
-                    </div>
-                <% end %>
-              </div>
+        <% @user.current_registration.feedback.each do |fb| %>
+            <div style="margin: 20px;">
+              <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
-             <hr/>
-          <% end %>
+              <div style="margin: 10px;">
+                <%= rendered(fb.text) %>
+              </div>
+              <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
+                  <div class="instronly">
+                    instructor notes:
+                    <div style="padding: 6px; marigin: 10px">
+                      <%= rendered(fb.hidden_text) %>
+                    </div>
+                  </div>
+              <% end %>
+            </div>
+
+            <hr/>
+        <% end %>
 
       </div>
 
@@ -204,11 +205,15 @@
         <%= form_for(@user.current_registration) do |f| %>
             <div class="field">
               <b>Code review points for round 1:</b> <br/>
-              0 <%= radio_button("registration", :review1, 0, :checked => @user.current_registration.review1==0) %>
+              <%= radio_button("registration", :review1, 0, :checked => @user.current_registration.review1==0) %> 0
               <br/>
-              1 <%= radio_button("registration", :review1, 1, :checked => @user.current_registration.review1==1) %>
+               <%= radio_button("registration", :review1, 0.5, :checked => @user.current_registration.review1==0.5) %> 0.5
               <br/>
-              2 <%= radio_button("registration", :review1, 2, :checked => @user.current_registration.review1==2) %>
+              <%= radio_button("registration", :review1, 1, :checked => @user.current_registration.review1==1) %> 1
+              <br/>
+              <%= radio_button("registration", :review1, 1.5, :checked => @user.current_registration.review1==1.5) %> 1.5
+              <br/>
+              <%= radio_button("registration", :review1, 2, :checked => @user.current_registration.review1==2) %> 2
               <br/>
             </div>
             <div class="actions">
@@ -268,11 +273,15 @@
             <%= form_for(@user.current_registration) do |f| %>
                 <div class="field">
                   <b>Code review points for round 2:</b> <br/>
-                  0 <%= radio_button("registration", :review2, 0, :checked => @user.current_registration.review2==0) %>
+                  <%= radio_button("registration", :review2, 0, :checked => @user.current_registration.review2==0) %> 0
                   <br/>
-                  1 <%= radio_button("registration", :review2, 1, :checked => @user.current_registration.review2==1) %>
+                  <%= radio_button("registration", :review2, 0.5, :checked => @user.current_registration.review2==0.5) %> 0.5
                   <br/>
-                  2 <%= radio_button("registration", :review2, 2, :checked => @user.current_registration.review2==2) %>
+                  <%= radio_button("registration", :review2, 1, :checked => @user.current_registration.review2==1) %> 1
+                  <br/>
+                  <%= radio_button("registration", :review2, 1.5, :checked => @user.current_registration.review2==1.5) %> 1.5
+                  <br/>
+                  <%= radio_button("registration", :review2, 2, :checked => @user.current_registration.review2==2) %> 2
                   <br/>
                 </div>
                 <div class="actions">
