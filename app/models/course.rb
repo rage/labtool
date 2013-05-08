@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  attr_accessible :period, :year, :review_round, :active, :week, :state, :mandatory_reviews
+  attr_accessible :period, :year, :review_round, :active, :week, :state, :mandatory_reviews, :name
 
   has_many :registrations, :dependent => :destroy
 
@@ -19,7 +19,12 @@ class Course < ActiveRecord::Base
     "#{year}, #{period}"
   end
 
+  def to_s
+    name || "Ohjelmoinnin harjoitustyo"
+  end
+
   def self.active
     Course.where( :active => true ).first
   end
+
 end

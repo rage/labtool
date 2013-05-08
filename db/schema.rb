@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301193656) do
+ActiveRecord::Schema.define(:version => 20130508170918) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130301193656) do
     t.integer  "week"
     t.integer  "state"
     t.boolean  "mandatory_reviews"
+    t.string   "name"
   end
 
   create_table "peer_reviews", :force => true do |t|
