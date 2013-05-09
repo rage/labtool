@@ -143,4 +143,37 @@ class Registration < ActiveRecord::Base
     }
     return nil
   end
+
+
+  def reviewed_in_round student, round
+    review_status = status_in_round( self.review_targets, student, round )
+    return "" if review_status == nil
+    return "X"
+    return "todo" if review_status==false
+    "DONE"
+  end
+
+  def status review_targets, searched
+    review_targets.each { |r|
+      return r.done if r.reviewed == searched
+    }
+    nil
+  end
+
+  def status_in_round review_targets, searched, round
+    review_targets.each { |r|
+      return r.done if r.reviewed == searched and r.round == round
+    }
+    nil
+  end
+
+  def includes? review_targets, searched
+    review_targets.each { |r|
+      return true if r.reviewed == searched
+    }
+
+    false
+  end
+
+
 end

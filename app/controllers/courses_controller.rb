@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   caches_action :show
 
   def index
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @courses = Course.all
   end
 
@@ -14,9 +14,8 @@ class CoursesController < ApplicationController
   end
 
   def show
-
-    @course = Course.find(params[:id])
-    @students =  User.registered_for @course #@course.registered_users
+    @course = Course.includes(:registrations => [:week_feedbacks]).where( :id => params[:id]).first
+  #@course = Course.joins(:registrations => [:week_feedbacks, :user]).where( :id => params[:id]).first
   end
 
   def new

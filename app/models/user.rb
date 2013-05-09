@@ -54,6 +54,8 @@ class User < ActiveRecord::Base
     "DONE"
   end
 
+  ## below perhaps not needed?
+
   def reviewed_in_round user, course, round
     review_status = status_in_round( registration_to(course).review_targets, user.registration_to(course), round )
     return "" if review_status == nil
