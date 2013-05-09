@@ -66,7 +66,7 @@
     <th></th>
   </tr>
 
-  <% sort(@course.registrations).each do |registration| %>
+  <% sort(@registrations).each do |registration| %>
       <tr class='<%= active registration %>'>
         <td><%= link_to registration.user, registration.user %></td>
         <td><%= registration.topic %></td>
@@ -183,16 +183,16 @@
       <table class="striped">
         <tr class="bar">
           <th></th>
-          <% @course.registrations.each do |student| %>
+          <% @registrations.each do |student| %>
               <th class='vertical'>
                 <div><%= student %></div>
               </th>
           <% end %>
         </tr>
-        <% @course.registrations.each do |student| %>
+        <% @registrations.each do |student| %>
             <tr>
               <td><%= link_to student.user, student.user %></td>
-              <% @course.registrations.each do |reviewed| %>
+              <% @registrations.each do |reviewed| %>
                   <td class='left'>
                     <%= student.reviewed_in_round(reviewed, 2) %>
                   </td>
@@ -208,16 +208,16 @@
       <table class="striped">
         <tr class="bar">
           <th></th>
-          <% @course.registrations.each do |student| %>
+          <% @registrations.each do |student| %>
               <th class='vertical'>
                 <div><%= student.user %></div>
               </th>
           <% end %>
         </tr>
-        <% @course.registrations.each do |student| %>
+        <% @registrations.each do |student| %>
             <tr>
               <td><%= link_to student.user, student.user %></td>
-              <% @course.registrations.each do |reviewed| %>
+              <% @registrations.each do |reviewed| %>
                   <td class='left'>
                     <%= student.reviewed_in_round(reviewed, 1) %>
                   </td>
