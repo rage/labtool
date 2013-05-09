@@ -9,6 +9,12 @@ class User < ActiveRecord::Base
             :format => { :with => /\A0\d{8}\z/,
             :message => "should start with 0 and be followed by 8 digits" }
 
+  def self.registered_for course
+    Registration.where( :course_id => course.id ).includes(:user, :week_feedbacks).map{ |r| r.user }.uniq
+    #User.select { |s| s.registered_to self }.sort_by{ |s| s.surename.downcase }
+    #course.registrations.map{ |r| r.user }.uniq
+  end
+
   def to_s
     "#{forename} #{surename}"
   end
