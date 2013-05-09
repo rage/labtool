@@ -5,7 +5,9 @@ http://tktl-labtool.herokuapp.com/
 
 Ohjelmoinnin harjoitustyön ohjaajan työkalu
 
-Asiakkaan toivomat ominaisuudet https://github.com/mluukkai/labtool/wiki/feturet
+Asiakkaan toivomat ominaisuudet:
+- https://github.com/mluukkai/labtool/issues
+- vanha toivottujen featurejen lista https://github.com/mluukkai/labtool/wiki/feturet
 
 Käyttöohjeita:
 
