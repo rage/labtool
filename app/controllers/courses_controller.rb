@@ -2,7 +2,6 @@ class CoursesController < ApplicationController
   caches_action :show
 
   def index
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @courses = Course.all
   end
 
