@@ -14,8 +14,9 @@ class CoursesController < ApplicationController
   end
 
   def show
+
     @course = Course.find(params[:id])
-    @students = User.registered_for @course #@course.registered_users
+    @students =  User.registered_for @course #@course.registered_users
   end
 
   def new

@@ -9,6 +9,10 @@ class Registration < ActiveRecord::Base
             :format => { :with => /https:\/\/github.com\/.+\/.+/,
             :message => "copy/paste your repo address here from browser address line" }
 
+  def self.registrations_for course
+    Registration.where( :course_id => course.id ).includes(:user, :week_feedbacks)
+  end
+
   def self.current
     Registration.all.select { |r| r.course.active }
   end
