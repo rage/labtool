@@ -49,6 +49,7 @@ FactoryGirl.define do
 
   factory :course do
     year 2013
+    name "Ohjelmoinnin harjoitustyo"
     period "periodi III"
     review_round 0
     week 1
