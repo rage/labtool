@@ -16,6 +16,7 @@
 
 $(document).ready(function () {
     $(".review-form").hide();
+    $(".note-form").hide();
     $(".reviews").hide();
 
     var toggle_review_form = function (e) {
@@ -26,8 +27,13 @@ $(document).ready(function () {
         $(".reviews").toggle();
     };
 
+    var toggle_note_form = function (e) {
+        $(".note-form").toggle();
+    };
+
     $(".button#review-form").click(toggle_review_form);
     $(".button#review").click(toggle_reviews);
+    $(".button#note-form").click(toggle_note_form);
 
     $('table').rotateTableCellContent();
 

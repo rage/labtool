@@ -13,6 +13,8 @@ Labtool::Application.routes.draw do
 
   match 'courses/:id/activity' => 'courses#activity', :via => :post
 
+  match 'week_feedbacks/note' => 'week_feedbacks#create_note', :via => :post
+
   match 'mypage' => 'mypage#index', :via => :get
   match 'mypage' => 'mypage#redirect', :via => :post
   match 'mypage/:student_number' => 'mypage#show',  :via => :get

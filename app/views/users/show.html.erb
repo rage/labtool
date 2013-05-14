@@ -85,18 +85,33 @@
       </table>
 
       <% if @user.current_registration.feedback.size > 0 %>
-          <h3 class="button" id="review">Show weekly feedbacks</h3>
+          <h3 class="button" id="review">Show feedbacks and notes</h3>
       <% end %>
 
       <div class="reviews">
 
-        <% @user.current_registration.feedback.each do |fb| %>
+        <% @user.current_registration.feedback.select{ |f| f.week<7}.each do |fb| %>
             <div style="margin: 20px;">
               <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
               <div style="margin: 10px;">
                 <%= rendered(fb.text) %>
               </div>
+              <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
+                  <div class="instronly">
+                    instructor notes:
+                    <div style="padding: 6px; marigin: 10px">
+                      <%= rendered(fb.hidden_text) %>
+                    </div>
+                  </div>
+              <% end %>
+            </div>
+
+            <hr/>
+        <% end %>
+
+        <% @user.current_registration.feedback.select{ |f| f.week>6}.each do |fb| %>
+            <div style="margin: 20px;">
               <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
                   <div class="instronly">
                     instructor notes:
@@ -146,7 +161,30 @@
             <br/>
             <br/>
             <%= hidden_field_tag :registration, @user.current_registration.id %>
-            <%= submit_tag 'Save' %>
+            <%= submit_tag 'Save the feedback' %>
+        <% end -%>
+      </div>
+
+
+      <h4 class="button" id="note-form">Create a instructor only visible note</h4>
+
+      <div class="note-form">
+        <div style="background-color: #dddddd; margin: 10px;">
+          Text fields can be formatted with
+          <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
+        </div>
+
+        <%= form_tag("/week_feedbacks/note") do -%>
+
+            <div class="instronly" style="padding: 4px;">
+              <%= label_tag 'comments visible only to instructors' %>
+              <br/>
+              <%= text_area_tag 'hidden_text', nil, :size => "100x10" %>
+            </div>
+            <br/>
+            <%= hidden_field_tag :registration, @user.current_registration.id %>
+
+            <%= submit_tag 'Save the instructor only note' %>
         <% end -%>
       </div>
 

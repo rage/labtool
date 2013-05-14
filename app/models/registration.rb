@@ -46,10 +46,19 @@ class Registration < ActiveRecord::Base
   end
 
   def last_instructor_note_digest
-    [6, 5, 4, 3, 2, 1].each do |w|
-      fb = feedback_for_week w
+    #max = week_feedbacks.inject(0) { |m, fb| m = fb.week if fb.week>m; m }
+    #if max>6
+    #  return feedback_for_week(max).hidden_text
+    #end
+    #
+    #[6, 5, 4, 3, 2, 1].each do |w|
+    #  fb = feedback_for_week w
+    #  return fb.hidden_text unless fb.nil? or fb.hidden_text.nil? or fb.hidden_text.empty?
+    #end
+    week_feedbacks.sort_by{ |f| f.updated_at }.reverse.each do |fb|
       return fb.hidden_text unless fb.nil? or fb.hidden_text.nil? or fb.hidden_text.empty?
     end
+
     ""
   end
 

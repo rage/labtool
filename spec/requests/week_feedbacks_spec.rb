@@ -21,7 +21,7 @@ describe "week feedback" do
     fill_in "week_feedback_points", :with => 2
     fill_in "week_feedback_text", :with => "good stuff, boy!"
     fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
-    click_button "Save"
+    click_button "Save the feedback"
 
     page.should have_content "Week feedback was successfully created."
     page.should have_content "week: 1, points: 2"
@@ -35,7 +35,7 @@ describe "week feedback" do
     fill_in "week_feedback_week", :with => ""
     fill_in "week_feedback_text", :with => "good stuff, boy!"
     expect {
-      click_button "Save"
+      click_button "Save the feedback"
     }.to change { WeekFeedback.all.count }.by(0)
 
     page.should have_content "Points is not a number"
@@ -58,7 +58,7 @@ describe "week feedback" do
     fill_in "week_feedback_points", :with => 2
     fill_in "week_feedback_text", :with => "good stuff, boy!"
     fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
-    click_button "Save"
+    click_button "Save the feedback"
 
     visit user_path @user.id
 
@@ -66,7 +66,7 @@ describe "week feedback" do
     fill_in "week_feedback_points", :with => 2
     fill_in "week_feedback_text", :with => "good stuff, boy!"
     fill_in "week_feedback_hidden_text", :with => "well done"
-    click_button "Save"
+    click_button "Save the feedback"
 
     visit course_path @course.id
 
@@ -82,18 +82,18 @@ describe "week feedback" do
       fill_in "week_feedback_points", :with => 2
       fill_in "week_feedback_text", :with => "good stuff, boy!"
       fill_in "week_feedback_hidden_text", :with => "but couldvebeen better"
-      click_button "Save"
+      click_button "Save the feedback"
       fill_in "week_feedback_week", :with => 2
       fill_in "week_feedback_points", :with => 1
       fill_in "week_feedback_text", :with => "not as good as expected"
-      click_button "Save"
+      click_button "Save the feedback"
     end
 
     it "it can be edited" do
       fill_in "week_feedback_points", :with => 3
       fill_in "week_feedback_text", :with => "better than expected!"
       fill_in "week_feedback_hidden_text", :with => "splendid"
-      click_button "Save"
+      click_button "Save the feedback"
 
       page.should have_content "Week feedback already exists!"
       page.should have_content "Text should perhaps be merged with the existing!"
@@ -108,7 +108,7 @@ describe "week feedback" do
 
     it "editing should not allow saving invalid parameters" do
       fill_in "week_feedback_week", :with => 1
-      click_button "Save"
+      click_button "Save the feedback"
 
       fill_in "week_feedback_points", :with => 10
       click_button "Update Week feedback"
@@ -138,7 +138,7 @@ describe "week feedback" do
     fill_in "week_feedback_points", :with => 2
     fill_in "week_feedback_text", :with => "good stuff, boy!"
     page.check("notify")
-    click_button "Save"
+    click_button "Save the feedback"
 
     ActionMailer::Base.deliveries.empty?.should == false
     mail = ActionMailer::Base.deliveries.last

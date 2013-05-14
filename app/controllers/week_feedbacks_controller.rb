@@ -4,6 +4,19 @@ class WeekFeedbacksController < ApplicationController
     @week_feedbacks = WeekFeedback.all
   end
 
+  def create_note
+    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    
+    @registration = Registration.find(params[:registration])
+
+    week = 1 + @registration.week_feedbacks.inject(9) { |m, w| m = w.week if w.week>m; m  }
+    note = WeekFeedback.new :hidden_text => params[:hidden_text], :points => 0, :week => week
+
+    @registration.week_feedbacks << note
+
+    redirect_to @registration.user, :notice => 'An instructor note was created.'
+  end
+
   def create
     expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
