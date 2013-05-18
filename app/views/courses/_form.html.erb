@@ -1,44 +1,63 @@
 <%= form_for(@course) do |f| %>
-  <% if @course.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+    <% if @course.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
 
-      <ul>
-      <% @course.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @course.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
     <div class="field">
-      Name <br />
+      Name <br/>
       <%= f.text_field :name %>
     </div>
 
-  <div class="field">
-    Year <br />
-    <%= f.number_field :year %>
-  </div>
-  <div class="field">
-    Period <br />
-    <%= f.text_field :period %>
-  </div>
-  <div class="field">
-    Week <br />
-    <%= f.text_field :week %>
-  </div>
     <div class="field">
-      Review round <br />
+      Year <br/>
+      <%= f.number_field :year %>
+    </div>
+
+    <div class="field">
+      Period <br/>
+      <%= f.text_field :period %>
+    </div>
+
+    <div class="field">
+      Week <br/>
+      <%= f.text_field :week %>
+    </div>
+
+    <div class="field">
+      Review round <br/>
       <%= f.text_field :review_round %>
     </div>
-    <div class="field">
-      Mandatory code reviews: <br />
-      no <%= radio_button("course", :mandatory_reviews, 0, :checked => @course.mandatory_reviews==false)  %> <br/>
-      yes <%= radio_button("course", :mandatory_reviews, 1, :checked => @course.mandatory_reviews) %>
 
+    <div class="field">
+        Week feedback maximum points <br />
+        <%= f.text_field :week_feedback_max_points %>
+      </div>
+
+    <div class="field">
+      Mandatory code reviews: <br/>
+      no <%= radio_button("course", :mandatory_reviews, 0, :checked => @course.mandatory_reviews==false) %> <br/>
+      yes <%= radio_button("course", :mandatory_reviews, 1, :checked => @course.mandatory_reviews) %>
     </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+    <div class="field">
+      Email feedbacks to student checked:
+      <%= f.check_box(:email_student) %>
+    </div>
+
+    <div class="field">
+      Email feedbacks to instructor checked:
+      <%= f.check_box(:email_instructor) %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>

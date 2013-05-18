@@ -6,7 +6,7 @@ class WeekFeedbacksController < ApplicationController
 
   def create_note
     expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-    
+
     @registration = Registration.find(params[:registration])
 
     week = 1 + @registration.week_feedbacks.inject(9) { |m, w| m = w.week if w.week>m; m  }
@@ -37,7 +37,7 @@ class WeekFeedbacksController < ApplicationController
       if params[:notify]
         student = week_feedback.user
         reviewer = current_user
-        NotificationMailer.email(reviewer.email, student.email, "ks. #{mypage_url+'/'+student.student_number}", "viikon #{week_feedback.week} palaute", Course.active.name).deliver
+        NotificationMailer.email(reviewer.email, student.email, "ks. #{mypage_url+'/'+student.student_number}", "viikon #{week_feedback.week} palaute", params['notify-cc'], Course.active.name).deliver
       end
 
       redirect_to @registration.user, :notice => 'Week feedback was successfully created.'
@@ -52,6 +52,8 @@ class WeekFeedbacksController < ApplicationController
     expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
     @week_feedback = WeekFeedback.find(params[:id])
+
+
 
     if @week_feedback.update_attributes(params[:week_feedback])
       redirect_to @week_feedback.registration.user, :notice => 'Week feedback was successfully updated'

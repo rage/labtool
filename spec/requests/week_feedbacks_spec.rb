@@ -113,7 +113,7 @@ describe "week feedback" do
       fill_in "week_feedback_points", :with => 10
       click_button "Update Week feedback"
 
-      page.should have_content "Points must be less than or equal to 3"
+      page.should have_content "Points should be at most 3"
     end
 
     it "all can be listed" do

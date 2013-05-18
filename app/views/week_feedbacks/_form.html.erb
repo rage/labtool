@@ -1,43 +1,50 @@
 <%= form_for(@week_feedback) do |f| %>
-  <% if @week_feedback.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@week_feedback.errors.count, "error") %> prohibited this week_feedback from being saved:</h2>
+    <% if @week_feedback.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@week_feedback.errors.count, "error") %> prohibited this week_feedback from being
+            saved:</h2>
 
-      <ul>
-      <% @week_feedback.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    Week<br />
-    <%= f.number_field :week %>
-  </div>
-
-  <div class="field">
-    Points<br />
-    <%= f.number_field :points %>
-  </div>
-  <div class="field">
-    Text<br />
-    <%= f.text_area :text, :size => "100x10" %>
-  </div>
+          <ul>
+            <% @week_feedback.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
     <div class="field">
-      The instructor only text<br />
+      Week<br/>
+      <%= f.number_field :week %>
+    </div>
+
+    <div class="field">
+      Points<br/>
+      <%= f.number_field :points %>
+    </div>
+    <div class="field">
+      Text<br/>
+      <%= f.text_area :text, :size => "100x10" %>
+    </div>
+
+    <div class="field">
+      The instructor only text<br/>
       <%= f.text_area :hidden_text, :size => "100x10" %>
     </div>
 
-  <%= label_tag 'notify by email' %>
-  <%= check_box_tag 'notify', true, true %>
-  <br/>
-  <br/>
+    <%= label_tag 'notify student by email' %>
+    <%= check_box_tag 'notify', true, Course.active.email_student? %>
 
-  <%= hidden_field_tag 'registration', @registration.id  %>
+    <br/>
+    <%= label_tag 'send the email also to you' %>
+    <%= check_box_tag 'notify-cc', true, Course.active.email_instructor? %>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
+    <br/>
+    <br/>
+
+    <%= hidden_field_tag 'registration', @registration.id %>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
 <% end %>

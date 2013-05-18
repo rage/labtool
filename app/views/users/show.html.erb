@@ -156,8 +156,11 @@
               <%= text_area_tag 'week_feedback[hidden_text]', nil, :size => "100x10" %>
             </div>
             <br/>
-            <%= label_tag 'notify by email' %>
-            <%= check_box_tag 'notify', true, true %>
+            <%= label_tag 'notify student by email' %>
+            <%= check_box_tag 'notify', true, Course.active.email_student? %>
+            <br/>
+            <%= label_tag 'send the email also to you' %>
+            <%= check_box_tag 'notify-cc', true, Course.active.email_instructor?  %>
             <br/>
             <br/>
             <%= hidden_field_tag :registration, @user.current_registration.id %>
