@@ -202,7 +202,7 @@
 
       <p><%= "participate review 1: #{(@user.current_registration.participates_review 1) ? "yes" :"no"}" %></p>
 
-      <% if  Course.active.review_round==1 %>
+      <% if  Course.active.review_round<2 %>
           <%= form_tag('/toggle_review_participation') do %>
               <%= hidden_field_tag 'registration', @user.current_registration.id %>
               <%= hidden_field_tag 'round', 1 %>
