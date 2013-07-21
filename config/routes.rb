@@ -4,6 +4,7 @@ Labtool::Application.routes.draw do
   resources :registrations
   resources :courses
   resources :users
+
   match 'register' => 'registrations#new'
 
   get "logout" => "sessions#destroy", :as => "logout"

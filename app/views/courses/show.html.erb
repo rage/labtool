@@ -1,3 +1,5 @@
+<% cache('current_course') do %>
+
 <p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
 <h1>
@@ -142,3 +144,4 @@
 
 <%= link_to 'Edit course data', edit_course_path(@course), :class => 'small-button' %>
 
+<% end %>

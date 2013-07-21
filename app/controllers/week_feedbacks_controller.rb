@@ -5,7 +5,8 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def create_note
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
     @registration = Registration.find(params[:registration])
 
@@ -18,7 +19,8 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def create
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
     params[:week_feedback]['text'] = params[:week_feedback]['text'].lstrip.rstrip
     @registration = Registration.find(params[:registration])
@@ -49,11 +51,10 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def update
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
     @week_feedback = WeekFeedback.find(params[:id])
-
-
 
     if @week_feedback.update_attributes(params[:week_feedback])
       redirect_to @week_feedback.registration.user, :notice => 'Week feedback was successfully updated'
@@ -64,7 +65,8 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def destroy
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
 
     @week_feedback = WeekFeedback.find(params[:id])
     @week_feedback.destroy

@@ -18,8 +18,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.save
-    redirect_to @user, notice: 'User was successfully created.'
+    if @user.save
+      redirect_to @user, notice: 'User was successfully created.'
+    else
+      redirect_to @user, notice: 'Something wrong....'
+    end
   end
 
   def update

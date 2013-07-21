@@ -2,7 +2,8 @@ class RegistrationsController < ApplicationController
   skip_before_filter :authenticate, :only => [:new, :create, :redirect]
 
   def toggle_activity
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.find(params[:registration])
     @registration.toggle_activity
     @registration.save
@@ -23,18 +24,21 @@ class RegistrationsController < ApplicationController
   end
 
   def new
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.new
   end
 
   def edit
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.find(params[:id])
     render "admin_edit"
   end
 
   def create
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     course = Course.find_by_active(true)
     user = User.find_or_create(params[:user])
 
@@ -59,14 +63,16 @@ class RegistrationsController < ApplicationController
   end
 
   def update
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.find(params[:id])
     @registration.update_attributes(params[:registration])
     redirect_to @registration.user, :notice => "Registration was successfully updated"
   end
 
   def destroy
-    expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
+    expire_fragment('current_course')
+    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.find(params[:id])
     @registration.destroy
     redirect_to registrations_path, :notice => 'Registration destroyed'
