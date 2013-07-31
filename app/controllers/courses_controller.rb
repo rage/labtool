@@ -15,6 +15,8 @@ class CoursesController < ApplicationController
   def show
     @course = Course.includes(:registrations => [:week_feedbacks]).where( :id => params[:id]).first
     @registrations = Registration.includes(:week_feedbacks, :user).where( :course_id => @course.id)
+
+    @current = @course == Course.active
   end
 
   def new
