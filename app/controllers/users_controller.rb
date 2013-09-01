@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update_attributes(params[:user])
+    @user.update_attributes(params[:user]) if current_user==@user
     redirect_to @user, notice: 'User was successfully updated.'
   end
 

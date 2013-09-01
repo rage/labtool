@@ -23,11 +23,15 @@
       <%= f.text_field :surename %>
     </div>
 
-    <div class="field">
-      Student_number
-      <br/>
-      <%= f.text_field :student_number %>
-    </div>
+    <% if @user.new_record? %>
+
+      <div class="field">
+        Student_number
+        <br/>
+        <%= f.text_field :student_number %>
+      </div>
+
+    <% end %>
 
     <div class="field">
       Email
@@ -35,8 +39,16 @@
       <%= f.text_field :email %>
     </div>
 
+    <% unless @user.new_record? %>
+        You can leave the next fields empty if you do not change the password <br />
+    <% end %>
+
     <div class="field">
-      Password <br />
+      <% if @user.new_record? %>
+        Password <br />
+      <% else %>
+        New password <br />
+      <% end %>
       <%= f.password_field :password %>
     </div>
 
