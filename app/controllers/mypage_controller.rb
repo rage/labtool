@@ -3,20 +3,34 @@ class MypageController < ApplicationController
 
   def redirect
     number = params[:student_number].lstrip.rstrip
+    email = params[:email].lstrip.rstrip
+
+    user = User.where(:student_number => number).first unless User.where(:student_number => number).empty?
+
     if ( User.where(:student_number => number).empty?)
-      redirect_to "/mypage",
-                  :notice => "'#{number}' is not a know student number. Have you already "
+          redirect_to "/mypage", :notice => "enter your student number and email address"
+    elsif ( user.email != email )
+      redirect_to "/mypage", :notice => "enter your student number and email address"
     else
       session[:student_number] = number
       redirect_to "/mypage/#{number}"
     end
+
+    #number = params[:student_number].lstrip.rstrip
+    #if ( User.where(:student_number => number).empty?)
+    #  redirect_to "/mypage",
+    #              :notice => "'#{number}' is not a know student number. Have you already "
+    #else
+    #  session[:student_number] = number
+    #  redirect_to "/mypage/#{number}"
+    #end
   end
 
   def show
     if session[:student_number]
       @user = User.find_by_student_number(session[:student_number])
     else
-      redirect_to "/mypage", :notice => "enter your student number"
+      redirect_to "/mypage", :notice => "enter your student number and email address"
     end
   end
 

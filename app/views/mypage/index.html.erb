@@ -1,14 +1,24 @@
-<h2>Enter your student number to see your course feedback</h2>
+<h2>Enter your student number and email address to see your course feedback</h2>
 
 <p class="error"><%= notice %>
-  <% if not notice.nil? and notice!="enter your student number" %>
+  <% if not notice.nil? and notice!="enter your student number and email address" %>
       <%= link_to "registered", "/register" %>
       <%= "to the course?" %>
   <% end %>
 </p>
 
 <%= form_tag('/mypage', :method => :post) do -%>
-    <%= text_field_tag 'student_number', session[:student_number] %>
+    <table style="border: none">
+      <tr style="border: none">
+        <td style="border: none">student number</td>
+        <td style="border: none"><%= text_field_tag 'student_number', session[:student_number] %></td>
+      </tr>
+      <tr style="border: none">
+        <td style="border: none">email</td>
+        <td style="border: none"><%= text_field_tag 'email', session[:email] %></td>
+      </tr>
+
+    </table>
     <%= submit_tag 'start!', :class => "small-button" %>
 <% end -%>
 
