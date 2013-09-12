@@ -66,9 +66,9 @@ Labtool::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.action_mailer.smtp_settings = {
-    :address              => "mail.cs.helsinki.fi",
+    :address              => "smtp.gmail.com",
     :port                 => 587,
-    :domain               => 'cs.helsinki.fi',
+    :domain               => 'gmail.com',
     :user_name            => ENV['USERNAME'],
     :password             => ENV['PASSWORD'],
     :authentication       => 'plain',

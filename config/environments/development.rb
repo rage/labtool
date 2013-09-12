@@ -37,9 +37,9 @@ Labtool::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address              => "mail.cs.helsinki.fi",
+    :address              => "smtp.gmail.com",
     :port                 => 587,
-    :domain               => 'cs.helsinki.fi',
+    :domain               => 'gmail.com',
     :user_name            => ENV['USERNAME'],
     :password             => ENV['PASSWORD'],
     :authentication       => 'plain',
