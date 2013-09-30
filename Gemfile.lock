@@ -84,6 +84,7 @@ GEM
       rails
     mime-types (1.21)
     multi_json (1.6.1)
+    newrelic_rpm (3.6.7.159)
     nokogiri (1.5.6)
     pg (0.14.1)
     polyglot (0.3.3)
@@ -183,6 +184,7 @@ DEPENDENCIES
   jquery-rails
   linecache19 (= 0.5.13)
   meta_request
+  newrelic_rpm
   pg
   rails (= 3.2.11)
   redcarpet
