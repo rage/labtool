@@ -8,6 +8,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def toggle_hidden
+    @user = User.find(params[:id])
+    @user.hidden = (not @user.hidden?)
+    @user.save
+    redirect_to @user, notice: 'User was successfully updated.'
+  end
+
   def new
     @user = User.new
   end

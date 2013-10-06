@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130518080446) do
+ActiveRecord::Schema.define(:version => 20131006134827) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20130518080446) do
     t.datetime "updated_at",          :null => false
     t.string   "password_digest"
     t.boolean  "participate_review2"
+    t.boolean  "hidden"
   end
 
   create_table "week_feedbacks", :force => true do |t|

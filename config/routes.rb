@@ -3,7 +3,9 @@ Labtool::Application.routes.draw do
   resources :week_feedbacks
   resources :registrations
   resources :courses
-  resources :users
+  resources :users do
+    post 'toggle_hidden', :on => :member
+  end
 
   match 'register' => 'registrations#new'
 

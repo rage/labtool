@@ -1,11 +1,23 @@
 <p id="notice" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
-<h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
+<div class="<%=isHidden(@user)%>">
+    <h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
+</div>
+
+<% if @user.hidden? %>
+    <p>
+      <%= link_to "make account visible", toggle_hidden_user_path(@user), :method => :post, :class => "small-button" %>
+    </p>
+<% else %>
+    <p>
+      <%= link_to "make account hidden, i.e., make students data invisible form my_page (operation can be undone!)", toggle_hidden_user_path(@user), :method => :post, :class => "small-button" %>
+    </p>
+<% end %>
 
 <% if current_user==@user %>
-<div style="padding: 10px">
-  <%= link_to 'Edit your data', edit_user_path(@user), :class => 'small-button' %>
-</div>
+    <div style="padding: 10px">
+      <%= link_to 'Edit your data', edit_user_path(@user), :class => 'small-button' %>
+    </div>
 <% end %>
 
 <div style="background: #cccccc; padding: 5px;">
@@ -21,6 +33,7 @@
   </p>
 
 </div>
+
 
 
 <% if @user.current_registration %>
@@ -96,7 +109,7 @@
 
       <div class="reviews">
 
-        <% @user.current_registration.feedback.select{ |f| f.week<7}.each do |fb| %>
+        <% @user.current_registration.feedback.select { |f| f.week<7 }.each do |fb| %>
             <div style="margin: 20px;">
               <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
@@ -116,7 +129,7 @@
             <hr/>
         <% end %>
 
-        <% @user.current_registration.feedback.select{ |f| f.week>6}.each do |fb| %>
+        <% @user.current_registration.feedback.select { |f| f.week>6 }.each do |fb| %>
             <div style="margin: 20px;">
               <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
                   <div class="instronly">
@@ -166,7 +179,7 @@
             <%= check_box_tag 'notify', true, Course.active.email_student? %>
             <br/>
             <%= label_tag 'send the email also to you' %>
-            <%= check_box_tag 'notify-cc', true, Course.active.email_instructor?  %>
+            <%= check_box_tag 'notify-cc', true, Course.active.email_instructor? %>
             <br/>
             <br/>
             <%= hidden_field_tag :registration, @user.current_registration.id %>
@@ -254,11 +267,13 @@
               <b>Code review points for round 1:</b> <br/>
               <%= radio_button("registration", :review1, 0, :checked => @user.current_registration.review1==0) %> 0
               <br/>
-               <%= radio_button("registration", :review1, 0.5, :checked => @user.current_registration.review1==0.5) %> 0.5
+              <%= radio_button("registration", :review1, 0.5, :checked => @user.current_registration.review1==0.5) %>
+              0.5
               <br/>
               <%= radio_button("registration", :review1, 1, :checked => @user.current_registration.review1==1) %> 1
               <br/>
-              <%= radio_button("registration", :review1, 1.5, :checked => @user.current_registration.review1==1.5) %> 1.5
+              <%= radio_button("registration", :review1, 1.5, :checked => @user.current_registration.review1==1.5) %>
+              1.5
               <br/>
               <%= radio_button("registration", :review1, 2, :checked => @user.current_registration.review1==2) %> 2
               <br/>
@@ -322,11 +337,13 @@
                   <b>Code review points for round 2:</b> <br/>
                   <%= radio_button("registration", :review2, 0, :checked => @user.current_registration.review2==0) %> 0
                   <br/>
-                  <%= radio_button("registration", :review2, 0.5, :checked => @user.current_registration.review2==0.5) %> 0.5
+                  <%= radio_button("registration", :review2, 0.5, :checked => @user.current_registration.review2==0.5) %>
+                  0.5
                   <br/>
                   <%= radio_button("registration", :review2, 1, :checked => @user.current_registration.review2==1) %> 1
                   <br/>
-                  <%= radio_button("registration", :review2, 1.5, :checked => @user.current_registration.review2==1.5) %> 1.5
+                  <%= radio_button("registration", :review2, 1.5, :checked => @user.current_registration.review2==1.5) %>
+                  1.5
                   <br/>
                   <%= radio_button("registration", :review2, 2, :checked => @user.current_registration.review2==2) %> 2
                   <br/>
@@ -384,7 +401,7 @@
 
 
 <% if @user.current_registration %>
-<div style="padding: 20px 0 0 0">
-  <%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
-</div>
+    <div style="padding: 20px 0 0 0">
+      <%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
+    </div>
 <% end %>

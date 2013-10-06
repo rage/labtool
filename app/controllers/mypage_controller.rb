@@ -7,13 +7,12 @@ class MypageController < ApplicationController
 
     user = User.where(:student_number => number).first unless User.where(:student_number => number).empty?
 
-    if ( User.where(:student_number => number).empty?)
-          redirect_to "/mypage", :notice => "enter your student number and email address"
-    elsif ( user.email != email )
+    if User.where(:student_number => number).empty? or user.email != email or user.hidden?
       redirect_to "/mypage", :notice => "enter your student number and email address"
     else
       session[:student_number] = number
       redirect_to "/mypage/#{number}"
+
     end
 
     #number = params[:student_number].lstrip.rstrip
