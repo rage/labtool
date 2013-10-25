@@ -62,10 +62,10 @@
 
       <table>
         <tr>
-          <th colspan="<%= user.current_registration.course.weeks_total %>">Week feedbacks</th>
+          <th colspan="<%= @user.current_registration.course.weeks_total %>">Week feedbacks</th>
           <th></th>
-          <% unless user.current_registration.course.reviews_total == 0 %>
-            <th colspan="<%= user.current_registration.course.reviews_total %>">Code review</th>
+          <% unless @user.current_registration.course.reviews_total == 0 %>
+            <th colspan="<%= @user.current_registration.course.reviews_total %>">Code review</th>
           <% end %>
           <th></th>
           <th>
@@ -73,13 +73,13 @@
           </th>
         </tr>
         <tr>
-          <% (1..user.current_registration.course.weeks_total).each do |week| %>
+          <% (1..@user.current_registration.course.weeks_total).each do |week| %>
               <th style="width: 50px"> <%= week %></th>
           <% end %>
           <th>
 
           </th>
-          <% (1..user.current_registration.course.reviews_total).each do |review| %>
+          <% (1..@user.current_registration.course.reviews_total).each do |review| %>
               <th> <%= review %></th>
           <% end %>
           <th>
@@ -91,14 +91,14 @@
         </tr>
 
         <tr>
-          <% (1..user.current_registration.course.weeks_total).each do |week| %>
+          <% (1..@user.current_registration.course.weeks_total).each do |week| %>
               <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week %></td>
           <% end %>
           <td></td>
-          <% unless user.current_registration.course.reviews_total < 1 %>
+          <% unless @user.current_registration.course.reviews_total < 1 %>
             <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review1 %></td>
           <% end %>
-          <% unless user.current_registration.course.reviews_total < 2 %>
+          <% unless @user.current_registration.course.reviews_total < 2 %>
           <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review2 %></td>
           <% end %>
           <td></td>
@@ -112,7 +112,7 @@
 
       <div class="reviews">
 
-        <% @user.current_registration.feedback.select { |f| f.week< user.current_registration.course.weeks_total + 1 }.each do |fb| %>
+        <% @user.current_registration.feedback.select { |f| f.week< @user.current_registration.course.weeks_total + 1 }.each do |fb| %>
             <div style="margin: 20px;">
               <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
@@ -132,7 +132,7 @@
             <hr/>
         <% end %>
 
-        <% @user.current_registration.feedback.select { |f| f.week> user.current_registration.course.weeks_total }.each do |fb| %>
+        <% @user.current_registration.feedback.select { |f| f.week> @user.current_registration.course.weeks_total }.each do |fb| %>
             <div style="margin: 20px;">
               <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
                   <div class="instronly">
@@ -216,7 +216,7 @@
     </div>
 
 
-    <% unless user.current_registration.course.reviews_total < 1 %>
+    <% unless @user.current_registration.course.reviews_total < 1 %>
     <h2>Code reviews</h2>
 
     <div class="rounded">
