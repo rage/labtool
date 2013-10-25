@@ -57,7 +57,9 @@
       <div>
         <p><b><%= @user.current_registration.topic %></b></p>
 
-        <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+        <p>Repository: <%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+
+        <p>Test URL: <%= link_to @user.current_registration.test_url, @user.current_registration.test_url %></p>
       </div>
 
       <table>

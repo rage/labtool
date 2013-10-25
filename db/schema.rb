@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131025110946) do
+ActiveRecord::Schema.define(:version => 20131025152549) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20131025110946) do
     t.boolean  "active"
     t.decimal  "review1"
     t.decimal  "review2"
+    t.string   "test_url"
   end
 
   create_table "users", :force => true do |t|

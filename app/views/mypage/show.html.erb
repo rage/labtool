@@ -23,7 +23,8 @@
       <div>
         <p><strong><%= @user.current_registration.topic %></strong></p>
 
-        <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+        <p>Repository: <%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+        <p>Test URL: <%= link_to @user.current_registration.test_url, @user.current_registration.test_url %></p>
       </div>
 
       <table>
@@ -115,7 +116,8 @@
 
               <% @user.assigned_reviews_in(2).each do |review| %>
 
-                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  Repository: <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  Test URL: <%= link_to review.reviewed.test_url, review.reviewed.test_url %>
 
                   <% if not review.done %>
                       <% if Course.active.review_round==2 %>
@@ -142,7 +144,8 @@
               <h4>Your reviewer</h4>
 
               <% @user.assigned_reviewers_in(2).each do |review| %>
-                  <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
+                  Repository: <%= link_to review.reviewer.repository, review.reviewer.repository %>
+                  Test URL: <%= link_to review.reviewer.test_url, review.reviewer.test_url %>
                   <!--
                   <em><%= review.done() ? "ready" :"not done yet" %></em>
                   --> <!-- feature is disabled -->
@@ -183,7 +186,8 @@
           <h4>Code to review</h4>
 
           <% @user.assigned_reviews_in(1).each do |review| %>
-              <%= link_to review.reviewed.repository, review.reviewed.repository %>
+              Repository: <%= link_to review.reviewed.repository, review.reviewed.repository %>
+              Test URL: <%= link_to review.reviewed.test_url, review.reviewed.test_url %>
 
               <% if not review.done %>
                   <% if Course.active.review_round==1 %>
@@ -212,7 +216,8 @@
           <h4>Your reviewer</h4>
 
           <% @user.assigned_reviewers_in(1).each do |review| %>
-              <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
+              Repository: <%= link_to review.reviewer.repository, review.reviewer.repository %>
+              Test URL: <%= link_to review.reviewer.test_url, review.reviewer.test_url %>
               <!--
                 <em><%= review.done() ? "ready" :"not done yet" %></em>
               --> <!-- feature disabled -->

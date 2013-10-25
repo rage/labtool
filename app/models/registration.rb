@@ -1,13 +1,17 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :repository, :topic, :active, :review1, :review2
+  attr_accessible :repository, :topic, :test_url, :active, :review1, :review2
 
   belongs_to :course
   belongs_to :user
   has_many :week_feedbacks
 
+  validates :test_url,
+            :format => { :with => /https?:\/\/.+/,
+            :message => "copy/paste your works running address (usually http://username.users.cs.helsinki.fi/) here from the browser address line" }
+
   validates :repository,
             :format => { :with => /https:\/\/github.com\/.+\/.+/,
-            :message => "copy/paste your repo address here from browser address line" }
+            :message => "copy/paste your repo address here from the browser address line" }
 
   def self.registrations_for course
     Registration.where( :course_id => course.id ).includes(:user, :week_feedbacks)

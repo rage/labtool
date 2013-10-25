@@ -31,6 +31,12 @@
         <%= text_field_tag 'user[registration][repository]', @user.current_registration.repository %>
       </div>
 
+      <div class="field">
+        <%= label_tag 'test URL' %>
+        <br/>
+        <%= text_field_tag 'user[registration][test_url]', @user.current_registration.test_url%>
+      </div>
+
     <% end %>
 
     <%= submit_tag "Make changes" %>
