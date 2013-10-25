@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  attr_accessible :period, :year, :review_round, :active, :week, :state, :mandatory_reviews, :name, :week_feedback_max_points, :email_instructor, :email_student
+  attr_accessible :period, :year, :review_round, :active, :week, :state, :mandatory_reviews, :name, :week_feedback_max_points, :email_instructor, :email_student, :weeks_total, :reviews_total
 
   has_many :registrations, :dependent => :destroy
 
