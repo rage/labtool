@@ -1,0 +1,13 @@
+<h1>Create checklist</h1>
+<% @checklist.errors[:questions].each do |msg| %>
+  <p>Error! <%= msg %></p>
+<% end %>
+<%= form_tag('/checklists') do -%>
+  <%= label_tag 'checklist[title]', 'Title' %>
+  <%= text_field_tag 'checklist[title]', @checklist.title %>
+  <br />
+  <%= label_tag 'questions' %>
+  <br />
+  <%= text_area_tag 'questions', @listdata, :size => "100x30" %>
+  <%= submit_tag "Save", :class => "small-button" %>
+<% end %>
