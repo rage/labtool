@@ -46,6 +46,9 @@ eos
     
   def update_registration
     @checklist = Checklist.find(params[:id])
+    if params[:registration].nil?
+      return render :action => :show, :layout => !request.xhr?
+    end
     @registration = Registration.find(params[:registration])
 
     answers = @checklist.selected_answers.where(:registration_id => @registration.id)
