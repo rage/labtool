@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113125705) do
+ActiveRecord::Schema.define(:version => 20131113170132) do
 
   create_table "checklist_answers", :force => true do |t|
     t.text    "answer"
@@ -96,6 +96,14 @@ ActiveRecord::Schema.define(:version => 20131113125705) do
     t.decimal "initial", :default => 0.0, :null => false
     t.decimal "min",     :default => 0.0, :null => false
     t.decimal "max",     :default => 3.0, :null => false
+  end
+
+  create_table "selected_answers", :force => true do |t|
+    t.integer  "checklist_answer_id"
+    t.integer  "registration_id"
+    t.boolean  "selected"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "users", :force => true do |t|
