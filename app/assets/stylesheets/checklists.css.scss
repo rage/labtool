@@ -1,0 +1,15 @@
+// Place all the styles related to the checklists controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.questionContainer {
+  margin-top: 0.4em;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+.questionContainer.done {
+  background: lightgreen;
+}
+.question {
+  font-size: 1.1em;
+}

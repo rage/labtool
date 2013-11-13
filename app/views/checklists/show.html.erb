@@ -1,0 +1,64 @@
+<h1>Checklist</h1>
+<div class="rounded">
+  <h2><%= @checklist.title %></h2>
+  <%= form_tag("/checklists/#{@checklist.id}/results", :class => 'autograde') do -%>
+    <% @checklist.questions.each do |question| %>
+      <div class="questionContainer">
+        <div class="question" id="question_<%= question.id %>">
+          <%= question.question %>
+          <button>Done?</button>
+        </div>
+        <div class="answers">
+          <% question.answers.each do |answer| %>
+            <%= check_box_tag "answers[#{answer.id}]", answer.value, false %>
+            <%= label_tag "answers[#{answer.id}]", answer.answer %>
+          <% end %>
+        </div>
+        <div class="feedback">
+        </div>
+      </div>
+    <% end %>
+    <br />
+    <h2>Score</h2>
+    <div class="scores">
+
+    </div>
+    <h2>Feedback</h2>
+    <ul class="feedbacks">
+
+    </ul>
+    <% #submit_tag "Grade", :class => "small-button" %>
+  <% end %>
+</div>
+<div class="rounded">
+  <h2>Actions</h2>
+  <%= link_to 'Edit questions', edit_checklist_path(@checklist), :class => 'small-button' %>
+  <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $('form.autograde').autograding({
+      <% @checklist.questions.each do |question| %>
+        "question_<%= question.id %>": 
+        { varname: <%= raw question.varname.to_json%>,
+          scoretype: <%= raw question.scoretype.id.to_json%>,
+          update_callback: function(checklist) {
+            <%= raw question.update_callback %>
+          },
+          answers: {
+            <% question.answers.each do |answer|  %>
+              "answers_<%= answer.id %>": 
+              <%= raw answer.attributes.keep_if { |k| k.in? %w(varname value unchecked_value feedback missing_feedback) }.to_json %>,
+            <% end %>
+          }
+        },
+      <% end %>
+      "scoretypes": {
+      <% @checklist.scoretypes .each do |scoretype| %>
+        "<%= scoretype.id %>": 
+        <%= raw scoretype.attributes.to_json %>,
+      <% end %>
+      }
+    });
+  });
+</script>

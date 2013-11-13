@@ -2,10 +2,14 @@ Labtool::Application.routes.draw do
   resources :peer_reviews
   resources :week_feedbacks
   resources :registrations
+  resources :checklists
   resources :courses
+  resources :peer_reviews
   resources :users do
     post 'toggle_hidden', :on => :member
   end
+
+  #match 'checklists/:id/results' => 'courses#showresults', :via => :post
 
   match 'register' => 'registrations#new'
 
