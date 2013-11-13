@@ -33,12 +33,42 @@ eos
     
   def show
     @checklist = Checklist.find(params[:id])
+    @registration = nil
+
     render :layout => !request.xhr?
   end
     
   def show_registration
     @checklist = Checklist.find(params[:id])
-    render :layout => !request.xhr?
+    @registration = Registration.find(params[:registration_id])
+    render :action => :show, :layout => !request.xhr?
+  end
+    
+  def update_registration
+    @checklist = Checklist.find(params[:id])
+    @registration = Registration.find(params[:registration])
+
+    answers = @checklist.selected_answers.where(:registration_id => @registration.id)
+    answer_map = {}
+    answers.each do |a|
+      a.selected = false
+      answer_map[a.checklist_answer_id] = a
+    end
+
+    params.fetch(:answers,{}).each do |answer_id, selected|
+      a = answer_map.fetch answer_id.to_i, SelectedAnswer.new
+      a.registration = @registration
+      a.checklist_answer_id = answer_id
+      a.selected = true;
+
+      answer_map[answer_id] = a
+    end
+
+    answer_map.each do |k,a|
+      a.save
+    end
+
+    render :action => :show, :layout => !request.xhr?
   end
 
   def create

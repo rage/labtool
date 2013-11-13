@@ -1,7 +1,10 @@
 <h1>Checklist</h1>
 <div class="rounded">
   <h2><%= @checklist.title %></h2>
-  <%= form_tag("/checklists/#{@checklist.id}/results", :class => 'autograde') do -%>
+  <%= form_tag("/checklists/#{@checklist.id}/user/", :class => 'autograde') do -%>
+    <% if !@registration.nil? %>
+      <%= hidden_field_tag 'registration', @registration.id %>
+    <% end %>
     <% @checklist.questions.each do |question| %>
       <div class="questionContainer">
         <div class="question" id="question_<%= question.id %>">
@@ -10,7 +13,7 @@
         </div>
         <div class="answers">
           <% question.answers.each do |answer| %>
-            <%= check_box_tag "answers[#{answer.id}]", answer.value, false %>
+            <%= check_box_tag "answers[#{answer.id}]", answer.value, answer.checked?(@registration) %>
             <%= label_tag "answers[#{answer.id}]", answer.answer %>
           <% end %>
         </div>
@@ -26,7 +29,9 @@
     <ul class="feedbacks">
 
     </ul>
-    <% #submit_tag "Grade", :class => "small-button" %>
+    <% if !@registration.nil? %>
+      <%= submit_tag "Grade", :class => "small-button" %>
+    <% end %>
   <% end %>
 </div>
 <div class="rounded actions">

@@ -43,9 +43,10 @@ $(document).ready(function () {
     };
 
     $(".activable").click(activateStudent);
-
+    
+    var reg_id = $("#current_registration").val();
     $("#select_grading").change(function() {
-      $("#grader").load("/checklists/"+$(this).val());
+      $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id);
     }).change();
 
 

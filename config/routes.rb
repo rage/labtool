@@ -10,7 +10,8 @@ Labtool::Application.routes.draw do
     post 'toggle_hidden', :on => :member
   end
 
-  #match 'checklists/:id/results' => 'courses#showresults', :via => :post
+  match 'checklists/:id/user/:registration_id' => 'checklists#show_registration', :via => :get
+  match 'checklists/:id/user/' => 'checklists#update_registration', :via => :post
 
   match 'register' => 'registrations#new'
 
