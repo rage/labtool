@@ -1,9 +1,4 @@
 $(function() {
-  $('.question button').click(function(e) {
-    e.preventDefault();
-    $(this).parents('.questionContainer').toggleClass("done");
-    return false;
-  });
 
   function getScoreInitializer(scoretypes) {
     return function() {
@@ -33,11 +28,14 @@ $(function() {
         answer.unchecked_value = parseFloat(answer.unchecked_value) || 0;
         answer.checked_feedback = answer.feedback || "";
         answer.unchecked_feedback = answer.missing_feedback || "";
+        answer.checked = function() {
+          return element.is(":checked");
+        }
         answer.value = function() {
-          return element.is(":checked") ? answer.checked_value : answer.unchecked_value;
+          return answer.checked() ? answer.checked_value : answer.unchecked_value;
         }
         answer.feedback = function() {
-          return element.is(":checked") ? answer.checked_feedback : answer.unchecked_feedback;
+          return answer.checked() ? answer.checked_feedback : answer.unchecked_feedback;
         }
         /* Todo: logic to implement answer varname */
       });
@@ -104,6 +102,12 @@ $(function() {
     addQuestions(checklist, questionData)
     
     checklist.reset();
+
+    $(this).find('.question button').click(function(e) {
+      e.preventDefault();
+      $(this).parents('.questionContainer').toggleClass("done");
+      return false;
+    });
 
   };
 });

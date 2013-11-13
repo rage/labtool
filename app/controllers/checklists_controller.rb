@@ -33,6 +33,12 @@ eos
     
   def show
     @checklist = Checklist.find(params[:id])
+    render :layout => !request.xhr?
+  end
+    
+  def show_registration
+    @checklist = Checklist.find(params[:id])
+    render :layout => !request.xhr?
   end
 
   def create

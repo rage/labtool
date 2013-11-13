@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131112231301) do
+ActiveRecord::Schema.define(:version => 20131113125705) do
 
   create_table "checklist_answers", :force => true do |t|
     t.text    "answer"
@@ -55,6 +55,15 @@ ActiveRecord::Schema.define(:version => 20131112231301) do
     t.integer  "week_feedback_max_points"
     t.boolean  "email_student"
     t.boolean  "email_instructor"
+    t.integer  "default_checklist_id"
+  end
+
+  create_table "feedback_comments", :force => true do |t|
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "week_feedback_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "peer_reviews", :force => true do |t|
