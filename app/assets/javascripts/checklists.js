@@ -22,6 +22,7 @@ $(function() {
 
   function addQuestions(checklist, questionData) {
     $.each(questionData, function(question_id,question) {
+      var answers = {}
       $.each(question.answers, function(answer_id,answer) {
         var element = $("#"+answer_id);
         answer.checked_value = parseFloat(answer.value) || 0;
@@ -37,21 +38,26 @@ $(function() {
         answer.feedback = function() {
           return answer.checked() ? answer.checked_feedback : answer.unchecked_feedback;
         }
-        /* Todo: logic to implement answer varname */
+        answers[answer.varname ? answer.varname : answer_id] = answer;
       });
+      question.answers = answers;
 
       var element = $("#"+question_id).parent();
       var feedbackContainer = element.find(".feedback");
       question.update = function() {
-        question.feedbacks = [];
+        question.feedbacks = {};
         question.score = 0;
-        $.each(question.answers, function() {
+        $.each(question.answers, function(k) {
           question.score += this.value();
           var feedback = this.feedback();
-          if (feedback) question.feedbacks.push(feedback);
+          if (feedback) question.feedbacks[k] = feedback;
         });
         question.update_callback.call(question, checklist);
-        question.feedback = question.feedbacks.join(" ");
+        question.feedback = [];
+        $.each(question.feedbacks, function() {
+          if (this) question.feedback.push(this);
+        });
+        question.feedback = question.feedback.join(" ");
         feedbackContainer.html(question.feedback);
       }
 
