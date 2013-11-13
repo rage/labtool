@@ -48,17 +48,24 @@ $(document).ready(function () {
     $("#select_grading").change(function() {
       $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id);
     }).change();
-
+    
+    var submitting = false;
     $(".autograde input").change(function() {
-      var form = $(this).parents('form');
-      $.ajax({
-        type: "POST",
-        url: form.attr('action'),
-        data: form.serialize(), // serializes the form's elements.
-        success: function(data)
-        {
-        }
-      });
+      if (!submitting) {
+        var form = $(this).parents('form');
+        submitting = true;
+        setTimeout(function() {
+          submitting = false;
+          $.ajax({
+            type: "POST",
+            url: form.attr('action'),
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+            }
+          });
+        }, 1000);
+      }
 
       return false; // avoid to execute the actual submit of the form.
     });
