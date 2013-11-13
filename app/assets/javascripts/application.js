@@ -44,6 +44,11 @@ $(document).ready(function () {
 
     $(".activable").click(activateStudent);
 
+    $("#select_grading").change(function() {
+      $("#grader").load("/checklists/"+$(this).val());
+    }).change();
+
+
 });
 
 
