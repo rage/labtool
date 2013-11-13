@@ -46,29 +46,31 @@ $(document).ready(function () {
     
     var reg_id = $("#current_registration").val();
     $("#select_grading").change(function() {
-      $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id);
+      $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id, addAutosubmit);
     }).change();
     
-    var submitting = false;
-    $(".autograde input").change(function() {
-      if (!submitting) {
-        var form = $(this).parents('form');
-        submitting = true;
-        setTimeout(function() {
-          submitting = false;
-          $.ajax({
-            type: "POST",
-            url: form.attr('action'),
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data)
-            {
-            }
-          });
-        }, 1000);
-      }
+    function addAutosubmit() {
+      var submitting = false;
+      $(".autograde input").change(function() {
+        if (!submitting) {
+          var form = $(this).parents('form');
+          submitting = true;
+          setTimeout(function() {
+            submitting = false;
+            $.ajax({
+              type: "POST",
+              url: form.attr('action'),
+              data: form.serialize(), // serializes the form's elements.
+              success: function(data)
+              {
+              }
+            });
+          }, 1000);
+        }
 
-      return false; // avoid to execute the actual submit of the form.
-    });
+        return false; // avoid to execute the actual submit of the form.
+      });
+    }
 
 });
 
