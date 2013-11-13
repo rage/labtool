@@ -49,6 +49,19 @@ $(document).ready(function () {
       $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id);
     }).change();
 
+    $(".autograde input").change(function() {
+      var form = $(this).parents('form');
+      $.ajax({
+        type: "POST",
+        url: form.attr('action'),
+        data: form.serialize(), // serializes the form's elements.
+        success: function(data)
+        {
+        }
+      });
+
+      return false; // avoid to execute the actual submit of the form.
+    });
 
 });
 
