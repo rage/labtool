@@ -23,12 +23,12 @@ eos
     q.answers << ( ChecklistAnswer.new :answer => "Meh", :value => -1, :feedback => "Salailetko jotakin?" )
     @checklist.questions << q
 
-    @listdata = questions_to_yaml(@checklist.questions :order => "ordering")
+    @listdata = questions_to_yaml(@checklist.questions.order "ordering")
   end
   
   def edit
     @checklist = Checklist.find(params[:id])
-    @listdata = questions_to_yaml(@checklist.questions :order => "ordering")
+    @listdata = questions_to_yaml(@checklist.questions.order "ordering")
   end
     
   def show

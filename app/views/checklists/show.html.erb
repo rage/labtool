@@ -5,7 +5,7 @@
     <% if !@registration.nil? %>
       <%= hidden_field_tag 'registration', @registration.id %>
     <% end %>
-    <% @checklist.questions.each do |question| %>
+    <% @checklist.questions.order("ordering").each do |question| %>
       <div class="questionContainer">
         <div class="question" id="question_<%= question.id %>">
           <%= question.question %>
@@ -42,7 +42,7 @@
 <script type="text/javascript">
   $(function() {
     $('form.autograde').autograding({
-      <% @checklist.questions.each do |question| %>
+      <% @checklist.questions.order("ordering").each do |question| %>
         "question_<%= question.id %>": 
         { varname: <%= raw question.varname.to_json%>,
           scoretype: <%= raw question.scoretype.id.to_json%>,
