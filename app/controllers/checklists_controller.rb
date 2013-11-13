@@ -103,9 +103,16 @@ eos
   def yaml_to_questions(yaml)
     ordering = 1
     questions = YAML.load(yaml).map do |qhash|
-      question = nil
-      question = ChecklistQuestion.find qhash["id"] if qhash.has_key? "id"
-      question = ChecklistQuestion.new if question.nil?
+      if qhash.has_key? "id"
+        begin
+          question = ChecklistQuestion.find qhash["id"] 
+          rescue
+          qhash.delete "id"
+          question = ChecklistQuestion.new
+        end
+      else 
+        question = ChecklistQuestion.new 
+      end
 
       qhash.each do |key,val|
         question[key] = val unless %w(scoretype answers ordering).include? key
@@ -116,9 +123,16 @@ eos
 
       answer_ordering = 1
       question.answers = qhash.fetch("answers", []).map do |ahash|
-        answer = nil
-        answer = ChecklistAnswer.find ahash["id"] if ahash.has_key? "id"
-        answer = ChecklistAnswer.new if answer.nil?
+        if ahash.has_key? "id"
+          begin
+            answer = ChecklistAnswer.find ahash["id"] 
+            rescue
+            ahash.delete "id"
+            answer = ChecklistAnswer.new
+          end
+        else 
+          answer = ChecklistAnswer.new 
+        end
 
         ahash.each do |key,val|
           answer[key] = val unless %w(ordering).include? key
