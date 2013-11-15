@@ -131,17 +131,18 @@ eos
         ret["scoretype"] = question.scoretype.varname unless question.scoretype.varname == "points"
       end
       ret["answers"] = question.answers.map do |a|
-        a.attributes.reject {|key,val| 
+        hide_ids_from :answer, a.attributes.reject {|key,val| 
           %w(ordering checklist_question_id).include? key or val.nil? or val == 0
         }
       end unless question.answers.size == 0
-      ret 
+      hide_ids_from :question, ret 
     })
   end
 
   def yaml_to_questions(yaml)
     ordering = 1
     questions = YAML.load(yaml).map do |qhash|
+      qhash = parse_ids_from :question, qhash
       if qhash.has_key? "id"
         begin
           question = ChecklistQuestion.find qhash["id"] 
@@ -162,6 +163,7 @@ eos
 
       answer_ordering = 1
       question.answers = qhash.fetch("answers", []).map do |ahash|
+        ahash = parse_ids_from :answer, ahash
         if ahash.has_key? "id"
           begin
             answer = ChecklistAnswer.find ahash["id"] 
@@ -189,6 +191,39 @@ eos
       question
     end
     questions
+  end
+
+  def hide_ids_from(key,hash)
+    return hash unless hash.has_key? "id"
+
+    key = key.to_s
+    id = hash["id"]
+    keyval = hash[key]
+
+    hash.delete "id"
+    hash.delete key
+
+    ret = {key+" "+id.to_s => keyval}
+    hash.each { |k,v| ret[k] = v }
+    ret
+  end
+
+  def parse_ids_from(idkey,hash)
+    idkey = idkey.to_s
+    ret = {}
+    regexp = "^"+idkey+" ([0-9]+)$"
+
+    hash.each do |key,val|
+      if key.match regexp
+        ret[idkey] = val
+        ret["id"] = $1.to_i
+      else
+        ret[key] = val
+      end
+    end
+
+    ret
+
   end
 
   def format_nice (coll)
