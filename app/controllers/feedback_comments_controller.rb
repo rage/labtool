@@ -15,7 +15,7 @@ class FeedbackCommentsController < ApplicationController
 
     student = @user
     reviewer = @feedback.giver
-    NotificationMailer.email(reviewer.email, reviewer.email, "Palautettasi on kommentoitu\nks. #{mypage_url+'/'+student.student_number}", "viikon #{@feedback.week} palaute", params['notify-cc'], Course.active.name).deliver
+    NotificationMailer.email(reviewer.email, reviewer.email, "Palautettasi on kommentoitu\nks. #{user_url student}", "viikon #{@feedback.week} palaute", params['notify-cc'], Course.active.name).deliver
 
     redirect_to "/mypage/#{@user.student_number}", :notice => "Comment was successfully created."
   end
