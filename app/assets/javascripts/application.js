@@ -73,12 +73,14 @@ $(document).ready(function () {
     }
     
     //Checklist question editor
-    var editor = CodeMirror.fromTextArea(document.getElementById("questions"), {
-      lineNumbers: true,
-      mode: "text/yaml",
-      vimMode: true,
-      showCursorWhenSelecting: true
+    if (document.getElementById("questions")) {
+      var editor = CodeMirror.fromTextArea(document.getElementById("questions"), {
+        lineNumbers: true,
+        mode: "text/yaml",
+        vimMode: true,
+        showCursorWhenSelecting: true
       });
+    }
 });
 
 
