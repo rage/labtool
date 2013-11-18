@@ -12,11 +12,3 @@
   <%= hidden_field_tag 'checklist[id]', @checklist.id %>
   <%= submit_tag "Save", :class => "small-button" %>
 <% end %>
-<script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("questions"), {
-    lineNumbers: true,
-    mode: "text/yaml",
-    vimMode: true,
-    showCursorWhenSelecting: true
-  });
-</script>
