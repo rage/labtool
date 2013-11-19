@@ -13,8 +13,10 @@
         </div>
         <div class="answers">
           <% question.answers.each do |answer| %>
-            <%= check_box_tag "answers[#{answer.id}]", answer.value, answer.checked?(@registration) %>
-            <%= label_tag "answers[#{answer.id}]", answer.answer %>
+            <div class="answer">
+              <%= check_box_tag "answers[#{answer.id}]", answer.value, answer.checked?(@registration) %>
+              <%= label_tag "answers[#{answer.id}]", answer.answer %>
+            </div>
           <% end %>
         </div>
         <div class="feedback">
@@ -48,6 +50,9 @@
           scoretype: <%= raw question.scoretype.id.to_json%>,
           update_callback: function(checklist) {
             <%= raw question.update_callback %>
+          },
+          init_callback: function(checklist) {
+            <%= raw question.init_callback %>
           },
           answers: {
             <% question.answers.each do |answer|  %>
