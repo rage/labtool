@@ -58,6 +58,11 @@
             <%= raw question.update_callback %>
           },
           init_callback: function(checklist) {
+            <% question.answers.each do |answer|  %>
+              <% if answer.has_valid_varname? %>
+                var <%= answer.varname %> = answers.<%= answer.varname %>;
+              <% end %>
+            <% end %>
             <%= raw question.init_callback %>
           },
           answers: {
