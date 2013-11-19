@@ -49,6 +49,12 @@
         { varname: <%= raw question.varname.to_json%>,
           scoretype: <%= raw question.scoretype.id.to_json%>,
           update_callback: function(checklist) {
+            var answers = this.answers;
+            <% question.answers.each do |answer|  %>
+              <% if answer.has_valid_varname? %>
+                var <%= answer.varname %> = answers.<%= answer.varname %>;
+              <% end %>
+            <% end %>
             <%= raw question.update_callback %>
           },
           init_callback: function(checklist) {
