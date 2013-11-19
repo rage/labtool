@@ -16,6 +16,7 @@ class ChecklistAnswer < ActiveRecord::Base
   def has_valid_varname?
     return false if varname.nil?
     return false unless varname.match(/^[^\W\d]\w+$/)
+    return false if varname.in? %w(answers checklist undefined null true false break class enum export extends import super implements interface let package private protected public static yield case catch continue debugger default delete do else finally for function if in instanceof new return switch this throw try typeof var void while with)
     true
   end
 end
