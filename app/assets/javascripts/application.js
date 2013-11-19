@@ -77,7 +77,21 @@ $(document).ready(function () {
         lineNumbers: true,
         mode: "text/x-yaml",
         vimMode: true,
-        showCursorWhenSelecting: true
+        showCursorWhenSelecting: true,
+        tabSize: 2,
+        extraKeys: {
+          "Tab": function(cm) {
+            if (typeof(cm.state.vim) != "undefined" && !cm.state.vim.insertMode && !cm.getSelection().length) {
+              editor2.focus();
+              document.getElementById("checklist_remarks").focus()
+              return;
+            }
+            if (cm.getSelection().length)
+              CodeMirror.commands.indentMore(cm)
+            else 
+              cm.replaceSelection("  ", "end")
+          },
+        }
       });
       var editor2 = CodeMirror.fromTextArea(document.getElementById("checklist_remarks"), {
         lineNumbers: true,
