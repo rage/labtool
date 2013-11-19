@@ -4,7 +4,7 @@
 <% end %>
 <%= form_tag('/checklists') do -%>
   <%= label_tag 'checklist[title]', 'Title' %>
-  <%= text_field_tag 'checklist[title]', @checklist.title %>
+  <%= text_field_tag 'checklist[title]' %>
   <div>
     <div style="display: inline-block; width: 60%;" >
       <%= label_tag 'questions' %>
@@ -14,7 +14,7 @@
     <div style="display: inline-block; width: 35%;" >
       <%= label_tag 'remarks' %>
       <br />
-      <%= text_area_tag 'checklist[remarks]', @checklist.remarks, :size => "60x30" %>
+      <%= text_area_tag 'checklist[remarks]', '', :size => "60x30" %>
     </div>
   </div>
   <%= text_area_tag 'questions', @listdata, :size => "100x30" %>
