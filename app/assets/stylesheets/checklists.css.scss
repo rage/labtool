@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+textarea#questions + .CodeMirror {
+  color: #c00;
+}
+
 .questionContainer {
   margin-top: 0.4em;
   padding: 0.5em;
