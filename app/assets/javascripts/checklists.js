@@ -25,12 +25,16 @@ $(function() {
       var answers = {}
       $.each(question.answers, function(answer_id,answer) {
         var element = $("#"+answer_id);
+        answer.enabled = true;
         answer.checked_value = parseFloat(answer.value) || 0;
         answer.unchecked_value = parseFloat(answer.unchecked_value) || 0;
         answer.checked_feedback = answer.feedback || "";
         answer.unchecked_feedback = answer.missing_feedback || "";
         answer.checked = function() {
           return element.is(":checked");
+        }
+        answer.makevisible = function(shown) {
+          element.parent().toggle(shown);
         }
         answer.value = function() {
           return answer.checked() ? answer.checked_value : answer.unchecked_value;
@@ -40,19 +44,39 @@ $(function() {
         }
         answers[answer.varname ? answer.varname : answer_id] = answer;
       });
-      question.answers = answers;
 
       var element = $("#"+question_id).parent();
       var feedbackContainer = element.find(".feedback");
-      question.update = function() {
+      var own_update_callback = question.update_callback;
+      var update_callbacks = [own_update_callback];
+      
+
+      question.answers = answers;
+      question.addUpdateCallback = function(fun) {
+        if (typeof(fun) == "function") {
+          update_callback.push(fun);
+        }
+      }
+      question.init = function() {
+        update_callbacks = [own_update_callback];
         question.feedbacks = {};
         question.score = 0;
+        question.init_callback.call(question, checklist);
+      }
+
+      question.update = function() {
+        question.init();
         $.each(question.answers, function(k) {
+          this.makevisible(this.enabled);
+          if (!this.enabled) return;
+
           question.score += this.value();
           var feedback = this.feedback();
           if (feedback) question.feedbacks[k] = feedback;
         });
-        question.update_callback.call(question, checklist);
+        $.each(update_callbacks, function() {
+          this.call(question, checklist);
+        });
         question.feedback = [];
         $.each(question.feedbacks, function() {
           if (this) question.feedback.push(this);
@@ -65,7 +89,6 @@ $(function() {
         question.update();
         checklist.update(); 
       });
-
 
       if (question.varname) {
         checklist.questions[question.varname] = question;
