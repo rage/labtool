@@ -12,4 +12,10 @@ class ChecklistAnswer < ActiveRecord::Base
     return false if selected.nil?
     selected.selected
   end
+
+  def has_valid_varname?
+    return false if varname.nil?
+    return false unless varname.match(/^[^\W\d]\w+$/)
+    true
+  end
 end
