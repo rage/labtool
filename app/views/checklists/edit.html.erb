@@ -5,10 +5,18 @@
 <%= form_for(@checklist) do -%>
   <%= label_tag 'checklist[title]', 'Title' %>
   <%= text_field_tag 'checklist[title]', @checklist.title %>
-  <br />
-  <%= label_tag 'questions' %>
-  <br />
-  <%= text_area_tag 'questions', @listdata, :size => "100x30" %>
+  <div>
+    <div style="display: inline-block; width: 60%;" >
+      <%= label_tag 'questions' %>
+      <br />
+      <%= text_area_tag 'questions', @listdata, :size => "60x30" %>
+    </div>
+    <div style="display: inline-block; width: 35%;" >
+      <%= label_tag 'remarks' %>
+      <br />
+      <%= text_area_tag 'checklist[remarks]', @checklist.remarks, :size => "60x30" %>
+    </div>
+  </div>
   <%= hidden_field_tag 'checklist[id]', @checklist.id %>
   <%= submit_tag "Save", :class => "small-button" %>
 <% end %>

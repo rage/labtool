@@ -80,6 +80,12 @@ $(document).ready(function () {
         vimMode: true,
         showCursorWhenSelecting: true
       });
+      var editor2 = CodeMirror.fromTextArea(document.getElementById("checklist_remarks"), {
+        lineNumbers: true,
+        mode: "text/markdown",
+        vimMode: true,
+        showCursorWhenSelecting: true
+      });
     }
 });
 

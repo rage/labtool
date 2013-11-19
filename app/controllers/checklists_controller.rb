@@ -9,20 +9,6 @@ class ChecklistsController < ApplicationController
   
   def new
     @checklist = Checklist.new
-
-    q = ChecklistQuestion.new :question => "Mitä kuuluu? (Example question)", :update_callback => <<eos
-/*
-//Default logic:
-this.feedback = "";
-this.answers.each(function() {
-  if (this.selected) this.feedback += this.feedback;
-});
-*/
-eos
-    q.answers << ( ChecklistAnswer.new :answer => "Hyvää", :value => 1, :feedback => "Sinulle kuuluu hyvää" )
-    q.answers << ( ChecklistAnswer.new :answer => "Meh", :value => -1, :feedback => "Salailetko jotakin?" )
-    @checklist.questions << q
-
     @listdata = questions_to_yaml(@checklist.questions.order "ordering")
   end
   
@@ -96,6 +82,7 @@ eos
     begin
       @checklist = Checklist.find params[:checklist][:id]
       @checklist.title = params[:checklist][:title]
+      @checklist.remarks = params[:checklist][:remarks]
       @checklist.questions = yaml_to_questions(params[:questions])
       @checklist.save
 

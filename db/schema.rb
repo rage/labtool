@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113170132) do
+ActiveRecord::Schema.define(:version => 20131119112159) do
 
   create_table "checklist_answers", :force => true do |t|
     t.text    "answer"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20131113170132) do
     t.integer "parent_id"
     t.text    "init_callback"
     t.text    "grade_callback"
+    t.text    "remarks"
   end
 
   create_table "courses", :force => true do |t|
