@@ -79,10 +79,10 @@ class ChecklistsController < ApplicationController
   end
 
   def update
+    @checklist = Checklist.find params[:checklist][:id]
+    @checklist.title = params[:checklist][:title]
+    @checklist.remarks = params[:checklist][:remarks]
     begin
-      @checklist = Checklist.find params[:checklist][:id]
-      @checklist.title = params[:checklist][:title]
-      @checklist.remarks = params[:checklist][:remarks]
       @checklist.questions = yaml_to_questions(params[:questions])
       @checklist.save
 
@@ -92,8 +92,6 @@ class ChecklistsController < ApplicationController
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
 
     rescue Exception => msg  
-      
-      @checklist = Checklist.new params[:checklist]
       @listdata = params[:questions]
       @checklist.errors.add(:questions,msg)
 
