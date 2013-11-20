@@ -3,7 +3,7 @@
 class ChecklistsController < ApplicationController
 
   def index
-    @checklists = Checklist.all
+    @checklists = Checklist.order :title
   end
 
   
