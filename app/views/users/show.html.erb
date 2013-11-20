@@ -59,7 +59,7 @@
           <%= hidden_field_tag 'current_registration', @user.current_registration.id %>
           <select id="select_grading">
             <option value="">Select one</option>
-            <% Checklist.all.each do |list| %>
+            <% @checklists.each do |list| %>
               <option <%= raw 'selected="selected"' if list.id == @user.current_registration.course.default_checklist_id %> value="<%= list.id %>"><%= list.title %></option>
             <% end %>
           </select>
