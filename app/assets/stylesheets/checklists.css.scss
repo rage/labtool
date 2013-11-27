@@ -20,3 +20,10 @@ textarea#questions + .CodeMirror {
 .answer {
   display: inline-block;
 }
+
+.questionfeedback {
+  margin: 0.3em 0;
+}
+.questionfeedback p {
+  display: inline;
+}

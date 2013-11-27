@@ -28,9 +28,9 @@
 
     </div>
     <h2>Feedback</h2>
-    <ul class="feedbacks">
+    <div class="feedbacks">
 
-    </ul>
+    </div>
   <% end %>
   <div class="remarks">
     <%= rendered(@checklist.remarks) %>
@@ -69,7 +69,12 @@
           answers: {
             <% question.answers.each do |answer|  %>
               "answers_<%= answer.id %>": 
-              <%= raw answer.attributes.keep_if { |k| k.in? %w(varname value unchecked_value feedback missing_feedback) }.to_json %>,
+              { varname: <%= raw answer.varname.to_json%>,
+                value: <%= raw answer.value.to_json%>,
+                unchecked_value: <%= raw answer.unchecked_value.to_json%>,
+                feedback: <%= raw rendered(answer.feedback).to_json%>,
+                missing_feedback: <%= raw rendered(answer.missing_feedback).to_json%>
+              },
             <% end %>
           }
         },
