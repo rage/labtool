@@ -119,7 +119,9 @@ $(function() {
         var scores = initScores();
         $.each(checklist.questions, function(k,q) {
           if (q.feedback) {
-            feedbackContainer.append("<div class='questionfeedback'>"+q.feedback+"</div>");
+            var f_elem = $("<div class='questionfeedback'></div>");
+            f_elem.text(q.feedback);
+            feedbackContainer.append(f_elem);
           }
           scores[q.scoretype].add(q.score);
         });
