@@ -82,7 +82,7 @@ $(function() {
           if (this) question.feedback.push(this);
         });
         question.feedback = question.feedback.join(" ");
-        feedbackContainer.html(question.feedback);
+        feedbackContainer.text(question.feedback);
       }
 
       element.find('input[type="checkbox"]').change(function() {

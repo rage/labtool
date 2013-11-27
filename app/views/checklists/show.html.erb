@@ -72,8 +72,8 @@
               { varname: <%= raw answer.varname.to_json%>,
                 value: <%= raw answer.value.to_json%>,
                 unchecked_value: <%= raw answer.unchecked_value.to_json%>,
-                feedback: <%= raw rendered(answer.feedback).to_json%>,
-                missing_feedback: <%= raw rendered(answer.missing_feedback).to_json%>
+                feedback: <%= raw answer.feedback.to_json%>,
+                missing_feedback: <%= raw answer.missing_feedback.to_json%>
               },
             <% end %>
           }
