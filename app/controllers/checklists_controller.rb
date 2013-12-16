@@ -110,8 +110,9 @@ class ChecklistsController < ApplicationController
   def topics_to_yaml (topics)
     StyledYAML.dump format_nice(topics.map{ |topic|
       ret = topic.attributes.reject {|key,value|
-        %w(ordering checklist_id scoretype_id).include? key or value.nil? 
+        %w(title ordering checklist_id scoretype_id).include? key or value.nil? 
       }
+      ret["topic"] = topic.title
       if !topic.scoretype.nil?
         ret["scoretype"] = topic.scoretype.varname unless topic.scoretype.varname == "points"
       end
@@ -140,9 +141,10 @@ class ChecklistsController < ApplicationController
       end
 
       thash.each do |key,val|
-        topic[key] = val unless %w(scoretype checks ordering).include? key
+        topic[key] = val unless %w(topic scoretype checks ordering).include? key
       end
       topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
+      topic.title = thash.topic
       topic.ordering = ordering
       ordering += 1
 
