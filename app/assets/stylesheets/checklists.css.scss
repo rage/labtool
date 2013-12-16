@@ -2,21 +2,28 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-textarea#questions + .CodeMirror {
+textarea#topics + .CodeMirror {
   color: #c00;
 }
 
-.questionContainer {
+.topicContainer {
   margin-top: 0.4em;
   padding: 0.5em;
   border-radius: 5px;
 }
-.questionContainer.done {
+.topicContainer.done {
   background: lightgreen;
 }
-.question {
+.topic {
   font-size: 1.1em;
 }
-.answer {
+.check {
   display: inline-block;
+}
+
+.topicfeedback {
+  margin: 0.3em 0;
+}
+.topicfeedback p {
+  display: inline;
 }

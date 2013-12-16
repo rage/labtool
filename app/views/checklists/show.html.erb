@@ -5,17 +5,17 @@
     <% if !@registration.nil? %>
       <%= hidden_field_tag 'registration', @registration.id %>
     <% end %>
-    <% @checklist.questions.order("ordering").each do |question| %>
-      <div class="questionContainer">
-        <div class="question" id="question_<%= question.id %>">
-          <%= question.question %>
+    <% @checklist.topics.order("ordering").each do |topic| %>
+      <div class="topicContainer">
+        <div class="topic" id="topic_<%= topic.id %>">
+          <%= topic.title %>
           <button>Done?</button>
         </div>
-        <div class="answers">
-          <% question.answers.each do |answer| %>
-            <div class="answer">
-              <%= check_box_tag "answers[#{answer.id}]", answer.value, answer.checked?(@registration) %>
-              <%= label_tag "answers[#{answer.id}]", answer.answer %>
+        <div class="checks">
+          <% topic.checks.each do |check| %>
+            <div class="check">
+              <%= check_box_tag "checks[#{check.id}]", check.value, check.checked?(@registration) %>
+              <%= label_tag "checks[#{check.id}]", check.check %>
             </div>
           <% end %>
         </div>
@@ -38,44 +38,49 @@
 </div>
 <div class="rounded actions">
   <h2>Actions</h2>
-  <%= link_to 'Edit questions', edit_checklist_path(@checklist), :class => 'small-button' %>
+  <%= link_to 'Edit checklist', edit_checklist_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
 </div>
 <script type="text/javascript">
   $(function() {
     $('form.autograde').autograding({
-      <% @checklist.questions.order("ordering").each do |question| %>
-        "question_<%= question.id %>": 
-        { varname: <%= raw question.varname.to_json%>,
-          scoretype: <%= raw question.scoretype.id.to_json%>,
+      <% @checklist.topics.order("ordering").each do |topic| %>
+        "topic_<%= topic.id %>": 
+        { varname: <%= raw topic.varname.to_json%>,
+          scoretype: <%= raw topic.scoretype.id.to_json%>,
           update_callback: function(checklist) {
-            var answers = this.answers;
-            <% question.answers.each do |answer|  %>
-              <% if answer.has_valid_varname? %>
-                var <%= answer.varname %> = answers.<%= answer.varname %>;
+            var checks = this.checks;
+            <% topic.checks.each do |check|  %>
+              <% if check.has_valid_varname? %>
+                var <%= check.varname %> = checks.<%= check.varname %>;
               <% end %>
             <% end %>
-            <%= raw question.update_callback %>
+            <%= raw topic.update_callback %>
           },
           init_callback: function(checklist) {
-            var answers = this.answers;
-            <% question.answers.each do |answer|  %>
-              <% if answer.has_valid_varname? %>
-                var <%= answer.varname %> = answers.<%= answer.varname %>;
+            var checks = this.checks;
+            <% topic.checks.each do |check|  %>
+              <% if check.has_valid_varname? %>
+                var <%= check.varname %> = checks.<%= check.varname %>;
               <% end %>
             <% end %>
-            <%= raw question.init_callback %>
+            <%= raw topic.init_callback %>
           },
-          answers: {
-            <% question.answers.each do |answer|  %>
-              "answers_<%= answer.id %>": 
-              <%= raw answer.attributes.keep_if { |k| k.in? %w(varname value unchecked_value feedback missing_feedback) }.to_json %>,
+          checks: {
+            <% topic.checks.each do |check|  %>
+              "checks_<%= check.id %>": 
+              { varname: <%= raw check.varname.to_json%>,
+                value: <%= raw check.value.to_json%>,
+                unchecked_value: <%= raw check.unchecked_value.to_json%>,
+                feedback: <%= raw check.feedback.to_json%>,
+                missing_feedback: <%= raw check.missing_feedback.to_json%>
+              },
             <% end %>
           }
         },
       <% end %>
       "scoretypes": {
-      <% @checklist.scoretypes .each do |scoretype| %>
+      <% @checklist.scoretypes.each do |scoretype| %>
         "<%= scoretype.id %>": 
         <%= raw scoretype.attributes.to_json %>,
       <% end %>

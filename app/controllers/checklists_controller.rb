@@ -9,12 +9,12 @@ class ChecklistsController < ApplicationController
   
   def new
     @checklist = Checklist.new
-    @listdata = questions_to_yaml(@checklist.questions.order "ordering")
+    @listdata = topics_to_yaml(@checklist.topics.order "ordering")
   end
   
   def edit
     @checklist = Checklist.find(params[:id])
-    @listdata = questions_to_yaml(@checklist.questions.order "ordering")
+    @listdata = topics_to_yaml(@checklist.topics.order "ordering")
   end
     
   def show
@@ -37,23 +37,23 @@ class ChecklistsController < ApplicationController
     end
     @registration = Registration.find(params[:registration])
 
-    answers = @checklist.selected_answers.where(:registration_id => @registration.id)
-    answer_map = {}
-    answers.each do |a|
+    checks = @checklist.selected_checks.where(:registration_id => @registration.id)
+    check_map = {}
+    checks.each do |a|
       a.selected = false
-      answer_map[a.checklist_answer_id] = a
+      check_map[a.checklist_check_id] = a
     end
 
-    params.fetch(:answers,{}).each do |answer_id, selected|
-      a = answer_map.fetch answer_id.to_i, SelectedAnswer.new
+    params.fetch(:checks,{}).each do |check_id, selected|
+      a = check_map.fetch check_id.to_i, SelectedCheck.new
       a.registration = @registration
-      a.checklist_answer_id = answer_id
+      a.checklist_check_id = check_id
       a.selected = true;
 
-      answer_map[answer_id] = a
+      check_map[check_id] = a
     end
 
-    answer_map.each do |k,a|
+    check_map.each do |k,a|
       a.save
     end
 
@@ -63,7 +63,7 @@ class ChecklistsController < ApplicationController
   def create
     begin
       @checklist = Checklist.new params[:checklist]
-      @checklist.questions = yaml_to_questions(params[:questions])
+      @checklist.topics = yaml_to_topics(params[:topics])
       @checklist.save
       
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
@@ -71,8 +71,8 @@ class ChecklistsController < ApplicationController
     rescue Exception => msg  
       
       @checklist = Checklist.new params[:checklist]
-      @listdata = params[:questions]
-      @checklist.errors.add(:questions,msg)
+      @listdata = params[:topics]
+      @checklist.errors.add(:topics,msg)
 
       render :action => "new"
     end
@@ -83,17 +83,17 @@ class ChecklistsController < ApplicationController
     @checklist.title = params[:checklist][:title]
     @checklist.remarks = params[:checklist][:remarks]
     begin
-      @checklist.questions = yaml_to_questions(params[:questions])
+      @checklist.topics = yaml_to_topics(params[:topics])
       @checklist.save
 
-      ChecklistAnswer.destroy_all(:checklist_question_id => nil)
-      ChecklistQuestion.destroy_all(:checklist_id => nil)
+      ChecklistCheck.destroy_all(:checklist_topic_id => nil)
+      ChecklistTopic.destroy_all(:checklist_id => nil)
       
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
 
     rescue Exception => msg  
-      @listdata = params[:questions]
-      @checklist.errors.add(:questions,msg)
+      @listdata = params[:topics]
+      @checklist.errors.add(:topics,msg)
 
       render :action => "edit"
     end
@@ -107,75 +107,75 @@ class ChecklistsController < ApplicationController
 
   private
 
-  def questions_to_yaml (questions)
-    StyledYAML.dump format_nice(questions.map{ |question|
-      ret = question.attributes.reject {|key,value|
+  def topics_to_yaml (topics)
+    StyledYAML.dump format_nice(topics.map{ |topic|
+      ret = topic.attributes.reject {|key,value|
         %w(ordering checklist_id scoretype_id).include? key or value.nil? 
       }
-      if !question.scoretype.nil?
-        ret["scoretype"] = question.scoretype.varname unless question.scoretype.varname == "points"
+      if !topic.scoretype.nil?
+        ret["scoretype"] = topic.scoretype.varname unless topic.scoretype.varname == "points"
       end
-      ret["answers"] = question.answers.map do |a|
-        hide_ids_from :answer, a.attributes.reject {|key,val| 
-          %w(ordering checklist_question_id).include? key or val.nil? or val == 0
+      ret["checks"] = topic.checks.map do |a|
+        hide_ids_from :check, a.attributes.reject {|key,val| 
+          %w(ordering checklist_topic_id).include? key or val.nil? or val == 0
         }
-      end unless question.answers.size == 0
-      hide_ids_from :question, ret 
+      end unless topic.checks.size == 0
+      hide_ids_from :topic, ret 
     })
   end
 
-  def yaml_to_questions(yaml)
+  def yaml_to_topics(yaml)
     ordering = 1
-    questions = YAML.load(yaml).map do |qhash|
-      qhash = parse_ids_from :question, qhash
-      if qhash.has_key? "id"
+    topics = YAML.load(yaml).map do |thash|
+      thash = parse_ids_from :topic, thash
+      if thash.has_key? "id"
         begin
-          question = ChecklistQuestion.find qhash["id"] 
+          topic = ChecklistTopic.find thash["id"] 
           rescue
-          qhash.delete "id"
-          question = ChecklistQuestion.new
+          thash.delete "id"
+          topic = ChecklistTopic.new
         end
       else 
-        question = ChecklistQuestion.new 
+        topic = ChecklistTopic.new 
       end
 
-      qhash.each do |key,val|
-        question[key] = val unless %w(scoretype answers ordering).include? key
+      thash.each do |key,val|
+        topic[key] = val unless %w(scoretype checks ordering).include? key
       end
-      question.scoretype = Scoretype.find_by_varname qhash.fetch("scoretype", "points")
-      question.ordering = ordering
+      topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
+      topic.ordering = ordering
       ordering += 1
 
-      answer_ordering = 1
-      question.answers = qhash.fetch("answers", []).map do |ahash|
-        ahash = parse_ids_from :answer, ahash
-        if ahash.has_key? "id"
+      check_ordering = 1
+      topic.checks = thash.fetch("checks", []).map do |chash|
+        chash = parse_ids_from :check, chash
+        if chash.has_key? "id"
           begin
-            answer = ChecklistAnswer.find ahash["id"] 
+            check = ChecklistCheck.find chash["id"] 
             rescue
-            ahash.delete "id"
-            answer = ChecklistAnswer.new
+            chash.delete "id"
+            check = ChecklistCheck.new
           end
         else 
-          answer = ChecklistAnswer.new 
+          check = ChecklistCheck.new 
         end
 
-        ahash.each do |key,val|
-          answer[key] = val unless %w(ordering).include? key
+        chash.each do |key,val|
+          check[key] = val unless %w(ordering).include? key
         end
-        answer.ordering = answer_ordering
-        answer_ordering += 1
+        check.ordering = check_ordering
+        check_ordering += 1
 
-        answer.save if ahash.has_key? "id"
+        check.save if chash.has_key? "id"
         
-        answer
+        check
       end
 
-      question.save if qhash.has_key? "id"
+      topic.save if thash.has_key? "id"
 
-      question
+      topic
     end
-    questions
+    topics
   end
 
   def hide_ids_from(key,hash)

@@ -11,21 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131119124118) do
+ActiveRecord::Schema.define(:version => 20131216172627) do
 
-  create_table "checklist_answers", :force => true do |t|
-    t.text    "answer"
+  create_table "checklist_checks", :force => true do |t|
+    t.text    "check"
     t.string  "varname"
     t.decimal "value"
-    t.integer "checklist_question_id"
+    t.integer "checklist_topic_id"
     t.integer "ordering"
     t.text    "feedback"
     t.text    "missing_feedback"
     t.decimal "unchecked_value"
   end
 
-  create_table "checklist_questions", :force => true do |t|
-    t.text    "question"
+  create_table "checklist_topics", :force => true do |t|
+    t.text    "title"
     t.string  "varname"
     t.integer "ordering"
     t.integer "checklist_id"
@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(:version => 20131119124118) do
     t.datetime "updated_at",       :null => false
   end
 
+  create_table "passed_checks", :force => true do |t|
+    t.integer  "checklist_check_id"
+    t.integer  "registration_id"
+    t.boolean  "selected"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "peer_reviews", :force => true do |t|
     t.string   "notes"
     t.boolean  "done"
@@ -98,14 +106,6 @@ ActiveRecord::Schema.define(:version => 20131119124118) do
     t.decimal "initial", :default => 0.0, :null => false
     t.decimal "min",     :default => 0.0, :null => false
     t.decimal "max",     :default => 3.0, :null => false
-  end
-
-  create_table "selected_answers", :force => true do |t|
-    t.integer  "checklist_answer_id"
-    t.integer  "registration_id"
-    t.boolean  "selected"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -71,9 +71,9 @@ $(document).ready(function () {
       });
     }
     
-    //Checklist question editor
-    if (document.getElementById("questions")) {
-      var editor = CodeMirror.fromTextArea(document.getElementById("questions"), {
+    //Checklist data editor
+    if (document.getElementById("topics")) {
+      var editor = CodeMirror.fromTextArea(document.getElementById("topics"), {
         lineNumbers: true,
         mode: "text/x-yaml",
         vimMode: true,
