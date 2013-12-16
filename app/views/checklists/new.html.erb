@@ -1,5 +1,5 @@
 <h1>Create checklist</h1>
-<% @checklist.errors[:questions].each do |msg| %>
+<% @checklist.errors[:topics].each do |msg| %>
   <p>Error! <%= msg %></p>
 <% end %>
 <%= form_tag('/checklists') do -%>
@@ -7,9 +7,9 @@
   <%= text_field_tag 'checklist[title]' %>
   <div>
     <div style="display: inline-block; width: 60%;" >
-      <%= label_tag 'questions' %>
+      <%= label_tag 'topics' %>
       <br />
-      <%= text_area_tag 'questions', @listdata, :size => "60x30" %>
+      <%= text_area_tag 'topics', @listdata, :size => "60x30" %>
     </div>
     <div style="display: inline-block; width: 35%;" >
       <%= label_tag 'remarks' %>

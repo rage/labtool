@@ -20,94 +20,94 @@ $(function() {
     };
   }
 
-  function addQuestions(checklist, questionData) {
-    $.each(questionData, function(question_id,question) {
-      var answers = {}
-      $.each(question.answers, function(answer_id,answer) {
-        var element = $("#"+answer_id);
-        answer.enabled = true;
-        answer.checked_value = parseFloat(answer.value) || 0;
-        answer.unchecked_value = parseFloat(answer.unchecked_value) || 0;
-        answer.checked_feedback = answer.feedback || "";
-        answer.unchecked_feedback = answer.missing_feedback || "";
-        answer.checked = function() {
+  function addTopics(checklist, topicData) {
+    $.each(topicData, function(topic_id,topic) {
+      var checks = {}
+      $.each(topic.checks, function(check_id,check) {
+        var element = $("#"+check_id);
+        check.enabled = true;
+        check.checked_value = parseFloat(check.value) || 0;
+        check.unchecked_value = parseFloat(check.unchecked_value) || 0;
+        check.checked_feedback = check.feedback || "";
+        check.unchecked_feedback = check.missing_feedback || "";
+        check.checked = function() {
           return element.is(":checked");
         }
-        answer.makevisible = function(shown) {
+        check.makevisible = function(shown) {
           element.parent().toggle(shown);
         }
-        answer.value = function() {
-          return answer.checked() ? answer.checked_value : answer.unchecked_value;
+        check.value = function() {
+          return check.checked() ? check.checked_value : check.unchecked_value;
         }
-        answer.feedback = function() {
-          return answer.checked() ? answer.checked_feedback : answer.unchecked_feedback;
+        check.feedback = function() {
+          return check.checked() ? check.checked_feedback : check.unchecked_feedback;
         }
-        answers[answer.varname ? answer.varname : answer_id] = answer;
+        checks[check.varname ? check.varname : check_id] = check;
       });
 
-      var element = $("#"+question_id).parent();
+      var element = $("#"+topic_id).parent();
       var feedbackContainer = element.find(".feedback");
-      var own_update_callback = question.update_callback;
+      var own_update_callback = topic.update_callback;
       var update_callbacks = [own_update_callback];
       
 
-      question.answers = answers;
-      question.addUpdateCallback = function(fun) {
+      topic.checks = checks;
+      topic.addUpdateCallback = function(fun) {
         if (typeof(fun) == "function") {
           update_callback.push(fun);
         }
       }
-      question.init = function() {
+      topic.init = function() {
         update_callbacks = [own_update_callback];
-        question.feedbacks = {};
-        question.score = 0;
-        question.init_callback.call(question, checklist);
+        topic.feedbacks = {};
+        topic.score = 0;
+        topic.init_callback.call(topic, checklist);
       }
 
-      question.update = function() {
-        question.init();
-        $.each(question.answers, function(k) {
+      topic.update = function() {
+        topic.init();
+        $.each(topic.checks, function(k) {
           this.makevisible(this.enabled);
           if (!this.enabled) return;
 
-          question.score += this.value();
+          topic.score += this.value();
           var feedback = this.feedback();
-          if (feedback) question.feedbacks[k] = feedback;
+          if (feedback) topic.feedbacks[k] = feedback;
         });
         $.each(update_callbacks, function() {
-          this.call(question, checklist);
+          this.call(topic, checklist);
         });
-        question.feedback = [];
-        $.each(question.feedbacks, function() {
-          if (this) question.feedback.push(this);
+        topic.feedback = [];
+        $.each(topic.feedbacks, function() {
+          if (this) topic.feedback.push(this);
         });
-        question.feedback = question.feedback.join(" ");
-        feedbackContainer.text(question.feedback);
+        topic.feedback = topic.feedback.join(" ");
+        feedbackContainer.text(topic.feedback);
       }
 
       element.find('input[type="checkbox"]').change(function() {
-        question.update();
+        topic.update();
         checklist.update(); 
       });
 
-      if (question.varname) {
-        checklist.questions[question.varname] = question;
+      if (topic.varname) {
+        checklist.topics[topic.varname] = topic;
       } else {
-        checklist.questions[question_id] = question;
+        checklist.topics[topic_id] = topic;
       }
     });
   }
 
-  $.fn.autograding = function(questionData) {
+  $.fn.autograding = function(topicData) {
     var feedbackContainer = $(this).find('.feedbacks');
     var scoreContainer  = $(this).find('.scores');
-    var initScores = getScoreInitializer(questionData.scoretypes);
-    delete questionData.scoretypes;
+    var initScores = getScoreInitializer(topicData.scoretypes);
+    delete topicData.scoretypes;
 
     var checklist = { 
-      questions: {},
+      topics: {},
       reset: function() {
-        $.each(checklist.questions, function(k,q) {
+        $.each(checklist.topics, function(k,q) {
           q.update();
         });
         checklist.update(); 
@@ -117,9 +117,9 @@ $(function() {
         scoreContainer.empty();
 
         var scores = initScores();
-        $.each(checklist.questions, function(k,q) {
+        $.each(checklist.topics, function(k,q) {
           if (q.feedback) {
-            var f_elem = $("<div class='questionfeedback'></div>");
+            var f_elem = $("<div class='topicfeedback'></div>");
             f_elem.text(q.feedback);
             feedbackContainer.append(f_elem);
           }
@@ -130,13 +130,13 @@ $(function() {
         });
       }
     };
-    addQuestions(checklist, questionData)
+    addTopics(checklist, topicData)
     
     checklist.reset();
 
-    $(this).find('.question button').click(function(e) {
+    $(this).find('.topic button').click(function(e) {
       e.preventDefault();
-      $(this).parents('.questionContainer').toggleClass("done");
+      $(this).parents('.topicContainer').toggleClass("done");
       return false;
     });
 
