@@ -144,7 +144,7 @@ class ChecklistsController < ApplicationController
         topic[key] = val unless %w(topic scoretype checks ordering).include? key
       end
       topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
-      topic.title = thash.topic
+      topic.title = thash["topic"]
       topic.ordering = ordering
       ordering += 1
 
