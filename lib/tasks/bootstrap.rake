@@ -13,6 +13,13 @@
         Course.create :year=>2013, :period=>"Fall I", :active => true, :week=>1, :weeks_total => 6, :reviews_total => 2, :review_round => 1
       end
 
+      desc "Create score types for checklists"
+      task :default_scoretypes => :environment do
+        Scoretype.create :name => "Viikkopisteet", :varname => "points", :max => 60
+        Scoretype.create :name => "Arvosanapisteet", :varname => "gradepoints", :max => 60
+        Scoretype.create :name => "Arvosanamaksimi", :varname => "maxgrade", :max => 5, :initial => 5, :min => 1
+      end
+
       desc "Run all bootstrapping tasks"
-      task :all => [:default_user, :default_course]
+      task :all => [:default_user, :default_course, :default_scoretypes]
     end
