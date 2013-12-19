@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131218172840) do
+ActiveRecord::Schema.define(:version => 20131219170801) do
 
   create_table "checklist_checks", :force => true do |t|
     t.text    "check"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20131218172840) do
     t.text    "feedback"
     t.text    "missing_feedback"
     t.decimal "unchecked_value",    :default => 0.0, :null => false
+    t.integer "type_id"
   end
 
   create_table "checklist_topics", :force => true do |t|
@@ -50,6 +51,10 @@ ActiveRecord::Schema.define(:version => 20131218172840) do
     t.text    "init_callback"
     t.text    "grade_callback"
     t.text    "remarks"
+  end
+
+  create_table "checktypes", :force => true do |t|
+    t.string "name", :null => false
   end
 
   create_table "courses", :force => true do |t|
