@@ -98,7 +98,6 @@ class ChecklistsController < ApplicationController
         begin
           topic = ChecklistTopic.find thash["id"] 
           rescue
-          thash.delete "id"
           topic = ChecklistTopic.new
         end
       else 
@@ -106,7 +105,7 @@ class ChecklistsController < ApplicationController
       end
 
       thash.each do |key,val|
-        topic[key] = val unless %w(topic scoretype checks ordering).include? key
+        topic[key] = val unless %w(id topic scoretype checks ordering).include? key
       end
 
       topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
@@ -121,7 +120,6 @@ class ChecklistsController < ApplicationController
           begin
             check = ChecklistCheck.find chash["id"] 
             rescue
-            chash.delete "id"
             check = ChecklistCheck.new
           end
         else 
@@ -133,7 +131,7 @@ class ChecklistsController < ApplicationController
         chash["feedback"] ||= ""
         chash["missing_feedback"] ||= ""
         chash.each do |key,val|
-          check[key] = val unless %w(ordering).include? key
+          check[key] = val unless %w(id ordering).include? key
         end
         check.ordering = check_ordering
         check_ordering += 1
