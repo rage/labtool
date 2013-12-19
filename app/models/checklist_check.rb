@@ -1,6 +1,8 @@
 class ChecklistCheck < ActiveRecord::Base
   attr_accessible :check, :varname, :value, :feedback, :missing_feedback
-  belongs_to :checklist_topic
+  has_many :topics_checks, class_name: 'ChecklistTopicsCheck', dependent: :destroy, autosave: true
+
+  has_many :topics, class_name: 'ChecklistTopic', through: :topics_checks
   has_many :passed_checks
   default_scope :order => "checklist_checks.ordering"
 

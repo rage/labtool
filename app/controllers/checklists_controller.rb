@@ -83,11 +83,16 @@ class ChecklistsController < ApplicationController
     @checklist.title = params[:checklist][:title]
     @checklist.remarks = params[:checklist][:remarks]
     begin
+      old_checks = @checklist.checks
       @checklist.topics = yaml_to_topics(params[:topics])
       @checklist.save
 
-      ChecklistCheck.destroy_all(:checklist_topic_id => nil)
-      ChecklistTopic.destroy_all(:checklist_id => nil)
+      ChecklistTopic.delete_all(:checklist_id => nil)
+      old_checks.each do |check|
+        if check.topics.empty?
+          check.destroy
+        end
+      end
       
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
 
