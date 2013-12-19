@@ -1,12 +1,9 @@
-# -*- encoding : utf-8 -*-
-
 class ChecklistsController < ApplicationController
 
   def index
     @checklists = Checklist.order :title
   end
 
-  
   def new
     @checklist = Checklist.new
     @listdata = topics_to_yaml(@checklist.topics.order "ordering")
@@ -23,42 +20,6 @@ class ChecklistsController < ApplicationController
 
     render :layout => !request.xhr?
   end
-    
-  def show_registration
-    @checklist = Checklist.find(params[:id])
-    @registration = Registration.find(params[:registration_id])
-    render :action => :show, :layout => !request.xhr?
-  end
-    
-  def update_registration
-    @checklist = Checklist.find(params[:id])
-    if params[:registration].nil?
-      return render :action => :show, :layout => !request.xhr?
-    end
-    @registration = Registration.find(params[:registration])
-
-    checks = @checklist.selected_checks.where(:registration_id => @registration.id)
-    check_map = {}
-    checks.each do |a|
-      a.selected = false
-      check_map[a.checklist_check_id] = a
-    end
-
-    params.fetch(:checks,{}).each do |check_id, selected|
-      a = check_map.fetch check_id.to_i, SelectedCheck.new
-      a.registration = @registration
-      a.checklist_check_id = check_id
-      a.selected = true;
-
-      check_map[check_id] = a
-    end
-
-    check_map.each do |k,a|
-      a.save
-    end
-
-    render :action => :show, :layout => !request.xhr?
-  end
 
   def create
     begin
@@ -67,7 +28,6 @@ class ChecklistsController < ApplicationController
       @checklist.save
       
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
-
     rescue Exception => msg  
       
       @checklist = Checklist.new params[:checklist]
@@ -147,6 +107,7 @@ class ChecklistsController < ApplicationController
       thash.each do |key,val|
         topic[key] = val unless %w(scoretype checks ordering).include? key
       end
+
       topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
       topic.title = thash["topic"]
       topic.ordering = ordering
@@ -166,6 +127,10 @@ class ChecklistsController < ApplicationController
           check = ChecklistCheck.new 
         end
 
+        chash["value"] ||= 0
+        chash["unchecked_value"] ||= 0
+        chash["feedback"] ||= ""
+        chash["missing_feedback"] ||= ""
         chash.each do |key,val|
           check[key] = val unless %w(ordering).include? key
         end
