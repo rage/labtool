@@ -3,6 +3,8 @@ Labtool::Application.routes.draw do
   resources :week_feedbacks
   resources :registrations
   resources :checklists
+  resources :checks
+  resources :checktypes
   resources :courses
   resources :peer_reviews
   resources :users do
