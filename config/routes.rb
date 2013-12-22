@@ -15,6 +15,8 @@ Labtool::Application.routes.draw do
   match 'checklists/:id/user/:registration_id' => 'passed_checks#show', :via => :get
   match 'checklists/:id/user/' => 'passed_checks#update', :via => :post
 
+  match 'checktypes/:id/reorder/' => 'checks#reorder', :via => :post
+
   match 'register' => 'registrations#new'
 
   get "logout" => "sessions#destroy", :as => "logout"
