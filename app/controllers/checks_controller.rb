@@ -15,8 +15,26 @@ class ChecksController < ApplicationController
   end
   def update
   end
+
   def reorder
+    type = nil
+    type =  Checktype.find(params[:id]) unless params[:id] == "0"
+    checks = ChecklistCheck.find_all_by_id(params[:checks]).index_by(&:id)
+    ordering = 1;
+
+    params[:checks].each do |id|
+      check = checks[id.to_i]
+      unless check.nil?
+        check.checktype = type
+        check.ordering = ordering;
+        check.save!
+        ordering += 1;
+      end
+    end
+
+    render :json => { :status => :ok, :ord => ordering }
   end
+
   def destroy
     #@checklist = Checklist.find(params[:id])
     #@checklist.destroy
