@@ -125,7 +125,16 @@ class ChecklistsController < ApplicationController
           check = link.check
         else 
           link = ChecklistTopicsCheck.new
-          link.check = check = ChecklistCheck.new 
+          begin
+            if chash.has_key? "id"
+              check = ChecklistCheck.find chash["id"]
+            else
+              check = ChecklistCheck.new
+            end
+          rescue Exception => msg  
+            check = ChecklistCheck.new
+          end
+          link.check = check
         end
 
         chash["feedback"] ||= ""
