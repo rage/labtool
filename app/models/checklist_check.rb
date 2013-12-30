@@ -4,7 +4,7 @@ class ChecklistCheck < ActiveRecord::Base
   has_many :topics_checks, class_name: 'ChecklistTopicsCheck', dependent: :destroy, autosave: true
   has_many :topics, class_name: 'ChecklistTopic', through: :topics_checks
   has_many :passed_checks
-  default_scope :order => "checklist_checks.ordering"
+  #default_scope :order => "checklist_checks.ordering"
 
   def type
     return nil if checktype.nil?

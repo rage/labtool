@@ -10,7 +10,7 @@
 </p>
 
 <% @types.each do |type| %>
-  <%= render partial: "checktype", locals: {type: type, checks: type.checks} %>
+  <%= render partial: "checktype", locals: {type: type, checks: type.checks.order(:ordering)} %>
 <% end %>
 <% unless @uncategorised.empty? %>
   <%= render partial: "checktype", locals: {type: nil, checks: @uncategorised} %>

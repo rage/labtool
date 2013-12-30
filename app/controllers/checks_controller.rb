@@ -1,7 +1,7 @@
 class ChecksController < ApplicationController
 
   def index
-    @uncategorised = ChecklistCheck.find_all_by_type_id nil
+    @uncategorised = ChecklistCheck.order(:ordering).find_all_by_type_id nil
     @types = Checktype.includes(:checks, :topics_checks).order :name
   end
 
@@ -32,7 +32,7 @@ class ChecksController < ApplicationController
       end
     end
 
-    render :json => { :status => :ok, :ord => ordering }
+    render :json => { :status => :ok }
   end
 
   def destroy

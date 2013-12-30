@@ -80,10 +80,13 @@ class ChecklistsController < ApplicationController
       if !topic.scoretype.nil?
         ret["scoretype"] = topic.scoretype.varname unless topic.scoretype.varname == "points"
       end
-      ret["checks"] = topic.checks.map do |a|
-        hide_ids_from :check, a.attributes.reject {|key,val| 
-          %w(ordering checklist_topic_id).include? key or val.nil? or val == 0
+      ret["checks"] = topic.topics_checks.includes(:topic).map do |a|
+        c = hide_ids_from :check, a.check.attributes.select {|key,val| 
+          %w(id check varname feedback missing_feedback).include? key and !val.nil? and val != ""
         }
+        c["value"] = a.value unless a.value == 0
+        c["unchecked_value"] = a.unchecked_value unless a.unchecked_value == 0
+        c
       end unless topic.checks.size == 0
       hide_ids_from :topic, ret 
     })
@@ -110,34 +113,38 @@ class ChecklistsController < ApplicationController
       topic.scoretype = Scoretype.find_by_varname thash.fetch("scoretype", "points")
       topic.title = thash["topic"]
       topic.ordering = ordering
+
+      links = topic.topics_checks.includes(:check).index_by(&:checklist_check_id)
       ordering += 1
 
       check_ordering = 1
-      topic.checks = thash.fetch("checks", []).map do |chash|
+      topic.topics_checks = thash.fetch("checks", []).map do |chash|
         chash = parse_ids_from :check, chash
-        if chash.has_key? "id"
-          begin
-            check = ChecklistCheck.find chash["id"] 
-            rescue
-            check = ChecklistCheck.new
-          end
+        if chash.has_key? "id" and not links[chash["id"]].nil?
+          link = links[chash["id"]]
+          check = link.check
         else 
-          check = ChecklistCheck.new 
+          link = ChecklistTopicsCheck.new
+          link.check = check = ChecklistCheck.new 
         end
 
-        chash["value"] ||= 0
-        chash["unchecked_value"] ||= 0
         chash["feedback"] ||= ""
         chash["missing_feedback"] ||= ""
         chash.each do |key,val|
-          check[key] = val unless %w(id ordering).include? key
+          check[key] = val unless %w(id ordering value unchecked_value).include? key
         end
-        check.ordering = check_ordering
+
+        link.ordering = check_ordering
+        link.value = chash["value"] || 0
+        link.unchecked_value = chash["unchecked_value"] || 0
         check_ordering += 1
 
-        check.save if chash.has_key? "id"
+        if chash.has_key? "id"
+          check.save 
+          link.save
+        end
         
-        check
+        link
       end
 
       topic.save if thash.has_key? "id"

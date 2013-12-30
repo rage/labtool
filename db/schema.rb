@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131219170801) do
+ActiveRecord::Schema.define(:version => 20131230154241) do
 
   create_table "checklist_checks", :force => true do |t|
     t.text    "check"
@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(:version => 20131219170801) do
     t.integer "checklist_topic_id"
     t.integer "checklist_check_id"
     t.integer "ordering"
-    t.decimal "weight_factor",      :default => 1.0, :null => false
+    t.decimal "value",              :default => 0.0, :null => false
+    t.decimal "unchecked_value",    :default => 0.0, :null => false
   end
 
   create_table "checklists", :force => true do |t|

@@ -14,7 +14,7 @@
         <div class="checks">
           <% topic.checks.each do |check| %>
             <div class="check">
-              <%= check_box_tag "checks[#{check.id}]", check.value, check.checked?(@registration) %>
+              <%= check_box_tag "checks[#{check.id}]", 0, check.checked?(@registration) %>
               <%= label_tag "checks[#{check.id}]", check.check %>
             </div>
           <% end %>
@@ -67,13 +67,13 @@
             <%= raw topic.init_callback %>
           },
           checks: {
-            <% topic.checks.each do |check|  %>
-              "checks_<%= check.id %>": 
-              { varname: <%= raw check.varname.to_json%>,
-                value: <%= raw check.value.to_json%>,
-                unchecked_value: <%= raw check.unchecked_value.to_json%>,
-                feedback: <%= raw check.feedback.to_json%>,
-                missing_feedback: <%= raw check.missing_feedback.to_json%>
+            <% topic.topics_checks.includes(:topic).each do |link|  %>
+              "checks_<%= link.check.id %>": 
+              { varname: <%= raw link.check.varname.to_json%>,
+                value: <%= raw link.value.to_json%>,
+                unchecked_value: <%= raw link.unchecked_value.to_json%>,
+                feedback: <%= raw link.check.feedback.to_json%>,
+                missing_feedback: <%= raw link.check.missing_feedback.to_json%>
               },
             <% end %>
           }
