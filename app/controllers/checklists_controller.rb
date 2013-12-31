@@ -64,6 +64,25 @@ class ChecklistsController < ApplicationController
     end
   end
 
+  def edit_values
+    @checklist = Checklist.find params[:id]
+  end
+  def update_values
+    @checklist = Checklist.find params[:id]
+    topics = params[:checks]
+
+    @checklist.topics_checks.each do |link|
+      vals = topics[link.id.to_s]
+      link.value = BigDecimal(vals["value"]) unless vals.nil?
+      link.unchecked_value = BigDecimal(vals["unchecked_value"]) unless vals.nil?
+      link.save
+    end
+
+    #Integer(,10)
+    redirect_to @checklist, :notice => 'Checklist was successfully updated.'
+    
+  end
+
   def destroy
     @checklist = Checklist.find(params[:id])
     @checklist.destroy

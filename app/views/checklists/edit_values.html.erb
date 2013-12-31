@@ -1,0 +1,38 @@
+<div class="rounded">
+  <h2><%= @checklist.title %></h2>
+  <%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
+    <% @checklist.topics.order("ordering").each do |topic| %>
+      <div class="topicContainer">
+        <div class="topic" id="topic_<%= topic.id %>">
+          <%= topic.title %>
+        </div>
+        <table class="table table-striped table-condensed">
+          <colgroup>
+            <col span="1" style="width: 100%; /* Obvious hack */">
+          </colgroup>
+          <tr>
+            <th>Check</th>
+            <th>Checked</th>
+            <th>Unchecked</th>
+          </tr>
+          <% topic.topics_checks.includes(:topic).each do |link| %>
+            <tr>
+              <td>
+                <%= link.check.check %>
+                <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
+              </td>
+              <td>
+                <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :size => 4 %>
+              </td>
+              <td>
+                <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :size => 4 %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+
+    <% end %>
+    <%= submit_tag "Save", :class => "small-button" %>
+  <% end %>
+</div>

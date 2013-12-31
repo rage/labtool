@@ -39,6 +39,7 @@
 <div class="rounded actions">
   <h2>Actions</h2>
   <%= link_to 'Edit checklist', edit_checklist_path(@checklist), :class => 'small-button' %>
+  <%= link_to 'Score values', edit_checklist_values_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
 </div>
 <script type="text/javascript">
