@@ -11,10 +11,12 @@ Labtool::Application.routes.draw do
     post 'toggle_hidden', :on => :member
   end
 
-  match 'checklists/:id/user/:registration_id' => 'passed_checks#show', :via => :get
-  match 'checklists/:id/user/' => 'passed_checks#update', :via => :post
+  get  'checklists/:id/user/:registration_id' => 'passed_checks#show'
+  post 'checklists/:id/user/' => 'passed_checks#update'
+  get  'checklists/:id/values/' => 'checklists#edit_values', :as => "edit_checklist_values"
+  post 'checklists/:id/values/' => 'checklists#update_values'
 
-  match 'checktypes/:id/reorder/' => 'checks#reorder', :via => :post
+  post 'checktypes/:id/reorder/' => 'checks#reorder'
 
   match 'register' => 'registrations#new'
 
@@ -27,10 +29,10 @@ Labtool::Application.routes.draw do
 
   match 'week_feedbacks/note' => 'week_feedbacks#create_note', :via => :post
 
-  match 'mypage' => 'mypage#index', :via => :get
-  match 'mypage' => 'mypage#redirect', :via => :post
-  match 'mypage/:student_number' => 'mypage#show',  :via => :get
-  match 'mypage/:student_number' => 'mypage#edit',  :via => :post
+  get  'mypage' => 'mypage#index'
+  post 'mypage' => 'mypage#redirect'
+  get  'mypage/:student_number' => 'mypage#show'
+  post 'mypage/:student_number' => 'mypage#edit'
   match 'mypage/:student_number' => 'mypage#update',  :via => :put
 
   match 'foobar' => 'mypage#foobar'
