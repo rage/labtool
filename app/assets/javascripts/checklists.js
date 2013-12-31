@@ -1,5 +1,30 @@
 $(function() {
 
+  $('.values_table').each(function() {
+    var table = $(this);
+    var min_text = table.find('.min');
+    var max_text = table.find('.max');
+    var cells1 = table.find('input.value');
+    var cells2 = table.find('input.unchecked_value');
+
+    function calc() {
+      var min = 0;
+      var max = 0;
+      for(var i=0; i<cells1.length; i++) {
+        var val1 = parseFloat(cells1[i].value,10);
+        var val2 = parseFloat(cells2[i].value,10);
+        min += Math.min(val1,val2);
+        max += Math.max(val1,val2);
+      }
+      min_text.text(min);
+      max_text.text(max);
+    }
+
+    table.find('input[type="number"]').change(calc);
+    calc();
+
+  });
+
   function getScoreInitializer(scoretypes) {
     return function() {
       var scores = {};
@@ -139,6 +164,8 @@ $(function() {
       $(this).parents('.topicContainer').toggleClass("done");
       return false;
     });
+
+
 
   };
 });
