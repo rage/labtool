@@ -97,6 +97,8 @@ class ChecklistsController < ApplicationController
         check.save
 
         link = ChecklistTopicsCheck.new
+        link.value = check.value
+        link.unchecked_value = check.unchecked_value
         link.topic = topic
         link.ordering = ordering
         link.check = check
