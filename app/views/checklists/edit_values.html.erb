@@ -14,12 +14,15 @@
             <th>Check</th>
             <th>Checked</th>
             <th>Unchecked</th>
+            <th>Details</th>
           </tr>
-          <% topic.topics_checks.includes(:topic).each do |link| %>
+          <% topic.topics_checks.includes(:check).each do |link| %>
             <tr>
               <td>
                 <%= link.check.check %>
                 <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
+                <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering %>
+                <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id %>
               </td>
               <td>
                 <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
@@ -27,14 +30,63 @@
               <td>
                 <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
               </td>
+              <td>
+                <button type="button" class="hoverdrop btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  ✐
+                  <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu dropdown-checkedit" role="menu">
+                  <div class="panel-body row">
+                    <div class="col-md-6">
+                      Feedback
+                      <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 5, :cols => 40 %>
+                    </div>
+                    <div class="col-md-6">
+                      Unchecked feedback
+                      <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 5, :cols => 40 %>
+                    </div>
+                  </div>
+                </div>
+              </td>
             </tr>
           <% end %>
           <tr>
             <th>Totals</th>
             <th>Maximum: <span class="max"></span></th>
             <th>Minimum: <span class="min"></span></th>
+            <th></th>
           </tr>
         </table>
+        <button type="button" class="btn-link expandable collapsed" data-toggle="collapse" data-target="#new_check_for_<%= topic.id %>">
+          Add check
+        </button>
+        <div id="new_check_for_<%= topic.id %>" class="new_check panel panel-default collapse">
+          <div class="panel-body">
+            <p>
+              Check
+              <%= text_field_tag "new_check_for[#{topic.id}][check]", nil, :size => 40 %>
+              Value 
+              <%= number_field_tag "new_check_for[#{topic.id}][value]", 0, :step => :any %>
+              Unchecked value 
+              <%= number_field_tag "new_check_for[#{topic.id}][unchecked_value]", 0, :step => :any %>
+            </p>
+            <div class="row">
+              <div class="col-md-5">
+                Feedback
+                <%= text_area_tag "new_check_for[#{topic.id}][feedback]", nil, :rows => 5, :cols => 40 %>
+              </div>
+              <div class="col-md-5">
+                Unchecked feedback
+                <%= text_area_tag "new_check_for[#{topic.id}][missing_feedback]", nil, :rows => 5, :cols => 40 %>
+              </div>
+              <div class="col-md-2">
+                <%= submit_tag "Create", :class => "btn btn-primary", :name => :new_check %>
+              </div>
+            </div>
+            <p>
+            </p>
+          </div>
+        </div>
       </div>
 
     <% end %>

@@ -1,5 +1,5 @@
 class ChecklistCheck < ActiveRecord::Base
-  attr_accessible :check, :varname, :value, :feedback, :missing_feedback
+  attr_accessible :check, :varname, :value, :unchecked_value, :feedback, :missing_feedback
   belongs_to :checktype, :foreign_key => "type_id"
   has_many :topics_checks, class_name: 'ChecklistTopicsCheck', dependent: :destroy, autosave: true
   has_many :topics, class_name: 'ChecklistTopic', through: :topics_checks

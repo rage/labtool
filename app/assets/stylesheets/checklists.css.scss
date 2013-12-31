@@ -27,3 +27,25 @@ textarea#topics + .CodeMirror {
 .topicfeedback p {
   display: inline;
 }
+
+.values_table {
+  position: relative;
+}
+
+
+.hoverdrop:hover + .dropdown-menu {
+  display: block;
+}
+.dropdown-checkedit:hover {
+  display: block;
+}
+.dropdown-checkedit {
+  top: auto;
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+.dropdown-checkedit textarea,
+.new_check textarea {
+  width: 100%;
+}

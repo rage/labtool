@@ -71,15 +71,40 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.find params[:id]
     topics = params[:checks]
 
-    @checklist.topics_checks.each do |link|
+    @checklist.topics_checks.includes(:check).each do |link|
       vals = topics[link.id.to_s]
-      link.value = BigDecimal(vals["value"]) unless vals.nil?
-      link.unchecked_value = BigDecimal(vals["unchecked_value"]) unless vals.nil?
-      link.save
+      unless vals.nil?
+        link.value = BigDecimal(vals["value"])
+        link.unchecked_value = BigDecimal(vals["unchecked_value"])
+        link.check.feedback = vals["feedback"]
+        link.check.missing_feedback = vals["missing_feedback"]
+
+        link.check.save
+        link.save
+      end
     end
 
     #Integer(,10)
-    redirect_to @checklist, :notice => 'Checklist was successfully updated.'
+
+    if params[:new_check].nil?
+      redirect_to @checklist, :notice => 'Checklist was successfully updated.'
+    else
+      params[:new_check_for].select{|k,v| v["check"] != "" }.each do |k,v|
+        topic = ChecklistTopic.find k
+        ordering = topic.topics_checks.length
+
+        check = ChecklistCheck.new v
+        check.save
+
+        link = ChecklistTopicsCheck.new
+        link.topic = topic
+        link.ordering = ordering
+        link.check = check
+        link.save
+      end
+
+      redirect_to edit_checklist_values_path(@checklist)
+    end
     
   end
 
