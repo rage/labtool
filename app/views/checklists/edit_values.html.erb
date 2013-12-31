@@ -22,10 +22,10 @@
                 <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
               </td>
               <td>
-                <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :size => 4, :class => :value %>
+                <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
               </td>
               <td>
-                <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :size => 4, :class => :unchecked_value %>
+                <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
               </td>
             </tr>
           <% end %>
