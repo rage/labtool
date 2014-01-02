@@ -150,17 +150,22 @@ $(function() {
         feedbackContainer.empty();
         scoreContainer.empty();
 
+        checklist.feedbacks = [];
+
         var scores = initScores();
         $.each(checklist.topics, function(k,q) {
           if (q.feedback) {
-            var f_elem = $("<div class='topicfeedback'></div>");
-            f_elem.text(q.feedback);
-            feedbackContainer.append(f_elem);
+            checklist.feedbacks.push(q.feedback);
           }
           scores[q.scoretype].add(q.score);
         });
         checklist.scores = scores;
         final_grade_callback(checklist);
+        $.each(checklist.feedbacks, function(k,f) {
+          var f_elem = $("<div class='topicfeedback'></div>");
+          f_elem.text(f);
+          feedbackContainer.append(f_elem);
+        });
         $.each(scores, function(k, v) {
           if (k == v.id) { //Do not repeat stuff because of varnames
             scoreContainer.append("<p>"+this.name+": "+this.val+"</p>");
