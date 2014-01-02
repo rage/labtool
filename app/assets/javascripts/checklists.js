@@ -29,6 +29,7 @@ $(function() {
     return function() {
       var scores = {};
       $.each(scoretypes, function(id, score) {
+        score.id = id;
         score.min = score.min == null ? -Infinity : parseFloat(score.min);
         score.max = score.max == null ? Infinity : parseFloat(score.max);
         score.val = parseFloat(score.initial);
@@ -157,8 +158,10 @@ $(function() {
         });
         checklist.scores = scores;
         final_grade_callback(checklist);
-        $.each(scores, function() {
-          scoreContainer.append("<p>"+this.name+": "+this.val+"</p>");
+        $.each(scores, function(k, v) {
+          if (k == v.id) { //Do not repeat stuff because of varnames
+            scoreContainer.append("<p>"+this.name+": "+this.val+"</p>");
+          }
         });
       }
     };
