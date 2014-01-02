@@ -41,6 +41,7 @@ class ChecklistsController < ApplicationController
   def update
     @checklist = Checklist.find params[:checklist][:id]
     @checklist.title = params[:checklist][:title]
+    @checklist.grade_callback = params[:checklist][:grade_callback]
     @checklist.remarks = params[:checklist][:remarks]
     begin
       old_checks = @checklist.checks
@@ -72,6 +73,8 @@ class ChecklistsController < ApplicationController
   end
   def update_values
     @checklist = Checklist.find params[:id]
+    @checklist.grade_callback = params[:checklist][:grade_callback]
+    @checklist.save
     topics = params[:checks]
 
     @checklist.topics_checks.includes(:check).each do |link|

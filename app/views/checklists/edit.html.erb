@@ -17,6 +17,10 @@
       <%= text_area_tag 'checklist[remarks]', @checklist.remarks, :size => "60x30" %>
     </div>
   </div>
+
+  <p>
+  <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>
+  </p>
   <%= hidden_field_tag 'checklist[id]', @checklist.id %>
   <%= submit_tag "Save", :class => "small-button" %>
 <% end %>

@@ -43,6 +43,9 @@
       </div>
 
     <% end %>
+    <p>
+    <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>
+    </p>
     <%= submit_tag "Save", :class => "small-button" %>
   <% end %>
 </div>
