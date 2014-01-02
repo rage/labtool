@@ -7,7 +7,7 @@ class ChecklistTopic < ActiveRecord::Base
   belongs_to :checklist
 
   def maxscore
-    checks.inject(0) do |sum, check|
+    topics_checks.inject(0) do |sum, check|
       sum + [check.value, check.unchecked_value].max
     end
   end
