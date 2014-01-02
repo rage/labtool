@@ -6,7 +6,7 @@
         <div class="topic" id="topic_<%= topic.id %>">
           <%= topic.title %>
         </div>
-        <table class="values_table table table-striped table-condensed">
+        <table class="checklist_table values_table table table-striped table-condensed">
           <colgroup>
             <col span="1" style="width: 100%; /* Obvious hack */">
           </colgroup>
@@ -57,36 +57,7 @@
             <th></th>
           </tr>
         </table>
-        <button type="button" class="btn-link expandable collapsed" data-toggle="collapse" data-target="#new_check_for_<%= topic.id %>">
-          Add check
-        </button>
-        <div id="new_check_for_<%= topic.id %>" class="new_check panel panel-default collapse">
-          <div class="panel-body">
-            <p>
-              Check
-              <%= text_field_tag "new_check_for[#{topic.id}][check]", nil, :size => 40 %>
-              Value 
-              <%= number_field_tag "new_check_for[#{topic.id}][value]", 0, :step => :any %>
-              Unchecked value 
-              <%= number_field_tag "new_check_for[#{topic.id}][unchecked_value]", 0, :step => :any %>
-            </p>
-            <div class="row">
-              <div class="col-md-5">
-                Feedback
-                <%= text_area_tag "new_check_for[#{topic.id}][feedback]", nil, :rows => 5, :cols => 40 %>
-              </div>
-              <div class="col-md-5">
-                Unchecked feedback
-                <%= text_area_tag "new_check_for[#{topic.id}][missing_feedback]", nil, :rows => 5, :cols => 40 %>
-              </div>
-              <div class="col-md-2">
-                <%= submit_tag "Create", :class => "btn btn-primary", :name => :new_check %>
-              </div>
-            </div>
-            <p>
-            </p>
-          </div>
-        </div>
+        <%= render partial: "new_check", locals: {topic: topic} %>
       </div>
 
     <% end %>
