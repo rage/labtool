@@ -44,6 +44,7 @@ class Registration < ActiveRecord::Base
   end
 
   def grade_points
+    return nil if grade_feedback.nil?
     points = grade_feedback.points 
     week_feedbacks.select {|f| !f.is_grade }.each { |f|
       points-= f.points
