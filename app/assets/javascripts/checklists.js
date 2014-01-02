@@ -76,6 +76,7 @@ $(function() {
 
       var element = $("#"+topic_id).parent();
       var feedbackContainer = element.find(".feedback");
+      var scoreCounter = element.find(".scorevalue");
       var own_update_callback = topic.update_callback;
       var update_callbacks = [own_update_callback];
       
@@ -111,6 +112,8 @@ $(function() {
           if (this) topic.feedback.push(this);
         });
         topic.feedback = topic.feedback.join(" ");
+
+        scoreCounter.text(topic.score);
         feedbackContainer.text(topic.feedback);
       }
 
