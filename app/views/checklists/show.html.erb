@@ -10,6 +10,7 @@
         <div class="topic" id="topic_<%= topic.id %>">
           <%= topic.title %>
           <button>Done?</button>
+          <span class="pull-right topicscoring">Score: <span class="scorevalue">0</span>/<%= topic.maxscore %></span>
         </div>
         <div class="checks">
           <% topic.checks.each do |check| %>
