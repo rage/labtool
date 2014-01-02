@@ -41,9 +41,11 @@
       <% unless @course.reviews_total == 0 %>
         <th colspan="<%= @course.reviews_total %>">Reviews</th>
       <% end %>
-      <th></th>
+      <th>Grade</th>
       <th>Total</th>
-      <th></th>
+      <th>
+        Final
+      </th>
       <th></th>
       <th></th>
     </tr>
@@ -61,9 +63,15 @@
       <% (1..@course.reviews_total).each do |week| %>
         <th><%= week %></th>
       <% end %>
-      <th></th>
-      <th>point</th>
-      <th></th>
+      <th>
+        points
+      </th>
+      <th>
+        points
+      </th>
+      <th>
+        grade
+      </th>
       <th>Last instructor note</th>
       <th></th>
     </tr>
@@ -83,8 +91,9 @@
           <td><%= registration.review_status_for_week week %></td>
           <% end %>
           <td></td>
+          <td><b><%= registration.grade_points%></b></td>
           <td style="text-align: center;"><b><%= registration.total_points %></b></td>
-          <td></td>
+          <td><b><%= registration.grade %></b></td>
           <td><%= truncate(registration.last_instructor_note_digest, :length => 25) %></td>
           <td><%= link_to 'View or give feedback ', registration.user %></td>
         </tr>
