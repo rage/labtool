@@ -21,9 +21,10 @@
     <div class="rounded">
 
       <div>
-        <p><strong><%= @user.current_registration.topic %></strong></p>
+        <p><b><%= @user.current_registration.topic %></b></p>
 
         <p>Repository: <%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
+
         <p>Test URL: <%= link_to @user.current_registration.test_url, @user.current_registration.test_url %></p>
       </div>
 
@@ -32,11 +33,14 @@
           <th colspan="<%= @user.current_registration.course.weeks_total %>">Week feedbacks</th>
           <th></th>
           <% unless @user.current_registration.course.reviews_total == 0 %>
-          <th colspan="2">Code review</th>
+          <th colspan="<%= @user.current_registration.course.reviews_total %>">Code review</th>
           <% end %>
-          <th></th>
+          <th>Grade</th>
           <th>
             Total
+          </th>
+          <th>
+            Final
           </th>
         </tr>
         <tr>
@@ -50,10 +54,13 @@
               <th> <%= review %></th>
           <% end %>
           <th>
-
+            points
           </th>
           <th>
             points
+          </th>
+          <th>
+            grade
           </th>
         </tr>
 
@@ -68,20 +75,25 @@
           <% unless @user.current_registration.course.reviews_total < 2 %>
           <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review2 %></td>
           <% end %>
-          <td></td>
+          <td><b><%= @user.current_registration.grade_points%></b></td>
           <td style="width: 50px; ; text-align: center;"><b><%= @user.current_registration.total_points %></b></td>
+          <td><b><%= @user.current_registration.grade %></b></td>
         </tr>
       </table>
 
       <% if @user.current_registration.feedback.size > 0 %>
-          <h4 class="button" id="review">Show weekly feedback</h4>
+          <h3 class="button" id="review">Show feedbacks and notes</h3>
       <% end %>
 
       <div class="reviews">
 
-        <% @user.current_registration.feedback.select { |f| f.week< @user.current_registration.course.weeks_total + 1 }.each do |fb| %>
-            <div style="margin: 20px;;">
-              <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
+        <% @user.current_registration.feedback.select { |f| f.week<= @user.current_registration.course.weeks_total + 1 }.each do |fb| %>
+            <div style="margin: 20px;">
+              <% unless fb.is_grade %>
+                <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
+              <% else %>
+                <b>Final grade, points <%= fb.points %></b>
+              <% end %>
 
               <div><%= rendered(fb.text) %></div>
               <% if fb.feedback_comments.size > 0 %>
