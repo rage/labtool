@@ -127,7 +127,9 @@ $(function() {
     var feedbackContainer = $(this).find('.feedbacks');
     var scoreContainer  = $(this).find('.scores');
     var initScores = getScoreInitializer(topicData.scoretypes);
+    var final_grade_callback = topicData.grade_callback;
     delete topicData.scoretypes;
+    delete topicData.grade_callback;
 
     var checklist = { 
       topics: {},
@@ -150,6 +152,8 @@ $(function() {
           }
           scores[q.scoretype].add(q.score);
         });
+        checklist.scores = scores;
+        final_grade_callback(checklist);
         $.each(scores, function() {
           scoreContainer.append("<p>"+this.name+": "+this.val+"</p>");
         });

@@ -85,6 +85,9 @@
         "<%= scoretype.id %>": 
         <%= raw scoretype.attributes.to_json %>,
       <% end %>
+      },
+      grade_callback: function(checklist) {
+        <%= raw @checklist.grade_callback %>
       }
     });
   });
