@@ -28,6 +28,7 @@ class WeekFeedbacksController < ApplicationController
 
     if earlier_feedback
       @week_feedback = prepare_based_on earlier_feedback, params
+      @grade = params[:grade]
       return render :action => "edit", :notice => "you already gave feedback for week #{@week_feedback.week}"
     end
 
@@ -36,6 +37,11 @@ class WeekFeedbacksController < ApplicationController
     @registration.week_feedbacks << week_feedback
 
     if week_feedback.valid?
+
+      if params[:grade]
+        @registration.grade = params[:grade]
+        @registration.save
+      end
 
       if params[:notify]
         student = week_feedback.user
@@ -58,6 +64,10 @@ class WeekFeedbacksController < ApplicationController
     @week_feedback = WeekFeedback.find(params[:id])
 
     if @week_feedback.update_attributes(params[:week_feedback])
+      if params[:grade]
+        @week_feedback.registration.grade = params[:grade]
+        @week_feedback.registration.save
+      end
       redirect_to @week_feedback.registration.user, :notice => 'Week feedback was successfully updated'
     else
       @registration = Registration.find(params[:registration])

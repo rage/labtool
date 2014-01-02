@@ -4,6 +4,7 @@ class Registration < ActiveRecord::Base
   belongs_to :course
   belongs_to :user
   has_many :week_feedbacks
+  
 
   validates :test_url,
             :format => { :with => /https?:\/\/.+/,
@@ -32,14 +33,29 @@ class Registration < ActiveRecord::Base
   end
 
   def total_points
+    return grade_feedback.points unless grade_feedback.nil?
     points = 0
-    week_feedbacks.each { |f|
+    week_feedbacks.select {|f| !f.is_grade }.each { |f|
       points+= f.points
     }
     points += review1 unless review1.nil?
     points += review2 unless review2.nil?
     points
   end
+
+  def grade_points
+    points = grade_feedback.points 
+    week_feedbacks.select {|f| !f.is_grade }.each { |f|
+      points-= f.points
+    }
+    points -= review1 unless review1.nil?
+    points -= review2 unless review2.nil?
+    points
+  end
+  def grade_feedback
+    week_feedbacks.find_by_is_grade true
+  end
+
 
   def has_instructor_notes
     week_feedbacks.each do |fb|

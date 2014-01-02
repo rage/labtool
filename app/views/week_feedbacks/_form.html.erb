@@ -11,11 +11,20 @@
           </ul>
         </div>
     <% end %>
-
-    <div class="field">
-      Week<br/>
-      <%= f.number_field :week %>
-    </div>
+    
+    <% unless @week_feedback.is_grade %>
+      <div class="field">
+        Week<br/>
+        <%= f.number_field :week %>
+      </div>
+    <% else %>
+      <%= f.hidden_field :week %>
+      <%= f.hidden_field :is_grade  %>
+      <div class="field">
+        Grade<br/>
+        <%= number_field_tag :grade, @grade %>
+      </div>
+    <% end %>
 
     <div class="field">
       Points<br/>

@@ -1,5 +1,5 @@
 class WeekFeedback < ActiveRecord::Base
-  attr_accessible :points, :text, :week, :hidden_text
+  attr_accessible :points, :text, :week, :hidden_text, :is_grade
   belongs_to :registration
   belongs_to :giver, class_name: 'User'
   has_many :feedback_comments
@@ -10,6 +10,8 @@ class WeekFeedback < ActiveRecord::Base
 
 
   def max
+    # The final grade gets a special treatment
+    return 60 if is_grade
     return 3 if Course.active.nil?
     Course.active.week_feedback_max_points || 3
   end

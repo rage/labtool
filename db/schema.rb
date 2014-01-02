@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131230154241) do
+ActiveRecord::Schema.define(:version => 20140102212433) do
 
   create_table "checklist_checks", :force => true do |t|
     t.text    "check"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(:version => 20131230154241) do
     t.decimal  "review1"
     t.decimal  "review2"
     t.string   "test_url"
+    t.integer  "grade"
   end
 
   create_table "scoretypes", :force => true do |t|
@@ -142,11 +143,12 @@ ActiveRecord::Schema.define(:version => 20131230154241) do
     t.integer  "week"
     t.text     "text"
     t.integer  "registration_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.text     "hidden_text"
     t.decimal  "points"
     t.integer  "giver_id"
+    t.boolean  "is_grade",        :default => false, :null => false
   end
 
 end

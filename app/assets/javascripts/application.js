@@ -15,24 +15,22 @@
 
 $(document).ready(function () {
     $(".review-form").hide();
-    $(".note-form").hide();
     $(".reviews").hide();
+    $(".note-form").hide();
+    $(".grade-form").hide();
 
-    var toggle_review_form = function (e) {
+    $(".button#review-form").click(function (e) {
         $(".review-form").toggle();
-    };
-
-    var toggle_reviews = function (e) {
+    });
+    $(".button#review").click(function (e) {
         $(".reviews").toggle();
-    };
-
-    var toggle_note_form = function (e) {
+    });
+    $(".button#note-form").click(function (e) {
         $(".note-form").toggle();
-    };
-
-    $(".button#review-form").click(toggle_review_form);
-    $(".button#review").click(toggle_reviews);
-    $(".button#note-form").click(toggle_note_form);
+    });
+    $(".button#grade-form").click(function (e) {
+        $(".grade-form").toggle();
+    });
 
     $('table').rotateTableCellContent();
 
