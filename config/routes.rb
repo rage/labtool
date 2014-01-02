@@ -15,6 +15,7 @@ Labtool::Application.routes.draw do
   get  'checklists/:id/user/:registration_id' => 'passed_checks#show'
   post 'checklists/:id/user/' => 'passed_checks#update'
   get  'checklists/:id/values/' => 'checklists#edit_values', :as => "edit_checklist_values"
+  get  'checklists/:id/feedbacks/' => 'checklists#edit_feedbacks', :as => "edit_checklist_feedbacks"
   post 'checklists/:id/values/' => 'checklists#update_values'
 
   post 'checktypes/:id/reorder/' => 'checks#reorder'
