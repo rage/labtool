@@ -40,6 +40,9 @@ $(function() {
         }
 
         scores[id] = score;
+        if (score.varname != undefined && score.varname != "" ) {
+          scores[score.varname] = score;
+        }
       });
       return scores;
     };
