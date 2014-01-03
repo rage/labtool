@@ -8,6 +8,10 @@ class WeekFeedback < ActiveRecord::Base
   validates :points, :numericality => {:greater_than_or_equal_to => 0}
   validate :points_within_range
 
+  def title
+    return "Arvostelu ja kurssipalaute" if is_grade
+    "viikon #{week} palaute" 
+  end
 
   def max
     # The final grade gets a special treatment
