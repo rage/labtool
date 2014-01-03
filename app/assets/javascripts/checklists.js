@@ -179,7 +179,7 @@ $(function() {
 
     $(this).find('.topic button').click(function(e) {
       e.preventDefault();
-      $(this).parents('.topicContainer').toggleClass("done");
+      $(this).parents('.topicContainer').toggleClass("done").find('.checks, .feedback').slideToggle();
       return false;
     });
 
