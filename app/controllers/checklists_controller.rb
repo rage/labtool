@@ -82,7 +82,7 @@ class ChecklistsController < ApplicationController
       vals = topics[topic.id.to_s]
       unless vals.nil?
         target = BigDecimal(vals["score_target"])
-        scale = Rational(vals["scale_numerator"], vals["scale_denominator"])
+        scale = Rational(vals["scale_numerator"], vals["scale_denominator"]).round(5)
 
         topic.title = vals["title"]
         
