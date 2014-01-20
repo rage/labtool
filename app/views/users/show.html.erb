@@ -478,6 +478,20 @@
     <div class="rounded">
 
       <% @user.past_registrations.each do |r| %>
+          <div class="gradebox">
+            <div class="selector">
+              <b>Grade with a checklist</b>
+              <%= hidden_field_tag 'current_registration', r.id %>
+              <select id="select_grading">
+                <option value="">Select one</option>
+                <% @checklists.each do |list| %>
+                  <option <%= raw 'selected="selected"' if list.id == r.course.default_checklist_id %> value="<%= list.id %>"><%= list.title %></option>
+                <% end %>
+              </select>
+            </div>
+            <div id="grader">
+            </div>
+          </div>
           <div>
             <h4><%= r.course %></h4>
 
@@ -493,6 +507,7 @@
               <% end %>
             </ul>
           </div>
+          <div style="clear: both;"></div>
       <% end %>
 
     </div>
