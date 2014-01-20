@@ -75,10 +75,32 @@ class ChecklistsController < ApplicationController
     @checklist = Checklist.find params[:id]
     @checklist.grade_callback = params[:checklist][:grade_callback]
     @checklist.save
-    topics = params[:checks]
+    topics = params[:topics]
+    checks = params[:checks]
 
+    @checklist.topics.each do |topic|
+      vals = topics[topic.id.to_s]
+      unless vals.nil?
+        target = BigDecimal(vals["score_target"])
+        scale = Rational(vals["scale_numerator"], vals["scale_denominator"])
+
+        topic.title = vals["title"]
+        
+        if target == 0 
+          target = nil
+          scale = Rational(0)
+        end
+
+        topic.score_target = target
+        topic.scale_numerator = scale.numerator
+        topic.scale_denominator = scale.denominator
+
+
+        topic.save
+      end
+    end
     @checklist.topics_checks.includes(:check).each do |link|
-      vals = topics[link.id.to_s]
+      vals = checks[link.id.to_s]
       unless vals.nil?
         link.value = BigDecimal(vals["value"])
         link.unchecked_value = BigDecimal(vals["unchecked_value"])
