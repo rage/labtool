@@ -10,7 +10,7 @@
         <div class="topic" id="topic_<%= topic.id %>">
           <%= topic.title %>
           <button>Done?</button>
-          <span class="pull-right topicscoring">Score: <span class="scorevalue">0</span>/<%= topic.maxscore %></span>
+          <span class="pull-right topicscoring">Score: <span class="scorevalue">0</span><% unless topic.score_target.nil? %>/<%= topic.score_target %></span><% end %>
         </div>
         <div class="checks">
           <% topic.checks.each do |check| %>
@@ -50,6 +50,8 @@
         "topic_<%= topic.id %>": 
         { varname: <%= raw topic.varname.to_json%>,
           scoretype: <%= raw topic.scoretype.id.to_json%>,
+          scale_denominator: <%= raw topic.scale_denominator.to_json%>,
+          scale_numerator: <%= raw topic.scale_numerator.to_json %>,
           update_callback: function(checklist) {
             var checks = this.checks;
             <% topic.checks.each do |check|  %>

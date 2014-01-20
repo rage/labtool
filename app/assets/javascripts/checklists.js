@@ -4,10 +4,15 @@ $(function() {
     var table = $(this);
     var min_text = table.find('.min');
     var max_text = table.find('.max');
+    var min_text_scaled = table.find('.min_scaled');
+    var max_text_scaled = table.find('.max_scaled');
     var cells1 = table.find('input.value');
     var cells2 = table.find('input.unchecked_value');
+    var scale_num = table.find('input.scale_num');
+    var scale_denom = table.find('input.scale_denom');
 
     function calc() {
+      var score_target = parseFloat(table.find('input.score_target')[0].value, 10);
       var min = 0;
       var max = 0;
       for(var i=0; i<cells1.length; i++) {
@@ -18,6 +23,25 @@ $(function() {
       }
       min_text.text(min);
       max_text.text(max);
+
+      var factor = 1;
+      if (score_target != 0) {
+        scale_num.val(score_target);
+        if (score_target < 0) {
+          scale_denom.val(min);
+          factor = score_target / min;
+        } else {
+          scale_denom.val(max);
+          factor = score_target / max;
+        }
+      } else {
+        scale_num.val(1);
+        scale_denom.val(1);
+      }
+      console.log(score_target);
+      console.log(factor);
+      min_text_scaled.text(min*factor);
+      max_text_scaled.text(max*factor);
     }
 
     table.find('input[type="number"]').change(calc);
@@ -79,7 +103,6 @@ $(function() {
       var scoreCounter = element.find(".scorevalue");
       var own_update_callback = topic.update_callback;
       var update_callbacks = [own_update_callback];
-      
 
       topic.checks = checks;
       topic.addUpdateCallback = function(fun) {
@@ -104,6 +127,9 @@ $(function() {
           var feedback = this.feedback();
           if (feedback) topic.feedbacks[k] = feedback;
         });
+
+        topic.score = topic.score * topic.scale_numerator / topic.scale_denominator;
+
         $.each(update_callbacks, function() {
           this.call(topic, checklist);
         });

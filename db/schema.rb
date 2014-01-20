@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140102212433) do
+ActiveRecord::Schema.define(:version => 20140120123040) do
 
   create_table "checklist_checks", :force => true do |t|
     t.text    "check"
@@ -33,8 +33,9 @@ ActiveRecord::Schema.define(:version => 20140102212433) do
     t.integer "scoretype_id"
     t.text    "update_callback"
     t.text    "init_callback"
-    t.decimal "scale_max"
-    t.decimal "scale_min"
+    t.decimal "score_target"
+    t.integer "scale_denominator", :default => 1, :null => false
+    t.integer "scale_numerator",   :default => 1, :null => false
   end
 
   create_table "checklist_topics_checks", :force => true do |t|
