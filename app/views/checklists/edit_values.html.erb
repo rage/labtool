@@ -1,6 +1,8 @@
 <div class="rounded">
   <h2><%= @checklist.title %></h2>
   <%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
+    <%= label_tag 'checklist[title]', 'Edit title' %>
+    <%= text_field_tag 'checklist[title]', @checklist.title %>
     <% @checklist.topics.order("ordering").each do |topic| %>
       <div class="topicContainer">
         <div class="topic" id="topic_<%= topic.id %>">
