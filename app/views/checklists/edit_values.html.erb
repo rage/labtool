@@ -15,7 +15,7 @@
   </p>
   <div class="topics">
     <% @checklist.topics.order("ordering").each do |topic| %>
-      <div class="topicContainer rounded">
+      <div class="topicContainer rounded form-group">
         <%= hidden_field_tag "topics[#{topic.id}][title]", topic.title %>
         <%= hidden_field_tag "topics[#{topic.id}][ordering]", topic.ordering, :class => 'topic_ordering' %>
         <div class="topic_handle">
@@ -31,7 +31,7 @@
           </colgroup>
           <thead>
             <tr>
-              <th>Check</th>
+              <th class="name">Check</th>
               <th class="feedbacks">Checked feedback</th>
               <th class="feedbacks">Unchecked feedback</th>
               <th class="scores">Checked</th>
@@ -41,9 +41,8 @@
           <tbody>
             <% topic.topics_checks.includes(:check).each do |link| %>
               <tr>
-                <td>
+                <td class="name">
                   <%= link.check.check %>
-                  <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
                   <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering, :class => 'check_ordering' %>
                   <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id, :class => 'topic_id_field'  %>
                 </td>
@@ -53,10 +52,10 @@
                 <td class="feedbacks">
                   <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 1, :cols => 40 %>
                 </td>
-                <td>
+                <td class="values">
                   <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
                 </td>
-                <td>
+                <td class="values">
                   <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
                 </td>
               </tr>
