@@ -1,5 +1,11 @@
 $(function() {
 
+  $("#show_feedbacks").change(function() {
+    var displayed = $(this).is(":checked");
+    $('.values_table').toggleClass('hide_feedbacks',!displayed);
+    $('.spanOverFeedbacks').attr('colspan', displayed ? 3 : 1);
+  });
+
   $('.values_table').each(function() {
     var table = $(this);
     var min_text = table.find('.min');
@@ -10,6 +16,8 @@ $(function() {
     var cells2 = table.find('input.unchecked_value');
     var scale_num = table.find('input.scale_num');
     var scale_denom = table.find('input.scale_denom');
+
+    table.find('textarea').css('overflow', 'hidden').autogrow();
 
     function calc() {
       var score_target = parseFloat(table.find('input.score_target')[0].value, 10);
@@ -38,8 +46,6 @@ $(function() {
         scale_num.val(1);
         scale_denom.val(1);
       }
-      console.log(score_target);
-      console.log(factor);
       min_text_scaled.text(min*factor);
       max_text_scaled.text(max*factor);
     }

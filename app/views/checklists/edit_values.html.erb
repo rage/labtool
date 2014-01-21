@@ -3,6 +3,8 @@
   <%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
     <%= label_tag 'checklist[title]', 'Edit title' %>
     <%= text_field_tag 'checklist[title]', @checklist.title %>
+    <%= check_box_tag(:show_feedbacks, nil, true) %>
+    <%= label_tag :show_feedbacks, 'Show feedback textareas' %>
     <% @checklist.topics.order("ordering").each do |topic| %>
       <div class="topicContainer">
         <div class="topic" id="topic_<%= topic.id %>">
@@ -11,13 +13,18 @@
         </div>
         <table class="checklist_table values_table table table-striped table-condensed">
           <colgroup>
-            <col span="1" style="width: 100%; /* Obvious hack */">
+            <col span="1" style="">
+            <col span="1" style="">
+            <col span="1" style="">
+            <col span="1" style="width: 50px;">
+            <col span="1" style="width: 50px;">
           </colgroup>
           <tr>
             <th>Check</th>
-            <th>Checked</th>
-            <th>Unchecked</th>
-            <th>Details</th>
+            <th class="feedbacks">Checked feedback</th>
+            <th class="feedbacks">Unchecked feedback</th>
+            <th class="scores">Checked</th>
+            <th class="scores">Unchecked</th>
           </tr>
           <% topic.topics_checks.includes(:check).each do |link| %>
             <tr>
@@ -27,55 +34,40 @@
                 <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering %>
                 <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id %>
               </td>
+              <td class="feedbacks">
+                <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 1, :cols => 40 %>
+              </td>
+              <td class="feedbacks">
+                <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 1, :cols => 40 %>
+              </td>
               <td>
                 <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
               </td>
               <td>
                 <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
               </td>
-              <td>
-                <button type="button" class="hoverdrop btn btn-default dropdown-toggle" data-toggle="dropdown">
-                  ✐
-                  <span class="caret"></span>
-                </button>
-                <div class="dropdown-menu dropdown-checkedit" role="menu">
-                  <div class="panel-body row">
-                    <div class="col-md-6">
-                      Feedback
-                      <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 5, :cols => 40 %>
-                    </div>
-                    <div class="col-md-6">
-                      Unchecked feedback
-                      <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 5, :cols => 40 %>
-                    </div>
-                  </div>
-                </div>
-              </td>
             </tr>
           <% end %>
           <tr>
-            <th>Totals</th>
-            <th>Maximum: <span class="max"></span></th>
-            <th>Minimum: <span class="min"></span></th>
-            <th></th>
+            <th colspan="3" class="spanOverFeedbacks">Totals</th>
+            <th>Max: <span class="max"></span></th>
+            <th>Min: <span class="min"></span></th>
           </tr>
           <tr>
-            <th>
+            <th colspan="3" class="spanOverFeedbacks">
               Scale score total to 
               <%= number_field_tag "topics[#{topic.id}][score_target]", show_val(topic.score_target), :step=> :any, :class => :score_target %>
               points
               <%= hidden_field_tag "topics[#{topic.id}][scale_numerator]", topic.scale_numerator, :class => :scale_num %>
               <%= hidden_field_tag "topics[#{topic.id}][scale_denominator]", topic.scale_denominator, :class => :scale_denom %>
+              <span class="pull-right">Scaled values:</span>
             </th>
-            <th>Scaled maximum: <span class="max_scaled"></span></th>
-            <th>Scaled minimum: <span class="min_scaled"></span></th>
-            <th></th>
+            <th>Max: <span class="max_scaled"></span></th>
+            <th>Min: <span class="min_scaled"></span></th>
           </tr>
         </table>
         <%= render partial: "new_check", locals: {topic: topic} %>
       </div>
-
-
     <% end %>
     <p>
     <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>

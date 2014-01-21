@@ -38,8 +38,7 @@
 </div>
 <div class="rounded actions">
   <h2>Actions</h2>
-  <%= link_to 'Edit', edit_checklist_feedbacks_path(@checklist), :class => 'small-button' %>
-  <%= link_to 'Balance score values', edit_checklist_values_path(@checklist), :class => 'small-button' %>
+  <%= link_to 'Edit', edit_checklist_values_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Edit as YAML', edit_checklist_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
 </div>
