@@ -86,6 +86,18 @@ $(function() {
         $(this).val(topic_id);
       });
     });
+    table.find('.deleteCheck').click(function() {
+      var row = $(this).parents('tr');
+      var id = row.attr('id');
+
+      if (id) {
+        var deleteInput = $('<input type="hidden" name="deleted_topics_checks[]" />');
+        deleteInput.val(id.replace('linked_check_',''));
+        $('form').append(deleteInput);
+      }
+
+      row.remove();
+    });
 
     calc();
   })

@@ -113,6 +113,22 @@ class ChecklistsController < ApplicationController
     end
 
     #Integer(,10)
+    unless params[:deleted_topics_checks].nil?
+      params[:deleted_topics_checks].each do |del_id|
+        link = @checklist.topics_checks.find del_id rescue nil
+        
+        unless link.nil?
+          if link.check.topics.size > 1
+            link.destroy
+          else
+            check = link.check
+            link.destroy
+            check.destroy
+          end
+        end
+
+      end
+    end
 
     if params[:new_check].nil?
       redirect_to @checklist, :notice => 'Checklist was successfully updated.'
