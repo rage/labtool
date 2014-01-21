@@ -6,8 +6,21 @@ $(function() {
     $('.spanOverFeedbacks').attr('colspan', displayed ? 3 : 1);
   });
 
+  $("#reorder_topics").change(function() {
+    var minimize = $(this).is(":checked");
+    $('.values_table, .topics button').toggle(!minimize);
+  });
+  $('.topics').sortable({
+    handle: '.topic_handle' 
+  }).bind('sortupdate', function() {
+    $('.topics .topic_ordering').each(function(i) {
+      $(this).val(i+1);
+    });
+  });
+
   $('.values_table').each(function() {
     var table = $(this);
+    var topic_id = table.attr('id').replace('topic_','');
     var min_text = table.find('.min');
     var max_text = table.find('.max');
     var min_text_scaled = table.find('.min_scaled');
@@ -51,9 +64,23 @@ $(function() {
     }
 
     table.find('input[type="number"]').change(calc);
-    calc();
+    table.find('tbody').sortable({
+      connectWith: '.values_table tbody' 
+    }).bind('sortupdate', function() {
+      cells1 = table.find('input.value');
+      cells2 = table.find('input.unchecked_value');
+      calc();
 
-  });
+      table.find('.check_ordering').each(function(i) {
+        $(this).val(i+1);
+      });
+      table.find('.topic_id_field').each(function() {
+        $(this).val(topic_id);
+      });
+    });
+
+    calc();
+  })
 
   function getScoreInitializer(scoretypes) {
     return function() {

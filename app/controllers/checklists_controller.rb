@@ -83,6 +83,7 @@ class ChecklistsController < ApplicationController
         scale = Rational(vals["scale_numerator"], vals["scale_denominator"]).round(5)
 
         topic.title = vals["title"]
+        topic.ordering = vals["ordering"]
         
         if target == 0 
           target = nil
@@ -93,7 +94,6 @@ class ChecklistsController < ApplicationController
         topic.scale_numerator = scale.numerator
         topic.scale_denominator = scale.denominator
 
-
         topic.save
       end
     end
@@ -102,6 +102,8 @@ class ChecklistsController < ApplicationController
       unless vals.nil?
         link.value = BigDecimal(vals["value"])
         link.unchecked_value = BigDecimal(vals["unchecked_value"])
+        link.ordering = vals["ordering"]
+        link.topic = ChecklistTopic.find(vals["topic_id"])
         link.check.feedback = vals["feedback"]
         link.check.missing_feedback = vals["missing_feedback"]
 
