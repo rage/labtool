@@ -1,17 +1,27 @@
-<div class="rounded">
-  <h2><%= @checklist.title %></h2>
-  <%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
-    <%= label_tag 'checklist[title]', 'Edit title' %>
-    <%= text_field_tag 'checklist[title]', @checklist.title %>
-    <%= check_box_tag(:show_feedbacks, nil, true) %>
-    <%= label_tag :show_feedbacks, 'Show feedback textareas' %>
+<h2><%= @checklist.title %></h2>
+<%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
+  <%= label_tag 'checklist[title]', 'Edit title' %>
+  <%= text_field_tag 'checklist[title]', @checklist.title %>
+  <%= check_box_tag(:show_feedbacks, nil, true) %>
+  <%= label_tag :show_feedbacks, 'Show feedback textareas' %>
+  <%= check_box_tag(:reorder_topics) %>
+  <%= label_tag :reorder_topics, 'Reorder topics' %>
+  <%= submit_tag "Save", :class => "small-button" %>
+  <p>
+  <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>
+  </p>
+  <p id="sorthelp">
+    Drag and drop items to reorder them
+  </p>
+  <div class="topics">
     <% @checklist.topics.order("ordering").each do |topic| %>
-      <div class="topicContainer">
-        <div class="topic" id="topic_<%= topic.id %>">
+      <div class="topicContainer rounded">
+        <%= hidden_field_tag "topics[#{topic.id}][title]", topic.title %>
+        <%= hidden_field_tag "topics[#{topic.id}][ordering]", topic.ordering, :class => 'topic_ordering' %>
+        <div class="topic_handle">
           <%= topic.title %>
-          <%= hidden_field_tag "topics[#{topic.id}][title]", topic.title %>
         </div>
-        <table class="checklist_table values_table table table-striped table-condensed">
+        <table class="checklist_table values_table table table-striped table-condensed table-bordered" id="topic_<%= topic.id %>">
           <colgroup>
             <col span="1" style="">
             <col span="1" style="">
@@ -19,59 +29,62 @@
             <col span="1" style="width: 50px;">
             <col span="1" style="width: 50px;">
           </colgroup>
-          <tr>
-            <th>Check</th>
-            <th class="feedbacks">Checked feedback</th>
-            <th class="feedbacks">Unchecked feedback</th>
-            <th class="scores">Checked</th>
-            <th class="scores">Unchecked</th>
-          </tr>
-          <% topic.topics_checks.includes(:check).each do |link| %>
+          <thead>
             <tr>
-              <td>
-                <%= link.check.check %>
-                <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
-                <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering %>
-                <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id %>
-              </td>
-              <td class="feedbacks">
-                <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 1, :cols => 40 %>
-              </td>
-              <td class="feedbacks">
-                <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 1, :cols => 40 %>
-              </td>
-              <td>
-                <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
-              </td>
-              <td>
-                <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
-              </td>
+              <th>Check</th>
+              <th class="feedbacks">Checked feedback</th>
+              <th class="feedbacks">Unchecked feedback</th>
+              <th class="scores">Checked</th>
+              <th class="scores">Unchecked</th>
             </tr>
-          <% end %>
-          <tr>
-            <th colspan="3" class="spanOverFeedbacks">Totals</th>
-            <th>Max: <span class="max"></span></th>
-            <th>Min: <span class="min"></span></th>
-          </tr>
-          <tr>
-            <th colspan="3" class="spanOverFeedbacks">
-              Scale score total to 
-              <%= number_field_tag "topics[#{topic.id}][score_target]", show_val(topic.score_target), :step=> :any, :class => :score_target %>
-              points
-              <%= hidden_field_tag "topics[#{topic.id}][scale_numerator]", topic.scale_numerator, :class => :scale_num %>
-              <%= hidden_field_tag "topics[#{topic.id}][scale_denominator]", topic.scale_denominator, :class => :scale_denom %>
-              <span class="pull-right">Scaled values:</span>
-            </th>
-            <th>Max: <span class="max_scaled"></span></th>
-            <th>Min: <span class="min_scaled"></span></th>
-          </tr>
+          </thead>
+          <tbody>
+            <% topic.topics_checks.includes(:check).each do |link| %>
+              <tr>
+                <td>
+                  <%= link.check.check %>
+                  <%= hidden_field_tag "checks[#{link.id}][id]", link.id %>
+                  <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering, :class => 'check_ordering' %>
+                  <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id, :class => 'topic_id_field'  %>
+                </td>
+                <td class="feedbacks">
+                  <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 1, :cols => 40 %>
+                </td>
+                <td class="feedbacks">
+                  <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 1, :cols => 40 %>
+                </td>
+                <td>
+                  <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
+                </td>
+                <td>
+                  <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" class="spanOverFeedbacks">Totals</th>
+              <th>Max: <span class="max"></span></th>
+              <th>Min: <span class="min"></span></th>
+            </tr>
+            <tr>
+              <th colspan="3" class="spanOverFeedbacks">
+                Scale score total to 
+                <%= number_field_tag "topics[#{topic.id}][score_target]", show_val(topic.score_target), :step=> :any, :class => :score_target %>
+                points
+                <%= hidden_field_tag "topics[#{topic.id}][scale_numerator]", topic.scale_numerator, :class => :scale_num %>
+                <%= hidden_field_tag "topics[#{topic.id}][scale_denominator]", topic.scale_denominator, :class => :scale_denom %>
+                <span class="pull-right">Scaled values:</span>
+              </th>
+              <th>Max: <span class="max_scaled"></span></th>
+              <th>Min: <span class="min_scaled"></span></th>
+            </tr>
+          </tfoot>
         </table>
         <%= render partial: "new_check", locals: {topic: topic} %>
       </div>
     <% end %>
-    <p>
-    <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>
-    </p>
-    <%= submit_tag "Save", :class => "small-button" %>
-  <% end %>
-</div>
+  </div>
+  <%= submit_tag "Save", :class => "small-button" %>
+<% end %>
