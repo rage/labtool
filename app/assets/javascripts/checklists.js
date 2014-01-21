@@ -30,7 +30,14 @@ $(function() {
     var scale_num = table.find('input.scale_num');
     var scale_denom = table.find('input.scale_denom');
 
-    table.find('textarea').css('overflow', 'hidden').autogrow();
+    table.find('textarea').css('overflow', 'hidden').autogrow(function() {
+      this.data('neededHeight', this.height());
+
+      var h = 0;
+      var areas = this.parents('tr').find('textarea');
+      areas.each(function() { h = Math.max(h, $(this).data('neededHeight')); });
+      areas.height(h);
+    });
 
     function calc() {
       var score_target = parseFloat(table.find('input.score_target')[0].value, 10);
@@ -65,6 +72,7 @@ $(function() {
 
     table.find('input[type="number"]').change(calc);
     table.find('tbody').sortable({
+      handle: '.name',
       connectWith: '.values_table tbody' 
     }).bind('sortupdate', function() {
       cells1 = table.find('input.value');

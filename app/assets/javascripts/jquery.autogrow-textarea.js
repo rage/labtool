@@ -9,7 +9,7 @@
      *   Released under The MIT License.
      *
      */
-    $.fn.autogrow = function(options)
+    $.fn.autogrow = function(callback)
     {
         return this.filter('textarea').each(function()
         {
@@ -54,6 +54,9 @@
                 shadow.css('width', $self.width());
                 shadow.html(val + (noFlickerPad === 0 ? '...' : '')); // Append '...' to resize pre-emptively.
                 $self.height(Math.max(shadow.height() + noFlickerPad, minHeight));
+                if (typeof(callback) == "function") {
+                  callback.call($self);
+                }
             }
 
             $self.change(update).keyup(update).keydown({event:'keydown'},update);
