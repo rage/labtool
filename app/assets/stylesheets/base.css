@@ -1,3 +1,7 @@
+.container {
+  max-width: 100% !important;
+}
+
 .titlebar {
     color: white;
     background: #e9af43;
@@ -10,11 +14,18 @@
     margin: 0.2em 0;
     display: inline-block;
 }
-.titlebar nav :link {
-  color: white;
+nav {
+    padding: 5px 25px;
+    border-bottom: 1px solid #000;
 }
-.titlebar nav :visited {
-  color: #ffe8e8;
+nav a:link {
+  color: #27638C;
+}
+nav a:visited {
+  color: #27638C;
+}
+nav a:hover {
+  background: white;
 }
 
 footer {
