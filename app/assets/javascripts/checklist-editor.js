@@ -34,13 +34,15 @@ $(function() {
       function(text) {
         $('#topics').append(text);
         updateTopicSort();
+        var table = $('#topic_'+new_key);
+        activateTable.call(table);
       }
     );
   });
 
   /* Checks */
 
-  $('.values_table').each(function() {
+  function activateTable() {
     var table = $(this);
     var topic_id = table.attr('id').replace('topic_','');
     var min_text = table.find('.min');
@@ -156,5 +158,7 @@ $(function() {
     }
     
     activateRows();
-  })
+  }
+  $('.values_table').each(activateTable);
+
 }); 
