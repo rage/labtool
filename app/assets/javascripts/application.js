@@ -70,8 +70,8 @@ $(document).ready(function () {
     }
     
     //Checklist data editor
-    if (document.getElementById("topics")) {
-      var editor = CodeMirror.fromTextArea(document.getElementById("topics"), {
+    if (document.getElementById("topics_yaml")) {
+      var editor = CodeMirror.fromTextArea(document.getElementById("topics_yaml"), {
         lineNumbers: true,
         mode: "text/x-yaml",
         vimMode: true,

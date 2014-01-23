@@ -8,114 +8,34 @@
   <%= label_tag :reorder_topics, 'Reorder topics' %>
   <%= submit_tag "Save", :class => "small-button" %>
   <p>
-  <%= render partial: "grade_callback_field", locals: {checklist: @checklist} %>
+  <button type="button" class="btn-link expandable collapsed" data-toggle="collapse" data-target="#grade_callback_field">
+    Show grading code
+  </button>
+  <div id="grade_callback_field" class="panel panel-default collapse">
+    <div class="panel-body">
+      <p>Javascript code to call before final grading.</p>
+      <p>You can use the variable checklist to access the checklist properties</p>
+      <p>
+      <%= text_area_tag "checklist[grade_callback]", @checklist.grade_callback, :rows => 10, :cols => 80 %>
+      </p>
+    </div>
+  </div>
   </p>
   <p id="sorthelp">
     Drag and drop items to reorder them
   </p>
-  <div class="topics">
+  <div class="topics" id="topics">
     <% @checklist.topics.order("ordering").each do |topic| %>
-      <div class="topicContainer rounded form-group">
-        <%= hidden_field_tag "topics[#{topic.id}][title]", topic.title %>
-        <%= hidden_field_tag "topics[#{topic.id}][ordering]", topic.ordering, :class => 'topic_ordering' %>
-        <div class="topic_handle">
-          <%= topic.title %>
-        </div>
-        <table class="checklist_table values_table table table-striped table-condensed table-bordered" id="topic_<%= topic.id %>">
-          <colgroup>
-            <col span="1" style="">
-            <col span="1" style="">
-            <col span="1" style="">
-            <col span="1" style="width: 50px;">
-            <col span="1" style="width: 50px;">
-          </colgroup>
-          <thead>
-            <tr>
-              <th class="name">Check</th>
-              <th class="feedbacks">Checked feedback</th>
-              <th class="feedbacks">Unchecked feedback</th>
-              <th class="scores">Checked</th>
-              <th class="scores">Unchecked</th>
-              <th>More</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% topic.topics_checks.includes(:check).each do |link| %>
-              <tr id="linked_check_<%= link.id %>">
-                <td class="name">
-                  <%= link.check.check %>
-                  <%= hidden_field_tag "checks[#{link.id}][ordering]", link.ordering, :class => 'check_ordering' %>
-                  <%= hidden_field_tag "checks[#{link.id}][topic_id]", topic.id, :class => 'topic_id_field'  %>
-                </td>
-                <td class="feedbacks">
-                  <%= text_area_tag "checks[#{link.id}][feedback]", link.check.feedback, :rows => 1, :cols => 40 %>
-                </td>
-                <td class="feedbacks">
-                  <%= text_area_tag "checks[#{link.id}][missing_feedback]", link.check.missing_feedback, :rows => 1, :cols => 40 %>
-                </td>
-                <td class="values">
-                  <%= number_field_tag "checks[#{link.id}][value]", show_val(link.value), :step=> :any, :class => :value %>
-                </td>
-                <td class="values">
-                  <%= number_field_tag "checks[#{link.id}][unchecked_value]", show_val(link.unchecked_value), :step => :any, :class => :unchecked_value %>
-                </td>
-                <td>
-                  <button type="button" class="hoverdrop btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    ✐
-                    <span class="caret"></span>
-                  </button>
-                  <div class="dropdown-menu dropdown-checkedit" role="menu">
-                    <div class="panel-body">
-                      <% if link.check.topics.size > 1 %>
-                        <p>This check is also linked to the following topics</p>
-                        <ul>
-                        <% link.check.topics.includes(:checklist).each do |t|  %>
-                          <% unless t.checklist.id == @checklist.id %>
-                            <li>
-                            <%= link_to t.title + " from "+t.checklist.title, t.checklist %>
-                            </li>
-                          <% end %>
-                        <% end %>
-                        </ul>
-                        <button type="button" class="deleteCheck btn btn-danger">Remove check from this topic</button>
-                      
-                      <% else %>
-                        <p>This check is not present in any other topics</p>
-                        <button type="button" class="deleteCheck btn btn-danger">Delete this check</button>
-                      <% end %>
-                
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-            <% end %>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="3" class="spanOverFeedbacks">Totals</th>
-              <th>Max: <span class="max"></span></th>
-              <th>Min: <span class="min"></span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th colspan="3" class="spanOverFeedbacks">
-                Scale score total to 
-                <%= number_field_tag "topics[#{topic.id}][score_target]", show_val(topic.score_target), :step=> :any, :class => :score_target %>
-                points
-                <%= hidden_field_tag "topics[#{topic.id}][scale_numerator]", topic.scale_numerator, :class => :scale_num %>
-                <%= hidden_field_tag "topics[#{topic.id}][scale_denominator]", topic.scale_denominator, :class => :scale_denom %>
-                <span class="pull-right">Scaled values:</span>
-              </th>
-              <th>Max: <span class="max_scaled"></span></th>
-              <th>Min: <span class="min_scaled"></span></th>
-              <th></th>
-            </tr>
-          </tfoot>
-        </table>
-        <%= render partial: "new_check", locals: {topic: topic} %>
-      </div>
+      <%= render partial: "topic", locals: {:topic => topic} %>
     <% end %>
+  </div>
+  <div class="rounded">
+    <h2>New checklist topic</h2>
+    <p>
+    <%= label_tag 'new_topic_title', 'Title' %>
+    <%= text_field_tag 'new_topic_title', "New topic" %>
+    <button id="new_topic" type="button" class="btn btn-primary">Create</button>
+    </p>
   </div>
   <%= submit_tag "Save", :class => "small-button" %>
 <% end %>
