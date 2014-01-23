@@ -24,14 +24,14 @@ class ChecklistsController < ApplicationController
   def create
     begin
       @checklist = Checklist.new params[:checklist]
-      @checklist.topics = yaml_to_topics(params[:topics])
+      @checklist.topics = yaml_to_topics(params[:topics_yaml])
       @checklist.save
       
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
     rescue Exception => msg  
       
       @checklist = Checklist.new params[:checklist]
-      @listdata = params[:topics]
+      @listdata = params[:topics_yaml]
       @checklist.errors.add(:topics,msg)
 
       render :action => "new"
@@ -45,7 +45,7 @@ class ChecklistsController < ApplicationController
     @checklist.remarks = params[:checklist][:remarks]
     begin
       old_checks = @checklist.checks
-      @checklist.topics = yaml_to_topics(params[:topics])
+      @checklist.topics = yaml_to_topics(params[:topics_yaml])
       @checklist.save
 
       ChecklistTopic.delete_all(:checklist_id => nil)
@@ -58,7 +58,7 @@ class ChecklistsController < ApplicationController
       redirect_to @checklist, :notice => 'Checklist was successfully created.'
 
     rescue Exception => msg  
-      @listdata = params[:topics]
+      @listdata = params[:topics_yaml]
       @checklist.errors.add(:topics,msg)
 
       render :action => "edit"
@@ -68,48 +68,115 @@ class ChecklistsController < ApplicationController
   def edit_values
     @checklist = Checklist.find params[:id]
   end
+  
+  def new_topic
+    topic = ChecklistTopic.new
+    topic.title = params[:title]
+
+    render :partial => "topic", :layout => false, :locals => { 
+      :topic => topic,
+      :topic_key => params[:new_key]
+    }
+  end
+  
+  def new_check
+    check = ChecklistCheck.new
+    check.check = params[:title]
+    link = ChecklistTopicsCheck.new
+    link.check = check
+
+    render :partial => "check", :layout => false, :locals => { 
+      :link => link,
+      :link_key => params[:new_key],
+      :topic_key => params[:topic_key]
+    }
+  end
+
   def update_values
     @checklist = Checklist.find params[:id]
     @checklist.grade_callback = params[:checklist][:grade_callback]
     @checklist.title = params[:checklist][:title]
     @checklist.save
-    topics = params[:topics]
-    checks = params[:checks]
 
-    @checklist.topics.each do |topic|
-      vals = topics[topic.id.to_s]
-      unless vals.nil?
-        target = BigDecimal(vals["score_target"])
-        scale = Rational(vals["scale_numerator"], vals["scale_denominator"]).round(5)
+    existingTopics = @checklist.topics.index_by { |t| t.id.to_s }
+    existingLinks = @checklist.topics_checks.includes(:check).index_by &:id
 
-        topic.title = vals["title"]
-        topic.ordering = vals["ordering"]
+    newTopics = params[:topics]
+    newChecks = params[:checks]
+
+    newTopics.each do |idkey, values|
+      # First we fix the scale rational values
+      target = BigDecimal(values["score_target"])
+      scale = Rational(values["scale_numerator"], values["scale_denominator"]).round(5)
         
-        if target == 0 
-          target = nil
-          scale = Rational(0)
-        end
+      if target == 0 
+        target = nil
+        scale = Rational(0)
+      end
 
-        topic.score_target = target
-        topic.scale_numerator = scale.numerator
-        topic.scale_denominator = scale.denominator
+      values["scale_numerator"] = scale.numerator
+      values["scale_denominator"] = scale.denominator
 
+      scoretype = Scoretype.find values[:scoretype_id]
+      values.delete :scoretype_id
+
+      if values["id"] == "new"
+        values.delete :id
+        topic = ChecklistTopic.new values
+        topic.scoretype = scoretype
+        topic.checklist = @checklist
         topic.save
+
+        existingTopics[idkey] = topic
+      else 
+        topic = existingTopics.fetch idkey.to_i, nil
+        unless topic.nil?
+          values.delete :id
+          topic.scoretype = scoretype
+          topic.update_attributes values
+        end
       end
     end
-    @checklist.topics_checks.includes(:check).each do |link|
-      vals = checks[link.id.to_s]
-      unless vals.nil?
-        link.value = BigDecimal(vals["value"])
-        link.unchecked_value = BigDecimal(vals["unchecked_value"])
-        link.ordering = vals["ordering"]
-        link.topic = ChecklistTopic.find(vals["topic_id"])
-        link.check.feedback = vals["feedback"]
-        link.check.missing_feedback = vals["missing_feedback"]
 
-        link.check.save
-        link.save
+    newChecks.each do |idkey, values|
+      topic = existingTopics.fetch values["topic_id"], nil
+    
+      if topic.nil?
+        asdf
       end
+
+      values.delete :topic_id
+      
+      if values["check_id"] == "new"
+        check = ChecklistCheck.new values["check"]
+      else 
+        check = ChecklistCheck.find values["check_id"]
+        check.update_attributes values["check"]
+      end
+
+      check.save
+
+      values.delete :check_id
+      values.delete :check
+
+      if values["id"] == "new"
+        values.delete :id
+        link  = ChecklistTopicsCheck.new values
+        link.topic = topic
+        link.check = check
+        link.save
+
+        existingTopics[idkey] = topic
+      else 
+        link = existingLinks.fetch idkey.to_i, nil
+        unless link.nil?
+          values.delete :id
+          link.topic = topic
+          link.check = check
+          link.update_attributes values
+        end
+      end
+
     end
 
     #Integer(,10)
@@ -130,28 +197,7 @@ class ChecklistsController < ApplicationController
       end
     end
 
-    if params[:new_check].nil?
-      redirect_to @checklist, :notice => 'Checklist was successfully updated.'
-    else
-      params[:new_check_for].select{|k,v| v["check"] != "" }.each do |k,v|
-        topic = ChecklistTopic.find k
-        ordering = topic.topics_checks.length
-
-        check = ChecklistCheck.new v
-        check.save
-
-        link = ChecklistTopicsCheck.new
-        link.value = check.value
-        link.unchecked_value = check.unchecked_value
-        link.topic = topic
-        link.ordering = ordering
-        link.check = check
-        link.save
-      end
-
-      redirect_to edit_checklist_values_path(@checklist)
-    end
-    
+    redirect_to @checklist, :notice => 'Checklist was successfully updated.'
   end
 
   def destroy
