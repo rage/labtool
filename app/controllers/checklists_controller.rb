@@ -24,14 +24,12 @@ class ChecklistsController < ApplicationController
   def create
     begin
       @checklist = Checklist.new params[:checklist]
-      @checklist.topics = yaml_to_topics(params[:topics_yaml])
       @checklist.save
       
-      redirect_to @checklist, :notice => 'Checklist was successfully created.'
+      redirect_to edit_checklist_values_path(@checklist), :notice => 'Checklist was successfully created.'
     rescue Exception => msg  
       
       @checklist = Checklist.new params[:checklist]
-      @listdata = params[:topics_yaml]
       @checklist.errors.add(:topics,msg)
 
       render :action => "new"
@@ -82,6 +80,19 @@ class ChecklistsController < ApplicationController
   def new_check
     check = ChecklistCheck.new
     check.check = params[:title]
+    link = ChecklistTopicsCheck.new
+    link.check = check
+
+    render :partial => "check", :layout => false, :locals => { 
+      :link => link,
+      :link_key => params[:new_key],
+      :topic_key => params[:topic_key]
+    }
+  end
+  
+  def import_check
+    @checklist = Checklist.find params[:checklist_id]
+    check = ChecklistCheck.find params[:check_id]
     link = ChecklistTopicsCheck.new
     link.check = check
 
@@ -179,7 +190,19 @@ class ChecklistsController < ApplicationController
 
     end
 
+    params[:deleted_topics_checks] ||= []
+
     #Integer(,10)
+    unless params[:deleted_topics].nil?
+      params[:deleted_topics].each do |del_id|
+        topic = @checklist.topics.find del_id rescue nil
+        unless topic.nil?
+          params[:deleted_topics_checks].push(*topic.topics_checks.map { |tc| tc.id })
+          topic.destroy
+        end
+      end
+    end
+    
     unless params[:deleted_topics_checks].nil?
       params[:deleted_topics_checks].each do |del_id|
         link = @checklist.topics_checks.find del_id rescue nil

@@ -1,5 +1,5 @@
 <h2><%= @checklist.title %></h2>
-<%= form_tag("/checklists/#{@checklist.id}/values/") do -%>
+<%= form_tag("/checklists/#{@checklist.id}/values/", {:id => 'checklist_'+@checklist.id.to_s}) do -%>
   <%= label_tag 'checklist[title]', 'Edit title' %>
   <%= text_field_tag 'checklist[title]', @checklist.title %>
   <%= check_box_tag(:show_feedbacks, nil, true) %>
@@ -21,8 +21,9 @@
     </div>
   </div>
   </p>
-  <p id="sorthelp">
+  <p id="help">
     Drag and drop items to reorder them
+    and click on check names to rename them.
   </p>
   <div class="topics" id="topics">
     <% @checklist.topics.order("ordering").each do |topic| %>

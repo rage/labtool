@@ -18,6 +18,9 @@
         Score type
         <%= collection_select("topics[#{topic_key}]", :scoretype_id, Scoretype.all, :id, :name, :selected => topic.scoretype_id) %>
       </div>
+      <div>
+        <button type="button" class="deleteTopic btn btn-danger">Delete this topic</button>
+      </div>
     </div>
   </div>
   <table class="checklist_table values_table table table-striped table-condensed table-bordered" id="topic_<%= topic_key %>">
@@ -68,8 +71,11 @@
   <div class="new_check_form_container">
     <p>
     <%= label_tag 'new_check_title', 'New check' %>:
-    <%= text_field_tag :new_check_title %>
+    <%= text_field_tag :new_check_title, nil %>
     <button class="new_check" type="button" class="btn btn-primary">Create</button>
+    <%= label_tag 'import_check', 'Import check' %>:
+    <%= grouped_collection_select :import_check, nil, ChecklistTopic.all, :checks, :checlist_name_and_title, :id, :check, :class => "nosubmit" %>
+    <button class="import_check" type="button" class="btn btn-primary">Import</button>
     </p>
   </div>
 </div>

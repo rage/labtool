@@ -38,7 +38,11 @@ textarea#topics + .CodeMirror {
 .values_table .values {
   padding: 0;
 }
+.values_table .name input {
+  display: none;
+}
 .values_table .feedbacks textarea,
+.values_table .name input,
 .values_table .values input,
 {
   width: 100%; 
