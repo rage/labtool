@@ -168,6 +168,17 @@ $(function() {
       new_counter++;
       var new_key = "new_"+new_counter;
       var table = container.find('tbody');
+      var check_id = $(this).parents('.new_check_form_container').find('select').val();
+      
+      var ok = true;
+      $('input.check_id').each(function() {
+        if($(this).val() == check_id) ok = false;
+      });
+      
+      if (!ok) {
+        alert("This check is already present in this checklist");
+        return;
+      }
 
       $.get("/checklists/ajax/import_check_form",   
         {

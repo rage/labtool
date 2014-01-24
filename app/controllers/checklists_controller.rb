@@ -93,6 +93,7 @@ class ChecklistsController < ApplicationController
   def import_check
     @checklist = Checklist.find params[:checklist_id]
     check = ChecklistCheck.find params[:check_id]
+    
     link = ChecklistTopicsCheck.new
     link.check = check
 
