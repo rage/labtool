@@ -18,6 +18,16 @@
         Score type
         <%= collection_select("topics[#{topic_key}]", :scoretype_id, Scoretype.all, :id, :name, :selected => topic.scoretype_id) %>
       </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Javascript code to call before evaluating the score and feedback of this topic.</p>
+          <%= text_area_tag "topics[#{topic_key}]", topic.init_callback, :rows => 10, :cols => 80 %>
+        </div>
+        <div class="col-sm-6">
+          <p>Javascript code to call after evaluating the score and feedback of this topic.</p>
+          <%= text_area_tag "topics[#{topic_key}]", topic.update_callback, :rows => 10, :cols => 80 %>
+        </div>
+      </div>
       <div>
         <button type="button" class="deleteTopic btn btn-danger">Delete this topic</button>
       </div>

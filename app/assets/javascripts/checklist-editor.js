@@ -115,6 +115,10 @@ $(function() {
           scale_denom.val(max);
           factor = score_target / max;
         }
+        if (scale_denom.val() == 0) {
+          scale_denom.val(1);
+          factor = 1
+        }
       } else {
         scale_num.val(1);
         scale_denom.val(1);
