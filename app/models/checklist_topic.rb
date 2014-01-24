@@ -6,4 +6,8 @@ class ChecklistTopic < ActiveRecord::Base
   belongs_to :scoretype
   belongs_to :checklist
 
+  def checlist_name_and_title
+    checklist.title + "\\" + title
+  end
+
 end

@@ -23,27 +23,39 @@ $(function() {
   });
 
   /* Creating a new topic */
+  $("#new_topic_title").bind('keypress keydown keyup', function(e) {
+    if(e.keyCode == 13) {
+      e.preventDefault();
+      $('#new_topic').click();
+      return false;
+    }
+  });
   $('#new_topic').click(function() {
     new_counter++;
     var new_key = "new_"+new_counter;
-    $.get("/checklists/ajax/new_topic_form",   
-      {
-        new_key: new_key,
-        title: $("#new_topic_title").val()
-      },
-      function(text) {
-        $('#topics').append(text);
-        updateTopicSort();
-        var table = $('#topic_'+new_key);
-        activateTable.call(table);
-      }
-    );
+    var title = $("#new_topic_title").val();
+    if (title != "") {
+      $("#new_topic_title").val("");
+      $.get("/checklists/ajax/new_topic_form",   
+        {
+          new_key: new_key,
+          title: title
+        },
+        function(text) {
+          $('#topics').append(text);
+          updateTopicSort();
+          var table = $('#topic_'+new_key);
+          activateTable.call(table);
+        }
+      );
+    }
   });
 
   /* Checks */
 
   function activateTable() {
     var table = $(this);
+    var container = table.parents('.topicContainer');
     var topic_id = table.attr('id').replace('topic_','');
     var min_text = table.find('.min');
     var max_text = table.find('.max');
@@ -111,23 +123,58 @@ $(function() {
       max_text_scaled.text(max*factor);
     }
 
-    table.parents('.topicContainer').find('.new_check').click(function() {
+    container.find('.deleteTopic').click(function() {
+      var id = container.find('.topic_id').val();
+
+      if (id != "new") {
+        var deleteInput = $('<input type="hidden" name="deleted_topics[]" />');
+        deleteInput.val(id.replace('linked_check_',''));
+        $('form').append(deleteInput);
+      }
+
+      container.remove();
+      updateTopicSort();
+    });
+    container.find(".new_check_form_container input").bind('keypress keydown keyup', function(e) {
+      if(e.keyCode == 13) {
+        e.preventDefault();
+        container.find('.new_check').click();
+        return false;
+      }
+    });
+    container.find('.new_check').click(function() {
       new_counter++;
       var new_key = "new_"+new_counter;
       var form = $(this).parents('.new_check_form_container');
-      var table = form.parents('.topicContainer').find('tbody');
+      var table = container.find('tbody');
       var title = form.find('input[type=text]').val();
 
-      if (title == "") {
-        alert("Give a name to your check");
-        return;
+      if (title != "") {
+        form.find('input[type=text]').val("");
+        $.get("/checklists/ajax/new_check_form",   
+          {
+            new_key: new_key,
+            topic_key: topic_id,
+            title: title
+          },
+          function(text) {
+            table.append(text);
+            activateRows();
+          }
+        );
       }
+    });
+    container.find('.import_check').click(function() {
+      new_counter++;
+      var new_key = "new_"+new_counter;
+      var table = container.find('tbody');
 
-      $.get("/checklists/ajax/new_check_form",   
+      $.get("/checklists/ajax/import_check_form",   
         {
+          checklist_id: $('form').attr('id').replace('checklist_', ''),
           new_key: new_key,
           topic_key: topic_id,
-          title: title
+          check_id: $(this).parents('.new_check_form_container').find('select').val()
         },
         function(text) {
           table.append(text);
@@ -140,6 +187,14 @@ $(function() {
       table.find('tr:not(.activated)').each(function() {
         var row = $(this);
         row.addClass("activated");
+        row.find('.nametext').click(function() {
+          row.find('.nametext').hide();
+          row.find('.check_check').show().focus();
+        });
+        row.find('.check_check').blur(function() {
+          row.find('.nametext').show();
+          row.find('.check_check').hide();
+        });
         row.find('input[type="number"]').change(calc);
         row.find('.deleteCheck').click(function() {
           var id = row.find('.link_id').val();
