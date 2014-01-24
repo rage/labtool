@@ -29,6 +29,10 @@
     </button>
     <div class="dropdown-menu dropdown-checkedit" role="menu">
       <div class="panel-body">
+        <p>
+          Variable name used in javascript code (optional)
+          <%= text_field_tag "checks[#{link_key}][check][varname]", link.check.varname, :class => 'check_varname' %>
+        </p>
         <% other_topics = link.check.topics.includes(:checklist).where('checklist_id != ?', @checklist.id ) %>
         <% if other_topics.size > 0 %>
           <p>This check is also linked to the following topics</p>

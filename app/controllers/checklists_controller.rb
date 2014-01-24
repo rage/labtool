@@ -119,7 +119,11 @@ class ChecklistsController < ApplicationController
     newTopics.each do |idkey, values|
       # First we fix the scale rational values
       target = BigDecimal(values["score_target"])
-      scale = Rational(values["scale_numerator"], values["scale_denominator"]).round(5)
+      unless values["scale_denominator"].to_i == 0 or values["scale_numerator"].to_i == 0 
+        scale = Rational(values["scale_numerator"], values["scale_denominator"]).round(5)
+      else
+        scale = Rational(1)
+      end
         
       if target == 0 
         target = nil
