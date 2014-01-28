@@ -78,6 +78,7 @@ class ChecklistsController < ApplicationController
   end
   
   def new_check
+    @checklist = Checklist.new
     check = ChecklistCheck.new
     check.check = params[:title]
     link = ChecklistTopicsCheck.new
