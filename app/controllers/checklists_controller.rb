@@ -146,12 +146,13 @@ class ChecklistsController < ApplicationController
 
         existingTopics[idkey] = topic
       else 
-        topic = existingTopics.fetch idkey.to_i, nil
+        topic = existingTopics.fetch idkey, nil
         unless topic.nil?
           values.delete :id
           topic.scoretype = scoretype
           topic.update_attributes values
         end
+
       end
     end
 
