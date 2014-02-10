@@ -29,6 +29,17 @@ class PeerReviewsController < ApplicationController
     redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
   end
 
+  def remove_review
+    reviewer = User.find(params[:reviewer]).current_registration
+    reviewed = User.find(params[:reviewed]).current_registration
+    round = reviewer.course.review_round
+
+    review = PeerReview.find_matching reviewer, reviewed, round
+    review.delete
+
+    redirect_to :back
+  end
+
   def toggle_review
     reviewer = User.find(params[:reviewer]).current_registration
     reviewed = User.find(params[:reviewed]).current_registration

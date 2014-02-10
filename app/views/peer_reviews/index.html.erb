@@ -34,6 +34,8 @@
         <th></th>
         <th>reviews</th>
         <th>rewiewed</th>
+        <th>reviewes</th>
+        <th></th>
       </thead>
       <tbody>
         <% @students.each do |student| %>
@@ -41,6 +43,14 @@
             <td> <%= student %></td>
             <td> <%= student.assigned_reviews.count %> </td>
             <td> <%= student.assigned_reviewers.count %> </td>
+            <td> <%= student.reviews_at_round(@course.review_round) if student.assigned_reviews.count>0 %> </td>
+            <th>
+              <%= form_tag('/remove_review') do %>
+                  <%= hidden_field_tag 'reviewer', student.id %>
+                  <%= hidden_field_tag 'reviewed', student.reviews_at_round(@course.review_round).id %>
+                  <%= submit_tag 'remove' %>
+              <% end if student.assigned_reviews.count>0 %>
+            </th>
           </tr>
         <% end %>
       </tbody>

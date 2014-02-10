@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     "#{forename} #{surename}"
   end
 
+  def reviews_at_round(round)
+    current_registration.review_targets_for(round).first.reviewed.user
+  end
+
   def current_registration
     registrations.each { |r|
       return r if r.course == Course.active
@@ -41,6 +45,7 @@ class User < ActiveRecord::Base
   def past_registrations
     registrations.select{ |r| r.course.active!=true}
   end
+
 
   def assigned_to_review user
     return "cancel" if includes?( current_registration.review_targets_for(Course.active.review_round), user.current_registration)

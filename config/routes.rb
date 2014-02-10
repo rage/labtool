@@ -26,6 +26,7 @@ Labtool::Application.routes.draw do
 
   match 'foobar' => 'mypage#foobar'
   match 'toggle_review' => 'peer_reviews#toggle_review'
+  match 'remove_review' => 'peer_reviews#remove_review'
   match 'complete_review' => 'peer_reviews#complete_review'
   match 'reset_reviews' => 'peer_reviews#reset'
   match 'generate_reviews' => 'peer_reviews#generate'
