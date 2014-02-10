@@ -23,6 +23,14 @@ class User < ActiveRecord::Base
     current_registration.review_targets_for(round).first.reviewed.user
   end
 
+  def reviewer_at_round?(round)
+    current_registration.review_targets_for(round).any?
+  end
+
+  def review_target_at_round?(round)
+    current_registration.reviewers_for(round).any?
+  end
+
   def current_registration
     registrations.each { |r|
       return r if r.course == Course.active

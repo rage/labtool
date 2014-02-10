@@ -31,6 +31,7 @@ Labtool::Application.routes.draw do
   match 'reset_reviews' => 'peer_reviews#reset'
   match 'generate_reviews' => 'peer_reviews#generate'
   match 'toggle_review_participation' => 'peer_reviews#toggle_participation'
+  post '/peer_review' => 'peer_reviews#create'
 
   match 'toggle_registration' => 'registrations#toggle_activity'
 

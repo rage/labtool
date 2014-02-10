@@ -56,5 +56,19 @@
       </tbody>
     </table>
 
+    <h3>A new review</h3>
+
+    <%= form_for(PeerReview.new) do |f| %>
+        <div>
+          reviewer:
+          <%= f.select :reviewer_id, options_from_collection_for_select(@reviewer_candicate, :id, :to_s ) %>
+        </div>
+        <div>
+          review target:
+          <%= f.select :reviewed_id, options_from_collection_for_select(@review_target_candidate, :id, :to_s ) %>
+        </div>
+        <%= f.submit %>
+    <% end %>
+
 <% end %>
 
