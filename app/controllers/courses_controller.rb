@@ -17,6 +17,12 @@ class CoursesController < ApplicationController
     @registrations = Registration.includes(:week_feedbacks, :user).where( :course_id => @course.id)
 
     @current = @course == Course.active
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @registrations, :methods => [:user] }
+      format.json  { render :json => @registrations, :methods => [:user] }
+    end
   end
 
   def new
