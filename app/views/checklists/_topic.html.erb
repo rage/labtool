@@ -84,7 +84,7 @@
     <%= text_field_tag :new_check_title, nil %>
     <button class="new_check" type="button" class="btn btn-primary">Create</button>
     <%= label_tag 'import_check', 'Import check' %>:
-    <%= grouped_collection_select :import_check, nil, ChecklistTopic.all, :checks, :checlist_name_and_title, :id, :check, :class => "nosubmit" %>
+    <%= grouped_collection_select :import_check, nil, ChecklistTopic.includes(:checklist).order("checklists.title","checklist_topics.ordering"), :checks, :checlist_name_and_title, :id, :check, :class => "nosubmit" %>
     <button class="import_check" type="button" class="btn btn-primary">Import</button>
     </p>
   </div>
