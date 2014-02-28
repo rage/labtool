@@ -145,7 +145,7 @@ $(function() {
           f_elem.text(f);
           feedbackContainer.append(f_elem);
         });
-        $.each(scores, function(k, v) {
+        $.each(checklist.scores, function(k, v) {
           if (k == v.id) { //Do not repeat stuff because of varnames
             scoreContainer.append("<p>"+this.name+": "+this.val+"</p>");
           }
