@@ -79,7 +79,9 @@ $(function() {
           if (feedback) topic.feedbacks[k] = feedback;
         });
 
-        topic.score = topic.score * topic.scale_numerator / topic.scale_denominator;
+        if (topic.scale_denominator != 0) {
+          topic.score = topic.score * topic.scale_numerator / topic.scale_denominator;
+        }
 
         $.each(update_callbacks, function() {
           this.call(topic, checklist);

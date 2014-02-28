@@ -65,7 +65,9 @@
       </tr>
       <tr>
         <th colspan="3" class="spanOverFeedbacks">
-          Scale score total to 
+
+          <%= check_box_tag("topics[#{topic_key}][scale_score]", 1, !topic.score_target.nil?, :class => :scale_score) +
+              label_tag("topics[#{topic_key}][scale_score]", "Scale score total to a maximum/minimum of") %>
           <%= number_field_tag "topics[#{topic_key}][score_target]", show_val(topic.score_target), :step=> :any, :class => :score_target %>
           points
           <%= hidden_field_tag "topics[#{topic_key}][scale_numerator]", topic.scale_numerator, :class => :scale_num %>

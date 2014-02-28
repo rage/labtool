@@ -93,7 +93,6 @@ $(function() {
     }).bind('sortupdate', updateCheckSort);
 
     function calc() {
-      var score_target = parseFloat(table.find('input.score_target')[0].value, 10);
       var min = 0;
       var max = 0;
       for(var i=0; i<cells1.length; i++) {
@@ -105,8 +104,11 @@ $(function() {
       min_text.text(min);
       max_text.text(max);
 
+      var score_target = parseFloat(table.find('input.score_target')[0].value, 10);
+      var scale_score = table.find('input.scale_score').is(':checked');
+
       var factor = 1;
-      if (score_target != 0) {
+      if (scale_score) {
         scale_num.val(score_target);
         if (score_target < 0) {
           scale_denom.val(min);
@@ -210,7 +212,7 @@ $(function() {
           row.find('.nametext').show();
           row.find('.check_check').hide();
         });
-        row.find('input[type="number"]').change(calc);
+        row.find('input[type="number"], input.scale_score').change(calc);
         row.find('.deleteCheck').click(function() {
           var id = row.find('.link_id').val();
 
