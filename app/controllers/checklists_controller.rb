@@ -120,22 +120,23 @@ class ChecklistsController < ApplicationController
     newTopics.each do |idkey, values|
       # First we fix the scale rational values
       target = BigDecimal(values["score_target"])
-      unless values["scale_denominator"].to_f == 0 or values["scale_numerator"].to_f == 0 
-        scale = Rational(values["scale_numerator"], values["scale_denominator"]).round(5)
-      else
+
+      if values["scale_score"].nil?
         scale = Rational(1)
+        values["score_target"] = nil
+      else
+        unless values["scale_denominator"].to_f == 0
+          scale = Rational(values["scale_numerator"], values["scale_denominator"]).round(5)
+        else
+          scale = Rational(0)
+        end
+        values["scale_numerator"] = scale.numerator
+        values["scale_denominator"] = scale.denominator
       end
-        
-      if target == 0 
-        target = nil
-        scale = Rational(0)
-      end
-
-      values["scale_numerator"] = scale.numerator
-      values["scale_denominator"] = scale.denominator
-
+      
       scoretype = Scoretype.find values[:scoretype_id]
       values.delete :scoretype_id
+      values.delete :scale_score
 
       if values["id"] == "new"
         values.delete :id
