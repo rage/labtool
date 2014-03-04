@@ -114,8 +114,8 @@ class ChecklistsController < ApplicationController
     existingTopics = @checklist.topics.index_by { |t| t.id.to_s }
     existingLinks = @checklist.topics_checks.includes(:check).index_by &:id
 
-    newTopics = params[:topics]
-    newChecks = params[:checks]
+    newTopics = params[:topics] || {}
+    newChecks = params[:checks] || {}
 
     newTopics.each do |idkey, values|
       # First we fix the scale rational values
