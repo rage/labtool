@@ -209,8 +209,14 @@ $(function() {
           row.find('.check_check').show().focus();
         });
         row.find('.check_check').blur(function() {
-          row.find('.nametext').show();
+          row.find('.nametext').show().text($(this).val());
           row.find('.check_check').hide();
+        }).bind('keypress keydown keyup', function(e) {
+          if(e.keyCode == 13) {
+            e.preventDefault();
+            $(this).blur();
+            return false;
+          }
         });
         row.find('input[type="number"], input.scale_score').change(calc);
         row.find('.deleteCheck').click(function() {
