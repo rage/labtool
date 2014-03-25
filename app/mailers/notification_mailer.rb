@@ -1,7 +1,7 @@
 class NotificationMailer < ActionMailer::Base
 
   def email(from, to, body, subject, cc, course="Ohjelmoinnin harjoitustyo")
-    from
+    from = "noreply@tsoha-labtool.herokuapp.com/"
     subject = "[#{course}] #{subject}"
     @mailbody = body
     if cc
