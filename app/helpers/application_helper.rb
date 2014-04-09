@@ -7,7 +7,7 @@ module ApplicationHelper
   def rendered content
     return "" if content.nil?
     require 'redcarpet'
-    renderer = Redcarpet::Render::HTML.new
+    renderer = Redcarpet::Render::HTML.new escape_html: true
     extensions = {fenced_code_blocks: true}
     redcarpet = Redcarpet::Markdown.new(renderer, extensions)
     raw(redcarpet.render content)
