@@ -75,6 +75,19 @@
         <p>Repository: <%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
 
         <p>Test URL: <%= link_to @user.current_registration.test_url, @user.current_registration.test_url %></p>
+        
+        <p>Has participated in demo: <b><%= @user.current_registration.showed_up_in_demo ? "Yes" : "No" %></b> </p>
+        <%= form_tag('/toggle_demo_participation') do %>
+          <p>
+            <%= hidden_field_tag 'registration', @user.current_registration.id %>
+            <% if @user.current_registration.showed_up_in_demo  %>
+              <%= submit_tag "Unmark demo participation", :class => "small-button" %>
+            <% else %>
+              <%= submit_tag "Mark demo participation", :class => "small-button" %>
+            <% end %>
+          </p>
+        <% end %>
+
       </div>
 
       <table>

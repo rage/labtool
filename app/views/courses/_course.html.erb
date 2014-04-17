@@ -45,6 +45,7 @@
         <th colspan="<%= @course.reviews_total %>">Reviews</th>
       <% end %>
       <th></th>
+      <th>Demo</th>
       <th>Grade</th>
       <th>Total</th>
       <th>
@@ -67,6 +68,7 @@
       <% (1..@course.reviews_total).each do |week| %>
         <th><%= week %></th>
       <% end %>
+      <th></th>
       <th></th>
       <th>
         points
@@ -96,6 +98,7 @@
           <td><%= registration.review_status_for_week week %></td>
           <% end %>
           <td></td>
+          <td><b><%= "X" if registration.showed_up_in_demo %></b></td>
           <td><b><%= registration.grade_points%></b></td>
           <td style="text-align: center;"><b><%= registration.total_points %></b></td>
           <td><b><%= registration.grade %></b></td>

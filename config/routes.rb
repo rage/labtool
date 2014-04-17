@@ -50,6 +50,7 @@ Labtool::Application.routes.draw do
   post '/peer_review' => 'peer_reviews#create'
 
   match 'toggle_registration' => 'registrations#toggle_activity'
+  match 'toggle_demo_participation' => 'registrations#toggle_demo_participation'
 
   root :to => 'mypage#index'
 end

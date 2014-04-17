@@ -10,6 +10,14 @@ class RegistrationsController < ApplicationController
     redirect_to :back, :notice=> 'Registration status changed'
   end
 
+  def toggle_demo_participation
+    expire_fragment('current_course')
+    @registration = Registration.find(params[:registration])
+    @registration.toggle_demo_participation
+    @registration.save
+    redirect_to :back, :notice=> 'Registration status changed'
+  end
+
   def index
     @registrations = Registration.current.select{|r| r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }
     passive_registrations = Registration.current.select{|r| not r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }

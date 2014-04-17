@@ -155,7 +155,7 @@ td {
     border: 2px solid #a1a1a1;
     padding: 0px 20px;
     background: #dddddd;
-    width: 150px;
+    min-width: 150px;
     height: 20px;
     border-radius: 10px;
     -moz-border-radius: 10px;

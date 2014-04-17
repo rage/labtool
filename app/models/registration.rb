@@ -1,5 +1,5 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :repository, :topic, :test_url, :active, :review1, :review2
+  attr_accessible :repository, :topic, :test_url, :active, :review1, :review2, :showed_up_in_demo
 
   belongs_to :course
   belongs_to :user
@@ -93,6 +93,10 @@ class Registration < ActiveRecord::Base
       self.participate_review1 = false
       self.participate_review2 = false
     end
+  end
+
+  def toggle_demo_participation
+    self.showed_up_in_demo = showed_up_in_demo==false
   end
 
   def toggle_review_participation round
