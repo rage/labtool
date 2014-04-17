@@ -15,7 +15,13 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:registration])
     @registration.toggle_demo_participation
     @registration.save
-    redirect_to :back, :notice=> 'Registration status changed'
+
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to :back, :notice=> 'Registration status changed'
+      }
+    end
   end
 
   def index

@@ -45,13 +45,13 @@
         <th colspan="<%= @course.reviews_total %>">Reviews</th>
       <% end %>
       <th></th>
-      <th>Demo</th>
-      <th>Grade</th>
-      <th>Total</th>
-      <th>
-        Final
+      <th rowspan="2">Demo participation</th>
+      <th rowspan="2">Grade points</th>
+      <th rowspan="2">Total points</th>
+      <th rowspan="2">
+        Final points
       </th>
-      <th></th>
+      <th rowspan="2">Last instructor note</th>
       <th></th>
     </tr>
 
@@ -70,17 +70,6 @@
       <% end %>
       <th></th>
       <th></th>
-      <th>
-        points
-      </th>
-      <th>
-        points
-      </th>
-      <th>
-        grade
-      </th>
-      <th>Last instructor note</th>
-      <th></th>
     </tr>
 
     <% sort(@registrations).each do |registration| %>
@@ -98,7 +87,14 @@
           <td><%= registration.review_status_for_week week %></td>
           <% end %>
           <td></td>
-          <td><b><%= "X" if registration.showed_up_in_demo %></b></td>
+          <td>
+            <%= form_tag('/toggle_demo_participation', :remote => true) do %>
+              <%= hidden_field_tag 'registration', registration.id %>
+              <%= submit_tag registration.showed_up_in_demo ? "Yes" : "No", 
+                  :id => "toggle_demo_#{registration.id}" %>
+              </p>
+            <% end %>
+          </td>
           <td><b><%= registration.grade_points%></b></td>
           <td style="text-align: center;"><b><%= registration.total_points %></b></td>
           <td><b><%= registration.grade %></b></td>
