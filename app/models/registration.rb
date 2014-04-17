@@ -96,7 +96,7 @@ class Registration < ActiveRecord::Base
   end
 
   def toggle_demo_participation
-    self.showed_up_in_demo = showed_up_in_demo==false
+    self.showed_up_in_demo = showed_up_in_demo!=true
   end
 
   def toggle_review_participation round
