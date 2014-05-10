@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131025110946) do
+ActiveRecord::Schema.define(:version => 20131107142627) do
 
   create_table "courses", :force => true do |t|
     t.integer  "year"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(:version => 20131025110946) do
     t.boolean  "email_instructor"
     t.integer  "weeks_total"
     t.integer  "reviews_total"
+  end
+
+  create_table "feedback_comments", :force => true do |t|
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "week_feedback_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "peer_reviews", :force => true do |t|
@@ -76,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20131025110946) do
     t.datetime "updated_at",      :null => false
     t.text     "hidden_text"
     t.decimal  "points"
+    t.integer  "giver_id"
   end
 
 end
