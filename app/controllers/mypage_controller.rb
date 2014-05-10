@@ -2,6 +2,7 @@ class MypageController < ApplicationController
   skip_before_filter :authenticate
 
   def redirect
+
     number = params[:student_number].lstrip.rstrip
     email = params[:email].lstrip.rstrip
 
