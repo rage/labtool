@@ -37,3 +37,4 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'jquery-rails'
 gem 'newrelic_rpm'
 
+gem 'rack-mini-profiler'

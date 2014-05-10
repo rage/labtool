@@ -1,0 +1,88 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Assign peer reviews for students</h1>
+
+<h3>Course: <%= @course %></h3>
+
+<% if @course.review_round==0 %>
+
+    <h4>reviews not started</h4>
+
+<% elsif @course.review_round>2 %>
+
+    <h4>reviews completed</h4>
+
+<% else %>
+
+    <h4>review round <%= @course.review_round %>, registration <%= @course.review_registration %></h4>
+
+    <p><em>Rows represent reviewers and columns targets of review</em></p>
+
+    <div style="padding: 10px 20px 20px 20px;">
+      <%= form_tag('/reset_reviews') do %>
+          <%= submit_tag "reset review assignments", :confirm => "Are you sure you want to reset all reviews" %>
+      <% end %>
+      <br/>
+
+      <%= form_tag('/generate_reviews') do %>
+          <%= submit_tag "generate default review assignments", :confirm => "Are you sure you want to generate reviews? All the current ones will be deleted" %>
+      <% end %>
+    </div>
+
+    <table class="bordered" style="padding-top: 20px;">
+      <tr class="bar">
+        <th></th>
+        <% @students.each do |student| %>
+            <% if student.assigned_reviewers.count>1 %>
+                <th id='<%= "r#{student.id}" %>' class='<%="many-reviewers-assigned vertical s#{student.id}"%>'><%= student %></th>
+            <% elsif student.assigned_reviewers.count>0 %>
+                <th id='<%= "r#{student.id}" %>' class='<%="reviewer-assigned vertical s#{student.id}"%>'><%= student %></th>
+            <% else %>
+                <th id='<%= "r#{student.id}" %>' class='<%="vertical s#{student.id}"%>'><%= student %></th>
+            <% end %>
+        <% end %>
+        <th class="vertical" style="font-style: italic;">assigned reviews</th>
+      </tr>
+
+      <% @students.each do |student| %>
+
+          <tr class='<%="s#{student.id}" %>'>
+            <% if student.assigned_reviews.count>1 %>
+                <td id='<%= "s#{student.id}" %>' class='<%= "many-reviews-assigned activable" %>'><%= link_to student, student %></td>
+            <% elsif student.assigned_reviews.count>0 %>
+                <td id='<%= "s#{student.id}" %>' class='<%= "review-assigned activable" %>'><%= link_to student, student %></td>
+            <% else %>
+                <td id='<%= "s#{student.id}" %>' class="activable"><%= link_to student, student %></td>
+            <% end %>
+
+            <% @students.each do |reviewed| %>
+                <td id='<%= "b#{student.id}-#{reviewed.id}" %>'
+                    class='<%="#{student.assigned_to_review(reviewed)} s#{reviewed.id}" %>'>
+                  <% if student.id!=reviewed.id %>
+                      <%= form_tag('/toggle_review', :remote => true) do %>
+                          <%= hidden_field_tag 'reviewer', student.id %>
+                          <%= hidden_field_tag 'reviewed', reviewed.id %>
+                          <% if  Course.active.review_registration=="closed" %>
+                              <%= submit_tag student.assigned_to_review(reviewed), :confirm => "Are you sure? Registration is already closed!" %>
+                          <% else %>
+                              <%= submit_tag student.assigned_to_review(reviewed) %>
+                          <% end %>
+                      <% end %>
+
+                  <% end %>
+                </td>
+            <% end %>
+            <td style="text-align: center;" id='<%= "reviews#{student.id}" %>'> <%= student.assigned_reviews.count %></td>
+          </tr>
+
+      <% end %>
+      <tr>
+        <td style="font-style: italic;">assigned reviewers</td>
+        <% @students.each do |student| %>
+            <td style="text-align: center;" id='<%= "reviewers#{student.id}" %>'><%= student.assigned_reviewers.count %></td>
+        <% end %>
+      </tr>
+<% end %>
+
+
+</table>

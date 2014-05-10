@@ -30,59 +30,45 @@
     </div>
 
     <table class="bordered" style="padding-top: 20px;">
-      <tr class="bar">
+      <thead>
         <th></th>
+        <th>reviews</th>
+        <th>rewiewed</th>
+        <th>reviewes</th>
+        <th></th>
+      </thead>
+      <tbody>
         <% @students.each do |student| %>
-            <% if student.assigned_reviewers.count>1 %>
-                <th id='<%= "r#{student.id}" %>' class='<%="many-reviewers-assigned vertical s#{student.id}"%>'><%= student %></th>
-            <% elsif student.assigned_reviewers.count>0 %>
-                <th id='<%= "r#{student.id}" %>' class='<%="reviewer-assigned vertical s#{student.id}"%>'><%= student %></th>
-            <% else %>
-                <th id='<%= "r#{student.id}" %>' class='<%="vertical s#{student.id}"%>'><%= student %></th>
-            <% end %>
-        <% end %>
-        <th class="vertical" style="font-style: italic;">assigned reviews</th>
-      </tr>
-
-      <% @students.each do |student| %>
-
-          <tr class='<%="s#{student.id}" %>'>
-            <% if student.assigned_reviews.count>1 %>
-                <td id='<%= "s#{student.id}" %>' class='<%= "many-reviews-assigned activable" %>'><%= link_to student, student %></td>
-            <% elsif student.assigned_reviews.count>0 %>
-                <td id='<%= "s#{student.id}" %>' class='<%= "review-assigned activable" %>'><%= link_to student, student %></td>
-            <% else %>
-                <td id='<%= "s#{student.id}" %>' class="activable"><%= link_to student, student %></td>
-            <% end %>
-
-            <% @students.each do |reviewed| %>
-                <td id='<%= "b#{student.id}-#{reviewed.id}" %>'
-                    class='<%="#{student.assigned_to_review(reviewed)} s#{reviewed.id}" %>'>
-                  <% if student.id!=reviewed.id %>
-                      <%= form_tag('/toggle_review', :remote => true) do %>
-                          <%= hidden_field_tag 'reviewer', student.id %>
-                          <%= hidden_field_tag 'reviewed', reviewed.id %>
-                          <% if  Course.active.review_registration=="closed" %>
-                              <%= submit_tag student.assigned_to_review(reviewed), :confirm => "Are you sure? Registration is already closed!" %>
-                          <% else %>
-                              <%= submit_tag student.assigned_to_review(reviewed) %>
-                          <% end %>
-                      <% end %>
-
-                  <% end %>
-                </td>
-            <% end %>
-            <td style="text-align: center;" id='<%= "reviews#{student.id}" %>'> <%= student.assigned_reviews.count %></td>
+          <tr>
+            <td> <%= student %></td>
+            <td> <%= student.assigned_reviews.count %> </td>
+            <td> <%= student.assigned_reviewers.count %> </td>
+            <td> <%= student.reviews_at_round(@course.review_round) if student.assigned_reviews.count>0 %> </td>
+            <th>
+              <%= form_tag('/remove_review') do %>
+                  <%= hidden_field_tag 'reviewer', student.id %>
+                  <%= hidden_field_tag 'reviewed', student.reviews_at_round(@course.review_round).id %>
+                  <%= submit_tag 'remove' %>
+              <% end if student.assigned_reviews.count>0 %>
+            </th>
           </tr>
-
-      <% end %>
-      <tr>
-        <td style="font-style: italic;">assigned reviewers</td>
-        <% @students.each do |student| %>
-            <td style="text-align: center;" id='<%= "reviewers#{student.id}" %>'><%= student.assigned_reviewers.count %></td>
         <% end %>
-      </tr>
+      </tbody>
+    </table>
+
+    <h3>A new review</h3>
+
+    <%= form_for(PeerReview.new) do |f| %>
+        <div>
+          reviewer:
+          <%= f.select :reviewer_id, options_from_collection_for_select(@reviewer_candicate, :id, :to_s ) %>
+        </div>
+        <div>
+          review target:
+          <%= f.select :reviewed_id, options_from_collection_for_select(@review_target_candidate, :id, :to_s ) %>
+        </div>
+        <%= f.submit %>
+    <% end %>
+
 <% end %>
 
-
-</table>

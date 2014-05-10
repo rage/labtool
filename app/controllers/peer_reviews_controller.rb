@@ -29,6 +29,26 @@ class PeerReviewsController < ApplicationController
     redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
   end
 
+  def remove_review
+    reviewer = User.find(params[:reviewer]).current_registration
+    reviewed = User.find(params[:reviewed]).current_registration
+    round = reviewer.course.review_round
+
+    review = PeerReview.find_matching reviewer, reviewed, round
+    review.delete
+
+    redirect_to :back
+  end
+
+  def create
+    reviewer = User.find(params[:peer_review][:reviewer_id]).current_registration
+    reviewed = User.find(params[:peer_review][:reviewed_id]).current_registration
+
+    create_peer_review reviewer, reviewed
+
+    redirect_to :back
+  end
+
   def toggle_review
     reviewer = User.find(params[:reviewer]).current_registration
     reviewed = User.find(params[:reviewed]).current_registration
@@ -78,6 +98,9 @@ class PeerReviewsController < ApplicationController
     end
     @students.sort_by!{ |s| s.surename}
     @course = Course.active
+
+    @reviewer_candicate = @students.reject{|s| s.reviewer_at_round?(@course.review_round) }
+    @review_target_candidate =  @students.reject{|s| s.review_target_at_round?(@course.review_round) }
   end
 
   private
@@ -147,7 +170,7 @@ class PeerReviewsController < ApplicationController
     peer_review = PeerReview.new :done => :false, :round => round
     peer_review.reviewer = reviewer
     peer_review.reviewed = reviewed
-    peer_review.save
+    peer_review.save if reviewer != reviewed
   end
 
   def class_for object, klass

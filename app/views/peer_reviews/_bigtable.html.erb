@@ -1,0 +1,56 @@
+
+<table class="bordered" style="padding-top: 20px;">
+  <tr class="bar">
+    <th></th>
+    <% @students.each do |student| %>
+        <% if student.assigned_reviewers.count>1 %>
+            <th id='<%= "r#{student.id}" %>' class='<%="many-reviewers-assigned vertical s#{student.id}"%>'><%= student %></th>
+        <% elsif student.assigned_reviewers.count>0 %>
+            <th id='<%= "r#{student.id}" %>' class='<%="reviewer-assigned vertical s#{student.id}"%>'><%= student %></th>
+        <% else %>
+            <th id='<%= "r#{student.id}" %>' class='<%="vertical s#{student.id}"%>'><%= student %></th>
+        <% end %>
+    <% end %>
+    <th class="vertical" style="font-style: italic;">assigned reviews</th>
+  </tr>
+
+  <% @students.each do |student| %>
+
+      <tr class='<%="s#{student.id}" %>'>
+        <% if student.assigned_reviews.count>1 %>
+            <td id='<%= "s#{student.id}" %>' class='<%= "many-reviews-assigned activable" %>'><%= link_to student, student %></td>
+        <% elsif student.assigned_reviews.count>0 %>
+            <td id='<%= "s#{student.id}" %>' class='<%= "review-assigned activable" %>'><%= link_to student, student %></td>
+        <% else %>
+            <td id='<%= "s#{student.id}" %>' class="activable"><%= link_to student, student %></td>
+        <% end %>
+
+        <% @students.each do |reviewed| %>
+            <td id='<%= "b#{student.id}-#{reviewed.id}" %>'
+                class='<%="#{student.assigned_to_review(reviewed)} s#{reviewed.id}" %>'>
+              <% if student.id!=reviewed.id %>
+                  <%= form_tag('/toggle_review', :remote => true) do %>
+                      <%= hidden_field_tag 'reviewer', student.id %>
+                      <%= hidden_field_tag 'reviewed', reviewed.id %>
+                      <% if  Course.active.review_registration=="closed" %>
+                          <%= submit_tag student.assigned_to_review(reviewed), :confirm => "Are you sure? Registration is already closed!" %>
+                      <% else %>
+                          <%= submit_tag student.assigned_to_review(reviewed) %>
+                      <% end %>
+                  <% end %>
+
+              <% end %>
+            </td>
+        <% end %>
+        <td style="text-align: center;" id='<%= "reviews#{student.id}" %>'> <%= student.assigned_reviews.count %></td>
+      </tr>
+
+  <% end %>
+  <tr>
+    <td style="font-style: italic;">assigned reviewers</td>
+    <% @students.each do |student| %>
+        <td style="text-align: center;" id='<%= "reviewers#{student.id}" %>'><%= student.assigned_reviewers.count %></td>
+    <% end %>
+  </tr>
+
+</table>
