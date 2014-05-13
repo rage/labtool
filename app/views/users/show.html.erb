@@ -2,8 +2,7 @@
 
 <div class="<%=isHidden(@user)%>">
     <h1> <%= "#{@user.forename} #{@user.surename}" %> </h1>
-</div>
-
+</div> 
 <% if @user.hidden? %>
     <p>
       <%= link_to "make account visible", toggle_hidden_user_path(@user), :method => :post, :class => "small-button" %>
@@ -53,6 +52,20 @@
 
 
     <div class="rounded">
+
+      <div class="gradebox">
+        <div class="selector">
+          <b>Grade with a checklist</b>
+          <select id="select_grading">
+            <option value="">Select one</option>
+            <% Checklist.all.each do |list| %>
+              <option <%= raw 'selected="selected"' if list.id == @user.current_registration.course.default_checklist_id %> value="<%= list.id %>"><%= list.title %></option>
+            <% end %>
+          </select>
+        </div>
+        <div id="grader">
+        </div>
+      </div>
 
       <div>
         <p><b><%= @user.current_registration.topic %></b></p>
@@ -147,7 +160,7 @@
       </div>
 
       <h4 class="button" id="review-form">Give a new or edit feedback</h4>
-
+      
       <div class="review-form">
 
         <div style="background-color: #dddddd; margin: 10px;">
@@ -209,6 +222,7 @@
             <%= submit_tag 'Save the instructor only note' %>
         <% end -%>
       </div>
+      <div style="clear: both;"></div>
 
     </div>
 
@@ -354,7 +368,6 @@
             <% end %>
           </div>
       <% end %>
-
     </div>
 
     <% if @user.current_registration.active %>
@@ -405,3 +418,4 @@
       <%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
     </div>
 <% end %>
+      <div style="clear: both;"></div>
