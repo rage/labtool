@@ -16,7 +16,7 @@ Käyttöohjeita:
   - käyttää järjestelmää tämän jälkeen sivun http://tktl-labtool.herokuapp.com/mypage kautta
   - opiskelija ei siis kirjaudu järjestelmään
 - admin-käyttäjätunnukset tuotu labraohjaajille
-  - email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
+  - email-osoite on Ilmoon rekisteröimäsi
 - admin käyttää ylhäällä olevan valikon sivuista normaalisti vaan seuraavia:
   - peer reviews: sisältää koodikatselmoinnin generoinnin
   - current course: sisältää kaiken muun menossa olevan kurssin kannalta olellisen (mm. ilmottautuneet)
