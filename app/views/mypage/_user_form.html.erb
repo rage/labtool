@@ -1,36 +1,40 @@
 <%= form_tag("/mypage/#{@user.student_number}", :method => :put) do -%>
+    <div class="rounded">
+        <h1>General information</h1>
+        <div class="field">
+          <%= label_tag 'forename' %>
+          <br/>
+          <%= text_field_tag 'user[forename]', @user.forename %>
+        </div>
+        <div class="field">
+          <%= label_tag 'surename' %>
+          <br/>
+          <%= text_field_tag 'user[surename]', @user.surename %>
+        </div>
 
-    <div class="field">
-      <%= label_tag 'forename' %>
-      <br/>
-      <%= text_field_tag 'user[forename]', @user.forename %>
+        <div class="field">
+          <%= label_tag 'email' %>
+          <br/>
+          <%= text_field_tag 'user[email]', @user.email %>
+        </div>
     </div>
-    <div class="field">
-      <%= label_tag 'surename' %>
-      <br/>
-      <%= text_field_tag 'user[surename]', @user.surename %>
-    </div>
+    <% if @user.active_registrations.any? %>
+        <% @user.active_registrations.each do |r| %>
+          <div class="rounded">
+              <h2><%= r.course %></h2>
+              <div class="field">
+                <%= label_tag 'topic' %>
+                <br/>
+                <%= text_field_tag "user[registration][#{r.id}][topic]", r.topic %>
+              </div>
 
-    <div class="field">
-      <%= label_tag 'email' %>
-      <br/>
-      <%= text_field_tag 'user[email]', @user.email %>
-    </div>
-
-    <% if @user.current_registration %>
-
-      <div class="field">
-        <%= label_tag 'topic' %>
-        <br/>
-        <%= text_field_tag 'user[registration][topic]', @user.current_registration.topic %>
-      </div>
-
-      <div class="field">
-        <%= label_tag 'github repository' %>
-        <br/>
-        <%= text_field_tag 'user[registration][repository]', @user.current_registration.repository %>
-      </div>
-
+              <div class="field">
+                <%= label_tag 'github repository' %>
+                <br/>
+                <%= text_field_tag "user[registration][#{r.id}][repository]", r.repository %>
+              </div>
+          </div>
+        <% end %>
     <% end %>
 
     <%= submit_tag "Make changes" %>

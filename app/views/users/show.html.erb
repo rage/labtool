@@ -35,353 +35,341 @@
 
 
 
-<% if @user.current_registration %>
+<% unless @user.active_registrations.empty? %>
 
     <h2>Current work</h2>
 
-    <% if not @user.current_registration.active %>
-        <div class='<%= active @user.current_registration %>' style='margin: 10px; padding: 3px 10px 10px 10px'>
+    <% @user.active_registrations.each do |r| %>
 
-          <p><strong>has dropped from the course</strong></p>
-          <%= form_tag('/toggle_registration') do %>
-              <%= hidden_field_tag 'registration', @user.current_registration.id %>
-              <%= submit_tag "Activate again", :class => "small-button" %>
+
+
+
+        <div class="rounded">
+
+          <div class="gradebox">
+            <div class="selector">
+              <b>Grade with a checklist</b>
+              <select class="select_grading" data-registration="<%= r.id %>">
+                <option value="">Select one</option>
+                <% Checklist.all.each do |list| %>
+                  <option <%= raw 'selected="selected"' if list.id == r.course.default_checklist_id %> value="<%= list.id %>"><%= list.title %></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="grader">
+            </div>
+          </div>
+
+          <h1><%= r.topic %> (<%= link_to r.course, r.course %>)</h1>
+          <p><%= link_to r.repository, r.repository %></p>
+
+          <table>
+            <tr>
+              <th colspan="6">Week feedbacks</th>
+              <th></th>
+              <th colspan="2">Code review</th>
+              <th></th>
+              <th>
+                Total
+              </th>
+            </tr>
+            <tr>
+              <% (1..6).each do |week| %>
+                  <th style="width: 50px"> <%= week %></th>
+              <% end %>
+              <th>
+
+              </th>
+              <th>
+                1
+              </th>
+              <th>
+                2
+              </th>
+              <th>
+
+              </th>
+              <th>
+                points
+              </th>
+            </tr>
+
+            <tr>
+              <% (1..6).each do |week| %>
+                  <td style="width: 50px; ; text-align: center;"> <%= r.points_for_week week %></td>
+              <% end %>
+              <td></td>
+              <td style="width: 50px; ; text-align: center;"> <%= r.review1 %></td>
+              <td style="width: 50px; ; text-align: center;"> <%= r.review2 %></td>
+              <td></td>
+              <td style="width: 50px; ; text-align: center;"><b><%= r.total_points %></b></td>
+            </tr>
+          </table>
+
+          <% if r.feedback.size > 0 %>
+              <h3 class="button" id="review">Show feedbacks and notes</h3>
           <% end %>
-        </div>
-    <% end %>
 
+          <div class="reviews">
 
-    <div class="rounded">
+            <% r.feedback.select { |f| f.week<7 }.each do |fb| %>
+                <div style="margin: 20px;">
+                  <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
-      <div class="gradebox">
-        <div class="selector">
-          <b>Grade with a checklist</b>
-          <%= hidden_field_tag 'current_registration', @user.current_registration.id %>
-          <select id="select_grading">
-            <option value="">Select one</option>
-            <% Checklist.all.each do |list| %>
-              <option <%= raw 'selected="selected"' if list.id == @user.current_registration.course.default_checklist_id %> value="<%= list.id %>"><%= list.title %></option>
+                  <div style="margin: 10px;">
+                    <%= rendered(fb.text) %>
+                  </div>
+                  <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
+                      <div class="instronly">
+                        instructor notes:
+                        <div style="padding: 6px; marigin: 10px">
+                          <%= rendered(fb.hidden_text) %>
+                        </div>
+                      </div>
+                  <% end %>
+                </div>
+
+                <hr/>
             <% end %>
-          </select>
-        </div>
-        <div id="grader">
-        </div>
-      </div>
 
-      <div>
-        <p><b><%= @user.current_registration.topic %></b></p>
+            <% r.feedback.select { |f| f.week>6 }.each do |fb| %>
+                <div style="margin: 20px;">
+                  <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
+                      <div class="instronly">
+                        instructor notes:
+                        <div style="padding: 6px; marigin: 10px">
+                          <%= rendered(fb.hidden_text) %>
+                        </div>
+                      </div>
+                  <% end %>
+                </div>
 
-        <p><%= link_to @user.current_registration.repository, @user.current_registration.repository %></p>
-      </div>
+                <hr/>
+            <% end %>
 
-      <table>
-        <tr>
-          <th colspan="6">Week feedbacks</th>
-          <th></th>
-          <th colspan="2">Code review</th>
-          <th></th>
-          <th>
-            Total
-          </th>
-        </tr>
-        <tr>
-          <% (1..6).each do |week| %>
-              <th style="width: 50px"> <%= week %></th>
-          <% end %>
-          <th>
+          </div>
 
-          </th>
-          <th>
-            1
-          </th>
-          <th>
-            2
-          </th>
-          <th>
+          <h4 class="button" id="review-form">Give a new or edit feedback</h4>
 
-          </th>
-          <th>
-            points
-          </th>
-        </tr>
+          <div class="review-form">
 
-        <tr>
-          <% (1..6).each do |week| %>
-              <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.points_for_week week %></td>
-          <% end %>
-          <td></td>
-          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review1 %></td>
-          <td style="width: 50px; ; text-align: center;"> <%= @user.current_registration.review2 %></td>
-          <td></td>
-          <td style="width: 50px; ; text-align: center;"><b><%= @user.current_registration.total_points %></b></td>
-        </tr>
-      </table>
+            <div style="background-color: #dddddd; margin: 10px;">
+              Text fields can be formatted with
+              <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
+            </div>
 
-      <% if @user.current_registration.feedback.size > 0 %>
-          <h3 class="button" id="review">Show feedbacks and notes</h3>
-      <% end %>
+            <%= form_tag("/week_feedbacks") do -%>
+                <%= label_tag 'week' %>
+                <br/>
+                <%= text_field_tag 'week_feedback[week]', r.course.week %>
+                <br/>
+                <%= label_tag 'points' %>
+                <br/>
+                <%= text_field_tag 'week_feedback[points]' %>
+                <br/>
+                <%= label_tag 'comments for student' %>
+                <br/>
+                <%= text_area_tag 'week_feedback[text]', nil, :size => "100x10" %>
+                <br/>
 
-      <div class="reviews">
+                <div class="instronly" style="padding: 4px;">
+                  <%= label_tag 'comments visible only to instructors' %>
+                  <br/>
+                  <%= text_area_tag 'week_feedback[hidden_text]', nil, :size => "100x10" %>
+                </div>
+                <br/>
+                <%= label_tag 'notify student by email' %>
+                <%= check_box_tag 'notify', true, r.course.email_student? %>
+                <br/>
+                <%= label_tag 'send the email also to you' %>
+                <%= check_box_tag 'notify-cc', true, r.course.email_instructor? %>
+                <br/>
+                <br/>
+                <%= hidden_field_tag :registration, r.id %>
+                <%= submit_tag 'Save the feedback' %>
+            <% end -%>
+          </div>
 
-        <% @user.current_registration.feedback.select { |f| f.week<7 }.each do |fb| %>
-            <div style="margin: 20px;">
-              <b><%= "week: #{fb.week}, points: #{fb.points}" %></b>
 
-              <div style="margin: 10px;">
-                <%= rendered(fb.text) %>
-              </div>
-              <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
-                  <div class="instronly">
-                    instructor notes:
-                    <div style="padding: 6px; marigin: 10px">
-                      <%= rendered(fb.hidden_text) %>
-                    </div>
-                  </div>
+          <h4 class="button" id="note-form">Create a instructor only visible note</h4>
+
+          <div class="note-form">
+            <div style="background-color: #dddddd; margin: 10px;">
+              Text fields can be formatted with
+              <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
+            </div>
+
+            <%= form_tag("/week_feedbacks/note") do -%>
+
+                <div class="instronly" style="padding: 4px;">
+                  <%= label_tag 'comments visible only to instructors' %>
+                  <br/>
+                  <%= text_area_tag 'hidden_text', nil, :size => "100x10" %>
+                </div>
+                <br/>
+                <%= hidden_field_tag :registration, r.id %>
+
+                <%= submit_tag 'Save the instructor only note' %>
+            <% end -%>
+          </div>
+          <div style="clear: both;"></div>
+
+
+
+        <h2>Code reviews</h2>
+
+
+          <h3>round 1</h3>
+
+          <p><%= "participate review 1: #{(r.participates_review 1) ? "yes" :"no"}" %></p>
+
+          <% if  r.course.review_round<2 %>
+              <%= form_tag('/toggle_review_participation') do %>
+                  <%= hidden_field_tag 'registration', r.id %>
+                  <%= hidden_field_tag 'round', 1 %>
+                  <%= submit_tag label(r.participates_review(1)),
+                                 :class => "small-button",
+                                 :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
               <% end %>
-            </div>
+          <% end %>
 
-            <hr/>
-        <% end %>
+          <% if r.review_targets_for(1).count>0 %>
 
-        <% @user.current_registration.feedback.select { |f| f.week>6 }.each do |fb| %>
-            <div style="margin: 20px;">
-              <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
-                  <div class="instronly">
-                    instructor notes:
-                    <div style="padding: 6px; marigin: 10px">
-                      <%= rendered(fb.hidden_text) %>
-                    </div>
-                  </div>
+              <h4>Code to review</h4>
+
+              <% r.review_targets_for(1).each do |review| %>
+                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  <% if not review.done %>
+                      <em>not done</em>
+                  <% else %>
+                      <em>reviewed</em>
+                  <% end %>
+
               <% end %>
-            </div>
-
-            <hr/>
-        <% end %>
-
-      </div>
-
-      <h4 class="button" id="review-form">Give a new or edit feedback</h4>
-      
-      <div class="review-form">
-
-        <div style="background-color: #dddddd; margin: 10px;">
-          Text fields can be formatted with
-          <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
-        </div>
-
-        <%= form_tag("/week_feedbacks") do -%>
-            <%= label_tag 'week' %>
-            <br/>
-            <%= text_field_tag 'week_feedback[week]', @user.current_registration.course.week %>
-            <br/>
-            <%= label_tag 'points' %>
-            <br/>
-            <%= text_field_tag 'week_feedback[points]' %>
-            <br/>
-            <%= label_tag 'comments for student' %>
-            <br/>
-            <%= text_area_tag 'week_feedback[text]', nil, :size => "100x10" %>
-            <br/>
-
-            <div class="instronly" style="padding: 4px;">
-              <%= label_tag 'comments visible only to instructors' %>
-              <br/>
-              <%= text_area_tag 'week_feedback[hidden_text]', nil, :size => "100x10" %>
-            </div>
-            <br/>
-            <%= label_tag 'notify student by email' %>
-            <%= check_box_tag 'notify', true, Course.active.email_student? %>
-            <br/>
-            <%= label_tag 'send the email also to you' %>
-            <%= check_box_tag 'notify-cc', true, Course.active.email_instructor? %>
-            <br/>
-            <br/>
-            <%= hidden_field_tag :registration, @user.current_registration.id %>
-            <%= submit_tag 'Save the feedback' %>
-        <% end -%>
-      </div>
-
-
-      <h4 class="button" id="note-form">Create a instructor only visible note</h4>
-
-      <div class="note-form">
-        <div style="background-color: #dddddd; margin: 10px;">
-          Text fields can be formatted with
-          <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></b>
-        </div>
-
-        <%= form_tag("/week_feedbacks/note") do -%>
-
-            <div class="instronly" style="padding: 4px;">
-              <%= label_tag 'comments visible only to instructors' %>
-              <br/>
-              <%= text_area_tag 'hidden_text', nil, :size => "100x10" %>
-            </div>
-            <br/>
-            <%= hidden_field_tag :registration, @user.current_registration.id %>
-
-            <%= submit_tag 'Save the instructor only note' %>
-        <% end -%>
-      </div>
-      <div style="clear: both;"></div>
-
-    </div>
-
-
-    <h2>Code reviews</h2>
-
-    <div class="rounded">
-
-      <h3>round 1</h3>
-
-      <p><%= "participate review 1: #{(@user.current_registration.participates_review 1) ? "yes" :"no"}" %></p>
-
-      <% if  Course.active.review_round<2 %>
-          <%= form_tag('/toggle_review_participation') do %>
-              <%= hidden_field_tag 'registration', @user.current_registration.id %>
-              <%= hidden_field_tag 'round', 1 %>
-              <%= submit_tag label(@user.current_registration.participates_review(1)),
-                             :class => "small-button",
-                             :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
+          <% else %>
+              <h4>No code assigned for review yet</h4>
           <% end %>
-      <% end %>
 
-      <% if @user.assigned_reviews_in(1).count>0 %>
+          <% if r.review_targets_for(1).count>0 %>
 
-          <h4>Code to review</h4>
+              <h4>Reviewers</h4>
 
-          <% @user.assigned_reviews_in(1).each do |review| %>
-              <%= link_to review.reviewed.repository, review.reviewed.repository %>
-              <% if not review.done %>
-                  <em>not done</em>
-              <% else %>
-                  <em>reviewed</em>
+              <% r.review_targets_for(1).each do |review| %>
+                  <%= link_to(review.reviewer.user, review.reviewer.repository) %>
+                  <em><%= review.done() ? "ready" :"not done yet" %></em>
+                  <br/>
               <% end %>
-
+          <% else %>
+              <h4>Nobody assigned to review your code yet</h4>
           <% end %>
-      <% else %>
-          <h4>No code assigned for review yet</h4>
-      <% end %>
-
-      <% if @user.assigned_reviewers_in(1).count>0 %>
-
-          <h4>Reviewers</h4>
-
-          <% @user.assigned_reviewers_in(1).each do |review| %>
-              <%= link_to(review.reviewer.user, review.reviewer.repository) %>
-              <em><%= review.done() ? "ready" :"not done yet" %></em>
-              <br/>
-          <% end %>
-      <% else %>
-          <h4>Nobody assigned to review your code yet</h4>
-      <% end %>
-
-      <div class='rounded' style="margin-top: 20px; padding-top: 20px">
-        <%= form_for(@user.current_registration) do |f| %>
-            <div class="field">
-              <b>Code review points for round 1:</b> <br/>
-              <%= radio_button("registration", :review1, 0, :checked => @user.current_registration.review1==0) %> 0
-              <br/>
-              <%= radio_button("registration", :review1, 0.5, :checked => @user.current_registration.review1==0.5) %>
-              0.5
-              <br/>
-              <%= radio_button("registration", :review1, 1, :checked => @user.current_registration.review1==1) %> 1
-              <br/>
-              <%= radio_button("registration", :review1, 1.5, :checked => @user.current_registration.review1==1.5) %>
-              1.5
-              <br/>
-              <%= radio_button("registration", :review1, 2, :checked => @user.current_registration.review1==2) %> 2
-              <br/>
-            </div>
-            <div class="actions">
-              <%= f.submit review_point_label(@user.current_registration.review1) %>
-            </div>
-        <% end %>
-      </div>
-
-      <h3>round 2</h3>
-
-      <p><%= "participate review 2: #{(@user.current_registration.participates_review 2) ? "yes" :"no"}" %></p>
-
-      <% if  Course.active.review_round<3 %>
-          <%= form_tag('/toggle_review_participation') do %>
-              <%= hidden_field_tag 'registration', @user.current_registration.id %>
-              <%= hidden_field_tag 'round', 2 %>
-              <%= submit_tag label(@user.current_registration.participates_review(2)),
-                             :class => "small-button",
-                             :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
-          <% end %>
-      <% end %>
-
-      <% if @user.assigned_reviews_in(2).count>0 %>
-
-          <h4>Code to review</h4>
-
-          <% @user.assigned_reviews_in(2).each do |review| %>
-              <%= link_to review.reviewed.repository, review.reviewed.repository %>
-              <% if not review.done %>
-                  <em>not done</em>
-
-              <% else %>
-                  <em>reviewed</em>
-              <% end %>
-
-          <% end %>
-      <% else %>
-          <h4>No code assigned for review yet</h4>
-      <% end %>
-
-      <% if @user.assigned_reviewers_in(2).count>0 %>
-
-          <h4>Reviewers</h4>
-
-          <% @user.assigned_reviewers_in(2).each do |review| %>
-              <%= link_to(review.reviewer.user, review.reviewer.repository) %>
-              <em><%= review.done() ? "ready" :"not done yet" %></em>
-              <br/>
-          <% end %>
-      <% else %>
-          <h4>Nobody assigned to review your code yet</h4>
-      <% end %>
-
-      <% if Course.active.review_round>1 %>
 
           <div class='rounded' style="margin-top: 20px; padding-top: 20px">
-            <%= form_for(@user.current_registration) do |f| %>
+            <%= form_for(r) do |f| %>
                 <div class="field">
-                  <b>Code review points for round 2:</b> <br/>
-                  <%= radio_button("registration", :review2, 0, :checked => @user.current_registration.review2==0) %> 0
+                  <b>Code review points for round 1:</b> <br/>
+                  <%= radio_button("registration", :review1, 0, :checked => r.review1==0) %> 0
                   <br/>
-                  <%= radio_button("registration", :review2, 0.5, :checked => @user.current_registration.review2==0.5) %>
+                  <%= radio_button("registration", :review1, 0.5, :checked => r==0.5) %>
                   0.5
                   <br/>
-                  <%= radio_button("registration", :review2, 1, :checked => @user.current_registration.review2==1) %> 1
+                  <%= radio_button("registration", :review1, 1, :checked => r==1) %> 1
                   <br/>
-                  <%= radio_button("registration", :review2, 1.5, :checked => @user.current_registration.review2==1.5) %>
+                  <%= radio_button("registration", :review1, 1.5, :checked => r.review1==1.5) %>
                   1.5
                   <br/>
-                  <%= radio_button("registration", :review2, 2, :checked => @user.current_registration.review2==2) %> 2
+                  <%= radio_button("registration", :review1, 2, :checked => r.review1==2) %> 2
                   <br/>
                 </div>
                 <div class="actions">
-                  <%= f.submit review_point_label(@user.current_registration.review2) %>
+                  <%= f.submit review_point_label(r.review1) %>
                 </div>
             <% end %>
           </div>
-      <% end %>
-    </div>
 
-    <% if @user.current_registration.active %>
+          <h3>round 2</h3>
 
-        <%= form_tag('/toggle_registration') do %>
-            <%= hidden_field_tag 'registration', @user.current_registration.id %>
-            <%= submit_tag "Make inactive",
-                           :class => "small-button",
-                           :confirm => "Are you sure you want to do that? Note that this deletes all the review assignments for the user. \n\nRemember to do a new assignment!" %>
+          <p><%= "participate review 2: #{(r.participates_review 2) ? "yes" :"no"}" %></p>
+
+          <% if  r.course.review_round<3 %>
+              <%= form_tag('/toggle_review_participation') do %>
+                  <%= hidden_field_tag 'registration', r.id %>
+                  <%= hidden_field_tag 'round', 2 %>
+                  <%= submit_tag label(r.participates_review(2)),
+                                 :class => "small-button",
+                                 :confirm => "Note that if you already had done a review assignment, after the operation all participants all the students do not have reviewers so a new assignment has to be made!" %>
+              <% end %>
+          <% end %>
+
+          <% if r.review_targets_for(2).count>0 %>
+
+              <h4>Code to review</h4>
+
+              <% r.review_targets_for(2).each do |review| %>
+                  <%= link_to review.reviewed.repository, review.reviewed.repository %>
+                  <% if not review.done %>
+                      <em>not done</em>
+
+                  <% else %>
+                      <em>reviewed</em>
+                  <% end %>
+
+              <% end %>
+          <% else %>
+              <h4>No code assigned for review yet</h4>
+          <% end %>
+
+          <% if r.review_targets_for(2).count>0 %>
+
+              <h4>Reviewers</h4>
+
+              <% r.review_targets_for(2).each do |review| %>
+                  <%= link_to(review.reviewer.user, review.reviewer.repository) %>
+                  <em><%= review.done() ? "ready" :"not done yet" %></em>
+                  <br/>
+              <% end %>
+          <% else %>
+              <h4>Nobody assigned to review your code yet</h4>
+          <% end %>
+
+          <% if r.course.review_round>1 %>
+
+              <div class='rounded' style="margin-top: 20px; padding-top: 20px">
+                <%= form_for(r) do |f| %>
+                    <div class="field">
+                      <b>Code review points for round 2:</b> <br/>
+                      <%= radio_button("registration", :review2, 0, :checked => r.review2==0) %> 0
+                      <br/>
+                      <%= radio_button("registration", :review2, 0.5, :checked => r.review2==0.5) %>
+                      0.5
+                      <br/>
+                      <%= radio_button("registration", :review2, 1, :checked => r.review2==1) %> 1
+                      <br/>
+                      <%= radio_button("registration", :review2, 1.5, :checked => r.review2==1.5) %>
+                      1.5
+                      <br/>
+                      <%= radio_button("registration", :review2, 2, :checked => r.review2==2) %> 2
+                      <br/>
+                    </div>
+                    <div class="actions">
+                      <%= f.submit review_point_label(r.review2) %>
+                    </div>
+                <% end %>
+              </div>
+          <% end %>
+
+
+          <% if r.active %>
+
+            <%= form_tag('/toggle_registration') do %>
+                <%= hidden_field_tag 'registration', r.id %>
+                <%= submit_tag "Make inactive",
+                               :class => "small-button",
+                               :confirm => "Are you sure you want to do that? Note that this deletes all the review assignments for the user. \n\nRemember to do a new assignment!" %>
+          <% end %>
+
         <% end %>
-
+        </div>
     <% end %>
-
 <% end %>
 
 
@@ -393,6 +381,17 @@
     <div class="rounded">
 
       <% @user.past_registrations.each do |r| %>
+          <% if not r.active %>
+              <div style='margin: 10px; padding: 3px 10px 10px 10px'>
+
+                <p><strong>has dropped from the course</strong></p>
+                <%= form_tag('/toggle_registration') do %>
+                    <%= hidden_field_tag 'registration', r.id %>
+                    <%= submit_tag "Activate again", :class => "small-button" %>
+                <% end %>
+              </div>
+          <% end %>
+
           <div class="gradebox">
             <div class="selector">
               <b>Grade with a checklist</b>
@@ -422,6 +421,11 @@
               <% end %>
             </ul>
           </div>
+
+          <div style="padding: 20px 0 0 0">
+            <%= link_to 'Delete the registration', r, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Otherwise it is better to mark student as inactive'}, :class => 'small-button' %>
+          </div>
+
           <div style="clear: both;"></div>
       <% end %>
 
@@ -429,9 +433,5 @@
 <% end %>
 
 
-<% if @user.current_registration %>
-    <div style="padding: 20px 0 0 0">
-      <%= link_to 'Delete the registration', @user.current_registration, method: :delete, data: {confirm: 'Are you sure? Do this only if the student has not started the course at all. Othervise it is better to mark student as inactive'}, :class => 'small-button' %>
-    </div>
-<% end %>
+
       <div style="clear: both;"></div>

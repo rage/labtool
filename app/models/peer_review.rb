@@ -5,7 +5,8 @@ class PeerReview < ActiveRecord::Base
   belongs_to :reviewed, :class_name => "Registration", :foreign_key => "reviewed_id"
 
   def course
-    reviewer.course unless reviewer.nil?
+    return reviewer.course unless reviewer.nil?
+    reviewed.course unless reviewed.nil?
   end
 
   def self.delete_for course

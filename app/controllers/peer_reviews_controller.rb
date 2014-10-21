@@ -17,21 +17,24 @@ class PeerReviewsController < ApplicationController
   end
 
   def generate
+    course = Course.find(params[:course][:id])
     begin
-      generate_peer_review_assignment
-    end until unique_assignment
+      generate_peer_review_assignment course
+    end until unique_assignment(course)
 
     redirect_to peer_reviews_path, :notice => "default review assignments generated for the current review round"
   end
 
   def reset
-    PeerReview.delete_for Course.active
+    course = Course.find(params[:course][:id])
+    PeerReview.delete_for course
     redirect_to peer_reviews_path, :notice => "peer review assignments for the current review round reset"
   end
 
   def remove_review
-    reviewer = User.find(params[:reviewer]).current_registration
-    reviewed = User.find(params[:reviewed]).current_registration
+    course = Course.find(params[:course_id])
+    reviewer = User.find(params[:reviewer]).registration_for_course course
+    reviewed = User.find(params[:reviewed]).registration_for_course course
     round = reviewer.course.review_round
 
     review = PeerReview.find_matching reviewer, reviewed, round
@@ -41,8 +44,11 @@ class PeerReviewsController < ApplicationController
   end
 
   def create
-    reviewer = User.find(params[:peer_review][:reviewer_id]).current_registration
-    reviewed = User.find(params[:peer_review][:reviewed_id]).current_registration
+
+    course = Course.find(params[:course_id])
+
+    reviewer = User.find(params[:peer_review][:reviewer_id]).registration_for_course course
+    reviewed = User.find(params[:peer_review][:reviewed_id]).registration_for_course course
 
     create_peer_review reviewer, reviewed
 
@@ -90,24 +96,14 @@ class PeerReviewsController < ApplicationController
   end
 
   def index
-    @peer_reviews = PeerReview.current_round_for Course.active
-    @students = User.select do |s|
-      s.current_registration and
-      s.current_registration.participates_review(Course.active.review_round) and
-      s.current_registration.active
-    end
-    @students.sort_by!{ |s| s.surename}
-    @course = Course.active
-
-    @reviewer_candicate = @students.reject{|s| s.reviewer_at_round?(@course.review_round) }
-    @review_target_candidate =  @students.reject{|s| s.review_target_at_round?(@course.review_round) }
+    @courses = Course.active
   end
 
   private
 
-  def do_pairing
-    reviewers = User.review_participants.map(&:current_registration).map(&:id)
-    review_targets = User.review_participants.map(&:current_registration).map(&:id).shuffle
+  def do_pairing course
+    reviewers = User.review_participants(course).map{|u| u.registration_for_course(course)}.map(&:id)
+    review_targets = reviewers.shuffle
 
     reviewers.inject([]) do |result, reviewer|
       target = review_targets.first
@@ -117,12 +113,13 @@ class PeerReviewsController < ApplicationController
   end
 
   def valid_pairing(pairs, trials)
-    pairs.each { |pair|
-      return false if pair.first == pair.last
-    }
 
     # it could be possible that a totally nonsymmetrical assignment can not be created
     return true if trials == 10
+
+    pairs.each { |pair|
+      return false if pair.first == pair.last
+    }
 
     otherw = pairs.inject([]) { |result, pair|
       result << [ pair.last, pair.first ]
@@ -131,12 +128,12 @@ class PeerReviewsController < ApplicationController
     (pairs&otherw).empty?
   end
 
-  def generate_peer_review_assignment
-    PeerReview.delete_for Course.active
+  def generate_peer_review_assignment course
+    PeerReview.delete_for course
 
     trials = 0
     begin
-      pairs = do_pairing
+      pairs = do_pairing(course)
       trials += 1
     end until valid_pairing pairs, trials
 
@@ -146,16 +143,16 @@ class PeerReviewsController < ApplicationController
 
   end
 
-  def unique_assignment
-    return true if Course.active.review_round == 1
+  def unique_assignment course
+    return true if course.review_round == 1
 
     # there exists some cases where an unique assignment is not possible,.. the following is for those
     @trials ||= 0
     @trials += 1
     return true if @trials == 20
 
-    this_round = PeerReview.current_round_for Course.active
-    prev_round = PeerReview.for Course.active, 1
+    this_round = PeerReview.current_round_for course
+    prev_round = PeerReview.for course, 1
     this_round.each do |this|
       prev_round.each do |prev|
         return false if this.reviewer == prev.reviewer and this.reviewed == prev.reviewed
@@ -171,6 +168,7 @@ class PeerReviewsController < ApplicationController
     peer_review.reviewer = reviewer
     peer_review.reviewed = reviewed
     peer_review.save if reviewer != reviewed
+    flash[:notice] = "User can't review herself"
   end
 
   def class_for object, klass

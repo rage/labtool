@@ -44,7 +44,9 @@ class MypageController < ApplicationController
     @user = User.find_by_student_number(session[:student_number])
 
     @user.update_attributes(params[:user].except(:registration))
-    @user.current_registration.update_attributes(params[:user][:registration]) unless params[:user][:registration].nil?
+    params[:user][:registration].each do |id, value|
+      @user.registrations.find(id).update_attributes(value)
+    end
     redirect_to "/mypage/#{@user.student_number}", :notice => "your data has been updated"
   end
 end

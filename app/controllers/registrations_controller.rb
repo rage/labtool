@@ -11,10 +11,9 @@ class RegistrationsController < ApplicationController
   end
 
   def index
-    @registrations = Registration.current.select{|r| r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }
-    passive_registrations = Registration.current.select{|r| not r.active}.sort{ |a, b| a.user.surename <=> b.user.surename }
+    @courses = Course.active
+    @past_courses = Course.past
 
-    @registrations += passive_registrations
 
     @past_registrations = Registration.past
   end
@@ -39,16 +38,16 @@ class RegistrationsController < ApplicationController
   def create
     expire_fragment('current_course')
     #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-    course = Course.find_by_active(true)
+    course = Course.find_by_id(params[:registration][:course_id])
     user = User.find_or_create(params[:user])
 
-    if not user.current_registration.nil?
+    if user.has_registered?(course)
       return redirect_to "/mypage/#{user.student_number}",
                          :notice => "You have already registered for the current course!"
     end
 
     @registration = Registration.new(params[:registration])
-    if user.valid? and @registration.valid?
+    if user.valid? and @registration.valid? and not course.nil?
       @registration.participate_review1 = true
       @registration.participate_review2 = true
       @registration.active = true

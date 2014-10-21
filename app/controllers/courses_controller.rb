@@ -2,10 +2,22 @@ class CoursesController < ApplicationController
   #caches_action :show
 
   def index
-    @courses = Course.all
+    @courses = Course.order('active DESC, year DESC, period DESC')
   end
 
-  def activity
+  def active
+    course = Course.find(params[:id])
+    course.update_attributes :active => true unless course.nil?
+    redirect_to courses_path
+  end
+
+  def inactive
+    course = Course.find(params[:id])
+    course.update_attributes :active => false unless course.nil?
+
+    redirect_to courses_path
+  end
+
     Course.all.each do |c|
       c.update_attributes :active => c.id == params[:id].to_i
     end

@@ -22,7 +22,10 @@
         </ul>
       </div>
     <% end %>
-
+  <div class="field">
+    <%= label_tag 'course' %><br />
+    <%= collection_select(:registration, :course_id, Course.active, :id, :to_s, {prompt: 'Select course'}) %>
+  </div>
   <div class="field">
     <%= label_tag 'first name' %><br />
     <%= text_field_tag 'user[forename]', (@user.forename if @user) %>

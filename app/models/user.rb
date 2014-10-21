@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   has_many :registrations, :dependent => :destroy
 
+  has_many :courses, :through => :registrations
+
   validates :student_number,
             :format => { :with => /\A0\d{8}\z/,
             :message => "should start with 0 and be followed by 8 digits" }
@@ -19,23 +21,35 @@ class User < ActiveRecord::Base
     "#{forename} #{surename}"
   end
 
-  def reviews_at_round(round)
-    current_registration.review_targets_for(round).first.reviewed.user
+  def registration_for_course course
+    registrations.where(course_id: course).first
   end
 
-  def reviewer_at_round?(round)
-    current_registration.review_targets_for(round).any?
+  def reviews_user_for_course_round course
+    registration_for_course(course).review_targets_for(course.review_round).first.reviewed.user
   end
 
-  def review_target_at_round?(round)
-    current_registration.reviewers_for(round).any?
+  def reviewer_for_course_round? course
+    registration_for_course(course).review_targets_for(course.review_round).any?
   end
 
-  def current_registration
-    registrations.each { |r|
-      return r if r.course == Course.active
-    }
-    nil
+  def review_target_for_course_round? course
+    registration_for_course(course).reviewers_for(course.review_round).any?
+  end
+
+  def has_registered?(course)
+    courses.include? course
+  end
+
+  def review_eligibility_for_course_round? course
+    r = registration_for_course course
+    (not r.nil?) and
+        r.active and
+        r.participates_review(course.review_round)
+  end
+
+  def active_registrations
+    registrations.joins(:course).where(active: true, courses: {active: true})
   end
 
   def registered_to course
@@ -51,7 +65,7 @@ class User < ActiveRecord::Base
   end
 
   def past_registrations
-    registrations.select{ |r| r.course.active!=true}
+    registrations.joins(:course).where('registrations.active = ? OR courses.active = ?', false, false)
   end
 
 
@@ -99,20 +113,20 @@ class User < ActiveRecord::Base
     false
   end
 
-  def assigned_reviews_in round
-    current_registration.review_targets_for round
+  def assigned_reviews_in course
+    registration_for_course(course).review_targets_for course.review_round
   end
 
-  def assigned_reviewers_in round
-    current_registration.reviewers_for round
+  def assigned_reviewers_in course
+    registration_for_course(course).reviewers_for course.review_round
   end
 
-  def assigned_reviews
-    current_registration.review_targets_for Course.active.review_round
+  def assigned_reviews course
+    registration_for_course(course).review_targets_for course.review_round
   end
 
-  def assigned_reviewers
-    current_registration.reviewers_for Course.active.review_round
+  def assigned_reviewers course
+    registration_for_course(course).reviewers_for course.review_round
   end
 
   def self.find_or_create params
@@ -124,10 +138,10 @@ class User < ActiveRecord::Base
     User.create params
   end
 
-  def self.review_participants
+  def self.review_participants course
     User.select do |s|
-          s.current_registration and
-          s.current_registration.participates_review(Course.active.review_round)
+          s.registration_for_course course and
+          s.registration_for_course(course).participates_review(course.review_round)
     end
   end
 end

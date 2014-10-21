@@ -132,10 +132,9 @@ ActiveRecord::Schema.define(:version => 20140120123040) do
     t.string   "student_number"
     t.string   "email"
     t.boolean  "admin"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "password_digest"
-    t.boolean  "participate_review2"
     t.boolean  "hidden"
   end
 

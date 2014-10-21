@@ -29,7 +29,8 @@ Labtool::Application.routes.draw do
 
   resources :sessions
 
-  match 'courses/:id/activity' => 'courses#activity', :via => :post
+  match 'courses/:id/active' => 'courses#active', :via => :post
+  match 'courses/:id/inactive' => 'courses#inactive', :via => :post
 
   match 'week_feedbacks/note' => 'week_feedbacks#create_note', :via => :post
   match 'feedback_comments/admin_reply' => 'feedback_comments#create_admin_reply', :via => :post

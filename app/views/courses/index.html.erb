@@ -4,26 +4,30 @@
 
 <table>
   <tr>
+    <th>Course</th>
     <th>Year</th>
     <th>Period</th>
     <th>Mandatory reviews</th>
     <th></th>
     <th></th>
     <th></th>
-
   </tr>
 
 <% @courses.each do |course| %>
   <tr class='<%= active course %>'>
+    <td><%= course.name %></td>
     <td><%= course.year %></td>
     <td><%= course.period %></td>
     <td><%= mandatory course %></td>
     <td><%= link_to 'Show', course %></td>
     <td><%= link_to 'Edit', edit_course_path(course) %></td>
 
-    <td> <% if not course.active %>
-            <%= link_to 'make active', "/courses/#{course.id}/activity", :method => :post, data: { confirm: 'Are you sure?' }  %>
-         <% end %>
+    <td>
+      <% if not course.active %>
+        <%= link_to 'make active', "/courses/#{course.id}/active", :method => :post, data: { confirm: 'Are you sure?' }  %>
+      <% else %>
+        <%= link_to 'make inactive', "/courses/#{course.id}/inactive", :method => :post, data: { confirm: 'Are you sure?' } %>
+      <% end %>
     </td>
   </tr>
 <% end %>
