@@ -1,7 +1,7 @@
 <h1>Checklist</h1>
 <div class="rounded">
   <h2><%= @checklist.title %></h2>
-  <%= form_tag("/checklists/#{@checklist.id}/user/", :class => 'autograde', :id => "checklist#{(@registration.any?)?'-'+@registration.id:''}") do -%>
+  <%= form_tag("/checklists/#{@checklist.id}/user/", :class => 'autograde', :id => (@registration.nil? ? "checklist" : "checklist-#{@registration.id}")) do -%>
     <% if !@registration.nil? %>
       <%= hidden_field_tag 'registration', @registration.id %>
     <% end %>
@@ -43,12 +43,11 @@
   <%= link_to 'Edit as YAML', edit_checklist_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
 </div>
-<% unless @registration.nil? %>
 <script type="text/javascript">
   $(function() {
-    $('#checklist-<%= @registration.id %>').autograding({
+      $('#checklist<%= "-{@registration.id}" unless @registration.nil? %>').autograding({
       <% @checklist.topics.order("ordering").each do |topic| %>
-        "topic_<%= @registration.id %>_<%= topic.id %>":
+        "topic<%= @attribute_suffix %>_<%= topic.id %>":
         { varname: <%= raw topic.varname.to_json%>,
           scoretype: <%= raw topic.scoretype.id.to_json%>,
           scale_denominator: <%= raw topic.scale_denominator.to_json%>,
@@ -73,7 +72,7 @@
           },
           checks: {
             <% topic.topics_checks.includes(:topic).each do |link|  %>
-              "checks_<%= @registration.id %>_<%= link.check.id %>":
+              "checks<%= @attribute_suffix %>_<%= link.check.id %>":
               { varname: <%= raw link.check.varname.to_json%>,
                 value: <%= raw link.value.to_json%>,
                 unchecked_value: <%= raw link.unchecked_value.to_json%>,
@@ -96,4 +95,3 @@
     });
   });
 </script>
-<% end %>
