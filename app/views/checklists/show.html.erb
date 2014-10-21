@@ -7,7 +7,7 @@
     <% end %>
     <% @checklist.topics.order("ordering").each do |topic| %>
       <div class="topicContainer">
-        <div class="topic" id="topic_<%= @registration.id %>_<%= topic.id %>">
+        <div class="topic" id="topic<%= @attribute_suffix %>_<%= topic.id %>">
           <%= topic.title %>
           <button>Done?</button>
           <span class="pull-right topicscoring">Score: <span class="scorevalue">0</span><% unless topic.score_target.nil? %>/<%= topic.score_target %></span><% end %>
@@ -15,7 +15,8 @@
         <div class="checks">
           <% topic.checks.each do |check| %>
             <div class="check">
-              <%= check_box_tag "checks[#{check.id}]", 0, check.checked?(@registration), :id => "checks_#{@registration.id}_#{topic.id}" %><%= label_tag "checks_#{@registration.id}_#{topic.id}", " "+check.check %>
+              <%= check_box_tag "checks[#{check.id}]", 0, check.checked?(@registration), :id => "checks#{@attribute_suffix}_#{topic.id}" %>
+              <%= label_tag "checks#{@attribute_suffix}_#{topic.id}", " "+check.check %>
             </div>
           <% end %>
         </div>
@@ -42,6 +43,7 @@
   <%= link_to 'Edit as YAML', edit_checklist_path(@checklist), :class => 'small-button' %>
   <%= link_to 'Delete the checklist', @checklist, method: :delete, data: {confirm: 'Are you sure?'}, :class => 'small-button' %>
 </div>
+<% unless @registration.nil? %>
 <script type="text/javascript">
   $(function() {
     $('#checklist-<%= @registration.id %>').autograding({
@@ -94,3 +96,4 @@
     });
   });
 </script>
+<% end %>

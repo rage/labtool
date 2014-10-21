@@ -17,7 +17,7 @@ class ChecklistsController < ApplicationController
   def show
     @checklist = Checklist.find(params[:id])
     @registration = nil
-
+    @attribute_suffix = ""
     render :layout => !request.xhr?
   end
 
