@@ -131,7 +131,7 @@ class User < ActiveRecord::Base
 
   def self.find_or_create params
     user = User.find_by_student_number params['student_number']
-    return user if not user.nil?
+    return user unless user.nil?
 
     params['password'] = params['student_number']
     params['password_confirmation'] = params['student_number']

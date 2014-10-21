@@ -18,12 +18,6 @@ class CoursesController < ApplicationController
     redirect_to courses_path
   end
 
-    Course.all.each do |c|
-      c.update_attributes :active => c.id == params[:id].to_i
-    end
-    redirect_to courses_path
-  end
-
   def show
     @course = Course.includes(:registrations => [:week_feedbacks]).where( :id => params[:id]).first
     @registrations = Registration.includes(:week_feedbacks, :user).where( :course_id => @course.id)
