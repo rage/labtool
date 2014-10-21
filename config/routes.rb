@@ -52,5 +52,7 @@ Labtool::Application.routes.draw do
 
   match 'toggle_registration' => 'registrations#toggle_activity'
 
+  post 'users/:id/toggle_admin' => 'users#toggle_admin', :as => "user_toggle_admin"
+
   root :to => 'mypage#index'
 end

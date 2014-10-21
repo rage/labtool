@@ -24,6 +24,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def toggle_admin
+    user = User.find(params[:id])
+    user.admin = !user.admin
+    user.save
+    redirect_to users_path, notice: 'Admin status updated successfully'
+
+  end
+
   def create
     @user = User.new(params[:user])
     if @user.save
