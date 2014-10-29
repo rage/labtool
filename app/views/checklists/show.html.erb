@@ -16,7 +16,7 @@
           <% topic.checks.each do |check| %>
             <div class="check">
               <%= check_box_tag "checks[#{check.id}]", 0, check.checked?(@registration), :id => "checks#{@attribute_suffix}_#{check.id}" %>
-              <%= label_tag "checks#{@attribute_suffix}_#{topic.id}", " "+check.check %>
+              <%= label_tag "checks#{@attribute_suffix}_#{check.id}", " "+check.check %>
             </div>
           <% end %>
         </div>
