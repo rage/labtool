@@ -4,7 +4,7 @@ class PassedChecksController < ApplicationController
   def show
     @checklist = Checklist.find(params[:id])
     @registration = Registration.find(params[:registration_id])
-    @attribute_suffix = "_#{registration.id}"
+    @attribute_suffix = "_#{@registration.id}"
     render :template => "checklists/show", :layout => !request.xhr?
   end
     
