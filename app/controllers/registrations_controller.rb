@@ -26,6 +26,10 @@ class RegistrationsController < ApplicationController
     expire_fragment('current_course')
     #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
     @registration = Registration.new
+    if params[:id]
+      course = Course.find(params[:id])
+      @registration.course = course unless course.active
+    end
   end
 
   def edit

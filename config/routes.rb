@@ -22,7 +22,7 @@ Labtool::Application.routes.draw do
 
   post 'checktypes/:id/reorder/' => 'checks#reorder'
 
-  match 'register' => 'registrations#new'
+  match 'register(/:id)' => 'registrations#new'
 
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"

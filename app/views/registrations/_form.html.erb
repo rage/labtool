@@ -24,7 +24,7 @@
     <% end %>
   <div class="field">
     <%= label_tag 'course' %><br />
-    <%= collection_select(:registration, :course_id, Course.active, :id, :to_s, {prompt: 'Select course'}) %>
+    <%= collection_select(:registration, :course_id, Course.active, :id, :to_s, {prompt: 'Select course'}, {disabled: !@registration.course.nil?}) %>
   </div>
   <div class="field">
     <%= label_tag 'first name' %><br />
