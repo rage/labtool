@@ -23,8 +23,12 @@
       </div>
     <% end %>
   <div class="field">
+    <% if @registration.course %>
+    <%= hidden_field(:registration, :course_id) %>
+    <% else %>
     <%= label_tag 'course' %><br />
     <%= collection_select(:registration, :course_id, Course.active, :id, :to_s, {prompt: 'Select course'}, {disabled: !@registration.course.nil?}) %>
+    <% end %>
   </div>
   <div class="field">
     <%= label_tag 'first name' %><br />

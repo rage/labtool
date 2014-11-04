@@ -1,4 +1,8 @@
+<% if @registration.course %>
+<h1><%= @registration.course %></h1>
+<% else %>
 <h1>Register to labtool course</h1>
+<% end %>
 
 <%= render 'form' %>
 
