@@ -51,7 +51,7 @@ class RegistrationsController < ApplicationController
     end
 
     @registration = Registration.new(params[:registration])
-    if user.valid? and @registration.valid? and not course.nil?
+    if user.valid? and @registration.valid? and not course.nil? and course.active
       @registration.participate_review1 = true
       @registration.participate_review2 = true
       @registration.active = true
