@@ -28,7 +28,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new
     if params[:id]
       course = Course.find(params[:id])
-      @registration.course = course unless course.active
+      @registration.course = course if course.active
     end
   end
 
