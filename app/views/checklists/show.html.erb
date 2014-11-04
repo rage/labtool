@@ -45,7 +45,7 @@
 </div>
 <script type="text/javascript">
   $(function() {
-      $('#checklist<%= "-{@registration.id}" unless @registration.nil? %>').autograding({
+      $('#checklist<%= "-#{@registration.id}" unless @registration.nil? %>').autograding({
       <% @checklist.topics.order("ordering").each do |topic| %>
         "topic<%= @attribute_suffix %>_<%= topic.id %>":
         { varname: <%= raw topic.varname.to_json%>,
