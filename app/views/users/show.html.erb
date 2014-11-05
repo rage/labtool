@@ -31,6 +31,10 @@
     <%= @user.email %>
   </p>
 
+
+  <div class="button">
+    <%= link_to 'Edit information', "/mypage/#{@user.student_number}", :method => :post %>
+  </div>
 </div>
 
 

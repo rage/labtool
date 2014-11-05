@@ -27,7 +27,9 @@ class MypageController < ApplicationController
   end
 
   def show
-    if session[:student_number]
+    if admin? and params[:student_number]
+      @user = User.find_by_student_number(params[:student_number])
+    elsif session[:student_number]
       @user = User.find_by_student_number(session[:student_number])
     else
       redirect_to "/mypage", :notice => "enter your student number and email address"
@@ -41,8 +43,11 @@ class MypageController < ApplicationController
   end
 
   def update
-    @user = User.find_by_student_number(session[:student_number])
-
+    if admin? and params[:student_number]
+      @user = User.find_by_student_number(params[:student_number])
+    elsif session[:student_number]
+      @user = User.find_by_student_number(session[:student_number])
+    end
     @user.update_attributes(params[:user].except(:registration))
     params[:user][:registration].each do |id, value|
       @user.registrations.find(id).update_attributes(value)
