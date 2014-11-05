@@ -151,10 +151,10 @@
                       <h4>No code assigned to you for review</h4>
                   <% end %>
 
-                  <% if r.review_targets_for(2).count>0 and r.course.review_registration=="closed" %>
+                  <% if r.reviewers_for(2).count>0 and r.course.review_registration=="closed" %>
                       <h4>Your reviewer</h4>
 
-                      <% r.review_targets_for(2).each do |review| %>
+                      <% r.reviewers_for(2).each do |review| %>
                           <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
                           <!--
                           <em><%= review.done() ? "ready" :"not done yet" %></em>
@@ -217,11 +217,10 @@
                   <h4>No code assigned to you for review yet</h4>
               <% end %>
 
-              <% if (r.review_targets_for(1).count>0 and r.course.review_registration=="closed") or
-                      (r.review_targets_for(1).count>0 and r.course.review_round>1) %>
+              <% if r.reviewers_for(1).count>0 and (r.course.review_registration=="closed" or r.course.review_round>1) %>
                   <h4>Your reviewer</h4>
 
-                  <% r.review_targets_for(1).each do |review| %>
+                  <% r.reviewers_for(1).each do |review| %>
                       <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
                       <!--
                         <em><%= review.done() ? "ready" :"not done yet" %></em>

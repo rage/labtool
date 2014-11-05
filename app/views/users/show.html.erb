@@ -254,11 +254,11 @@
               <h4>No code assigned for review yet</h4>
           <% end %>
 
-          <% if r.review_targets_for(1).count>0 %>
+          <% if r.reviewers_for(1).count>0 %>
 
               <h4>Reviewers</h4>
 
-              <% r.review_targets_for(1).each do |review| %>
+              <% r.reviewers_for(1).each do |review| %>
                   <%= link_to(review.reviewer.user, review.reviewer.repository) %>
                   <em><%= review.done() ? "ready" :"not done yet" %></em>
                   <br/>
@@ -322,11 +322,11 @@
               <h4>No code assigned for review yet</h4>
           <% end %>
 
-          <% if r.review_targets_for(2).count>0 %>
+          <% if r.reviewers_for(2).count>0 %>
 
               <h4>Reviewers</h4>
 
-              <% r.review_targets_for(2).each do |review| %>
+              <% r.reviewers_for(2).each do |review| %>
                   <%= link_to(review.reviewer.user, review.reviewer.repository) %>
                   <em><%= review.done() ? "ready" :"not done yet" %></em>
                   <br/>
