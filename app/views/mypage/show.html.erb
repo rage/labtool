@@ -154,7 +154,7 @@
                   <% if r.review_targets_for(2).count>0 and r.course.review_registration=="closed" %>
                       <h4>Your reviewer</h4>
 
-                      <% r.revies_targets_for(2).each do |review| %>
+                      <% r.review_targets_for(2).each do |review| %>
                           <%= link_to(review.reviewer.repository, review.reviewer.repository) %>
                           <!--
                           <em><%= review.done() ? "ready" :"not done yet" %></em>
