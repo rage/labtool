@@ -5,9 +5,6 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def create_note
-    expire_fragment('current_course')
-    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-
     @registration = Registration.find(params[:registration])
 
     week = 1 + @registration.week_feedbacks.inject(9) { |m, w| m = w.week if w.week>m; m  }
@@ -19,9 +16,6 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def create
-    expire_fragment('current_course')
-    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-
     params[:week_feedback]['text'] = params[:week_feedback]['text'].lstrip.rstrip
     @registration = Registration.find(params[:registration])
     earlier_feedback = @registration.feedback_for_week (params[:week_feedback][:week]).to_i
@@ -52,9 +46,6 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def update
-    expire_fragment('current_course')
-    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-
     @week_feedback = WeekFeedback.find(params[:id])
 
     if @week_feedback.update_attributes(params[:week_feedback])
@@ -66,9 +57,6 @@ class WeekFeedbacksController < ApplicationController
   end
 
   def destroy
-    expire_fragment('current_course')
-    #expire_action :controller => 'courses', :action => 'show', :id => Course.active.id
-
     @week_feedback = WeekFeedback.find(params[:id])
     @week_feedback.destroy
     redirect_to week_feedbacks_path
