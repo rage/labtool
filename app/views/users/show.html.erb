@@ -32,8 +32,9 @@
   </p>
 
 
-  <div class="button">
-    <%= link_to 'Edit information', "/mypage/#{@user.student_number}", :method => :post %>
+  <div style="margin:10px 0">
+    <%= link_to 'Edit information', "/mypage/#{@user.student_number}", :method => :post, class: "button"%>
+    <%= link_to 'View My Page', "/mypage/#{@user.student_number}?preview=1", class: "button" %>
   </div>
 </div>
 
@@ -123,6 +124,27 @@
                   <div style="margin: 10px;">
                     <%= rendered(fb.text) %>
                   </div>
+                  <% if fb.feedback_comments.size > 0 %>
+                      <b>Comments</b>
+                      <% fb.feedback_comments.each do |c|  %>
+                          <div>
+                            <i><%= c.user %></i>: <%= c.text %>
+                          </div>
+                      <% end %>
+                  <% end %>
+                  <%= form_tag("/feedback_comments/admin_reply") do %>
+                      <div class="rounded" style="margin-left: -10px; display: inline-block; width: auto;">
+                        <%= label_tag 'Add comment' %>
+                        <br/>
+                        <%= text_area_tag 'feedback_comment[text]', nil, :size => "40x3" %>
+                        <%= hidden_field_tag :week_feedback, fb.id %>
+                        <br />
+                        <%= label_tag 'Notify user' %>
+                        <%= check_box_tag('notify', "1", true) %>
+                        <br />
+                        <%= submit_tag 'Save comment' %>
+                      </div>
+                  <% end %>
                   <% unless fb.hidden_text.nil? or fb.hidden_text.empty? %>
                       <div class="instronly">
                         instructor notes:

@@ -29,6 +29,7 @@ class MypageController < ApplicationController
   def show
     if admin? and params[:student_number]
       @user = User.find_by_student_number(params[:student_number])
+      redirect_to @user unless params[:preview]
     elsif session[:student_number]
       @user = User.find_by_student_number(session[:student_number])
     else

@@ -2,8 +2,8 @@
 
 <table>
   <tr>
-    <th>Forename</th>
     <th>Surename</th>
+    <th>Forename</th>
     <th>Student number</th>
     <th>Email</th>
     <th></th>
@@ -12,8 +12,8 @@
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.forename %></td>
     <td><%= user.surename %></td>
+    <td><%= user.forename %></td>
     <td><%= user.student_number %></td>
     <td><%= user.email %></td>
     <td><%= link_to 'Show', user %></td>

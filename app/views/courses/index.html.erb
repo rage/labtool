@@ -23,7 +23,7 @@
     <td><%= link_to 'Edit', edit_course_path(course) %></td>
 
     <td>
-      <% if not course.active %>
+      <% unless course.active %>
         <%= link_to 'make active', "/courses/#{course.id}/active", :method => :post, data: { confirm: 'Are you sure?' }  %>
       <% else %>
         <%= link_to 'make inactive', "/courses/#{course.id}/inactive", :method => :post, data: { confirm: 'Are you sure?' } %>
