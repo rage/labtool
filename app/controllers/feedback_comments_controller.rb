@@ -22,6 +22,7 @@ class FeedbackCommentsController < ApplicationController
       NotificationMailer.email(reviewer.email, reviewer.email, "Palautettasi on kommentoitu\nks. #{user_url student}", "viikon #{@feedback.week} palaute", params['notify-cc'], @feedback.registration.course).deliver
     rescue
       redirect_to "/mypage/#{@user.student_number}", :notice => "Sending email to instructor failed. But comment was successfully saved to labtool."
+      return
     end
     redirect_to "/mypage/#{@user.student_number}", :notice => "Comment was successfully created."
   end
