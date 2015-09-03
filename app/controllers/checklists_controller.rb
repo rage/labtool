@@ -17,7 +17,7 @@ class ChecklistsController < ApplicationController
   def show
     @checklist = Checklist.find(params[:id])
     @registration = nil
-
+    @attribute_suffix = ""
     render :layout => !request.xhr?
   end
 
@@ -244,7 +244,7 @@ class ChecklistsController < ApplicationController
       ret = topic.attributes.reject {|key,value|
         %w(title ordering checklist_id scoretype_id).include? key or value.nil? 
       }
-      ret["topic"] = topic.title
+
       if !topic.scoretype.nil?
         ret["scoretype"] = topic.scoretype.varname unless topic.scoretype.varname == "points"
       end

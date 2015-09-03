@@ -2,20 +2,22 @@
 
 <table>
   <tr>
-    <th>Forename</th>
     <th>Surename</th>
+    <th>Forename</th>
     <th>Student number</th>
     <th>Email</th>
+    <th></th>
     <th></th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.forename %></td>
     <td><%= user.surename %></td>
+    <td><%= user.forename %></td>
     <td><%= user.student_number %></td>
     <td><%= user.email %></td>
     <td><%= link_to 'Show', user %></td>
+    <td><%= link_to user.admin ? 'Unadmin' : 'Admin', user_toggle_admin_path(user), method: :post, data: { confirm: "Are you sure you want to toggle admin status?" } %></td>
   </tr>
 <% end %>
 </table>

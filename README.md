@@ -16,7 +16,7 @@ Käyttöohjeita:
   - käyttää järjestelmää tämän jälkeen sivun http://tktl-labtool.herokuapp.com/mypage kautta
   - opiskelija ei siis kirjaudu järjestelmään
 - admin-käyttäjätunnukset tuotu labraohjaajille
-  - email-osoite on Ilmoon rekisteröimäsi ja salasanana opiskelijanumerosi
+  - email-osoite on Ilmoon rekisteröimäsi
 - admin käyttää ylhäällä olevan valikon sivuista normaalisti vaan seuraavia:
   - peer reviews: sisältää koodikatselmoinnin generoinnin
   - current course: sisältää kaiken muun menossa olevan kurssin kannalta olellisen (mm. ilmottautuneet)
@@ -29,9 +29,12 @@ Käyttöohjeita:
 Asennus:
 
 Asennetaan kuten normaali rails-sovellus.
+<<<<<<< HEAD
 Muista ajaa rake bootstrap:all, joka laittaa kantaan oletuskäyttäjän, kurssin, sekä checklistin tarvitsemat pistetyypit.
+=======
+Muista ajaa komento rake bootstrap:all, joka laittaa kantaan checklistin tarvitsemat pistetyypit.
+>>>>>>> 9a4d7b575a2cfc8efe8568321b8bcc4007eb7ba9
 
-Koodin laadunvalvonta:
 
 [![Build Status](https://travis-ci.org/mluukkai/labtool.png)](https://travis-ci.org/mluukkai/labtool)
 [![Code Climate](https://codeclimate.com/github/mluukkai/labtool.png)](https://codeclimate.com/github/mluukkai/labtool)

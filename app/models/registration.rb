@@ -1,5 +1,6 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :repository, :topic, :test_url, :active, :review1, :review2, :showed_up_in_demo
+
+  attr_accessible :repository, :topic, :test_url, :active, :review1, :review2, :course_id, :showed_up_in_demo
 
   belongs_to :course
   belongs_to :user
@@ -88,7 +89,7 @@ class Registration < ActiveRecord::Base
 
     if not active
       PeerReview.all.select { |r| r.reviewer == self or r.reviewed == self }.each do |p|
-        p.delete if p.round == Course.active.review_round
+        p.delete if p.round == course.review_round
       end
       self.participate_review1 = false
       self.participate_review2 = false

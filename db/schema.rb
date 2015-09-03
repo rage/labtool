@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(:version => 20140417152418) do
     t.decimal  "review2"
     t.string   "test_url"
     t.integer  "grade"
-    t.string   "language"
     t.boolean  "showed_up_in_demo"
   end
 

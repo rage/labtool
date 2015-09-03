@@ -1,74 +1,88 @@
 <p id="notice"><%= notice %></p>
+<% @courses.each do |course| %>
+    <div class="rounded">
+    <h1><%= course %></h1>
 
-<h1>Assign peer reviews for students</h1>
+    <h3>Assign peer reviews for students</h3>
 
-<h3>Course: <%= @course %></h3>
 
-<% if @course.review_round==0 %>
 
-    <h4>reviews not started</h4>
+    <% if course.review_round==0 %>
 
-<% elsif @course.review_round>2 %>
+        <h4>reviews not started</h4>
 
-    <h4>reviews completed</h4>
+    <% elsif course.review_round>2 %>
 
-<% else %>
+        <h4>reviews completed</h4>
 
-    <h4>review round <%= @course.review_round %>, registration <%= @course.review_registration %></h4>
+    <% else %>
 
-    <p><em>Rows represent reviewers and columns targets of review</em></p>
+        <h4>review round <%= course.review_round %>, registration <%= course.review_registration %></h4>
+        <% if course.review_participants.any? %>
+            <p><em>Rows represent reviewers and columns targets of review</em></p>
 
-    <div style="padding: 10px 20px 20px 20px;">
-      <%= form_tag('/reset_reviews') do %>
-          <%= submit_tag "reset review assignments", :confirm => "Are you sure you want to reset all reviews" %>
-      <% end %>
-      <br/>
+            <div style="padding: 10px 20px 20px 20px;">
+              <%= form_tag('/reset_reviews') do %>
+                  <%= hidden_field :course, :id, :value => course.id %>
+                  <%= submit_tag "reset review assignments", :confirm => "Are you sure you want to reset all reviews" %>
+              <% end %>
+              <br/>
 
-      <%= form_tag('/generate_reviews') do %>
-          <%= submit_tag "generate default review assignments", :confirm => "Are you sure you want to generate reviews? All the current ones will be deleted" %>
-      <% end %>
-    </div>
+              <%= form_tag('/generate_reviews') do %>
+                  <%= hidden_field :course, :id, :value => course.id %>
+                  <%= submit_tag "generate default review assignments", :confirm => "Are you sure you want to generate reviews? All the current ones will be deleted" %>
+              <% end %>
+            </div>
 
-    <table class="bordered" style="padding-top: 20px;">
-      <thead>
-        <th></th>
-        <th>reviews</th>
-        <th>rewiewed</th>
-        <th>reviewes</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <% @students.each do |student| %>
-          <tr>
-            <td> <%= student %></td>
-            <td> <%= student.assigned_reviews.count %> </td>
-            <td> <%= student.assigned_reviewers.count %> </td>
-            <td> <%= student.reviews_at_round(@course.review_round) if student.assigned_reviews.count>0 %> </td>
-            <th>
-              <%= form_tag('/remove_review') do %>
-                  <%= hidden_field_tag 'reviewer', student.id %>
-                  <%= hidden_field_tag 'reviewed', student.reviews_at_round(@course.review_round).id %>
-                  <%= submit_tag 'remove' %>
-              <% end if student.assigned_reviews.count>0 %>
-            </th>
-          </tr>
+            <table class="bordered" style="padding-top: 20px;">
+              <thead>
+                <th></th>
+                <th>reviews</th>
+                <th>rewiewed</th>
+                <th>reviewes</th>
+                <th></th>
+              </thead>
+              <tbody>
+                <% course.review_participants.each do |student| %>
+                  <tr>
+                    <td> <%= link_to student, student %></td>
+                    <td> <%= student.assigned_reviews(course).count %> </td>
+                    <td> <%= student.assigned_reviewers(course).count %> </td>
+                    <td> <%= link_to student.reviews_user_for_course_round(course), student.reviews_user_for_course_round(course) if student.assigned_reviews(course).count>0 %> </td>
+                    <th>
+                      <%= form_tag('/remove_review') do %>
+                          <%= hidden_field_tag 'course_id', course.id %>
+                          <%= hidden_field_tag 'reviewer', student.id %>
+                          <%= hidden_field_tag 'reviewed', student.reviews_user_for_course_round(course).id %>
+                          <%= submit_tag 'remove' %>
+                      <% end if student.assigned_reviews(course).count>0 %>
+                    </th>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <% unless course.reviewers.empty? or course.review_targets.empty? %>
+                <h3>A new review</h3>
+
+                <%= form_for(PeerReview.new) do |f| %>
+                    <%= hidden_field_tag 'course_id', course.id %>
+                    <div>
+                      reviewer:
+                       <%= f.select :reviewer_id, options_from_collection_for_select(course.reviewers, :id, :to_s ) %>
+                    </div>
+                    <div>
+                      review target:
+                      <%= f.select :reviewed_id, options_from_collection_for_select(course.review_targets, :id, :to_s ) %>
+                    </div>
+                    <%= f.submit %>
+                <% end %>
+            <% end %>
+        <% else %>
+
+            <p>No users willing to review other people's code</p>
+
         <% end %>
-      </tbody>
-    </table>
-
-    <h3>A new review</h3>
-
-    <%= form_for(PeerReview.new) do |f| %>
-        <div>
-          reviewer:
-          <%= f.select :reviewer_id, options_from_collection_for_select(@reviewer_candicate, :id, :to_s ) %>
-        </div>
-        <div>
-          review target:
-          <%= f.select :reviewed_id, options_from_collection_for_select(@review_target_candidate, :id, :to_s ) %>
-        </div>
-        <%= f.submit %>
     <% end %>
-
+    </div>
 <% end %>
-

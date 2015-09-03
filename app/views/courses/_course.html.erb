@@ -1,7 +1,7 @@
 <p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
 <h1>
-  <%= @course %>,
+  <%= @course.name %>,
   <%= @course.period %>,
   <%= @course.year %>
 </h1>
@@ -45,6 +45,10 @@
         <th colspan="<%= @course.reviews_total %>">Reviews</th>
       <% end %>
       <th></th>
+      <% unless @course.reviews_total == 0 %>
+        <th colspan="<%= @course.reviews_total %>">Reviews</th>
+      <% end %>
+      <th></th>
       <th rowspan="2">Demo participation</th>
       <th rowspan="2">Grade points</th>
       <th rowspan="2">Total points</th>
@@ -68,6 +72,15 @@
       <% (1..@course.reviews_total).each do |week| %>
         <th><%= week %></th>
       <% end %>
+      <th></th>
+      <% (1..@course.reviews_total).each do |week| %>
+        <th><%= week %></th>
+      <% end %>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>

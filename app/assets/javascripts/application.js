@@ -40,12 +40,16 @@ $(document).ready(function () {
     };
 
     $(".activable").click(activateStudent);
-    
-    var reg_id = $("#current_registration").val();
-    $("#select_grading").change(function() {
-      $("#grader").load("/checklists/"+$(this).val()+"/user/"+reg_id, addAutosubmit);
-    }).change();
-    
+
+
+    $(".gradebox").each(function() {
+        var self = this;
+        $(".select_grading", this).change(function() {
+            var reg_id = $(this).data("registration");
+            $(".grader", self).load("/checklists/"+$(this).val()+"/user/"+reg_id, addAutosubmit);
+        }).change();
+    });
+
     function addAutosubmit() {
       var submitting = false;
       $(".autograde input").change(function() {

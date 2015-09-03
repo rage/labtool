@@ -22,14 +22,15 @@ Labtool::Application.routes.draw do
 
   post 'checktypes/:id/reorder/' => 'checks#reorder'
 
-  match 'register' => 'registrations#new'
+  match 'register(/:id)' => 'registrations#new'
 
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
 
   resources :sessions
 
-  match 'courses/:id/activity' => 'courses#activity', :via => :post
+  match 'courses/:id/active' => 'courses#active', :via => :post
+  match 'courses/:id/inactive' => 'courses#inactive', :via => :post
 
   match 'week_feedbacks/note' => 'week_feedbacks#create_note', :via => :post
   match 'feedback_comments/admin_reply' => 'feedback_comments#create_admin_reply', :via => :post
@@ -51,6 +52,8 @@ Labtool::Application.routes.draw do
 
   match 'toggle_registration' => 'registrations#toggle_activity'
   match 'toggle_demo_participation' => 'registrations#toggle_demo_participation'
+
+  post 'users/:id/toggle_admin' => 'users#toggle_admin', :as => "user_toggle_admin"
 
   root :to => 'mypage#index'
 end

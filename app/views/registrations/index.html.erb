@@ -1,54 +1,62 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing registrations</h1>
+<% if @courses.any? %>
 
-<h3>Current course</h3>
+    <h1>Active courses</h1>
+    <% @courses.each do |c| %>
+        <div>
+            <h3><%= link_to c, c %></h3>
 
-<table>
-  <tr>
-    <th>Student</th>
-    <th>Topic</th>
-    <th>Repository</th>
-    <th>Test URL</th>
-    <th></th>
+            <table>
+              <tr>
+                <th>Student</th>
+                <th>Topic</th>
+                <th>Repository</th>
+                <th>Test URL</th>
 
-  </tr>
+              </tr>
 
-  <% @registrations.each do |registration| %>
-      <tr class='<%= active registration %>'>
-        <td><%= link_to registration.user, registration.user %></td>
-        <td><%= link_to registration.topic, registration %></td>
-        <td><%= link_to registration.repository, registration.repository %></td>
-        <td><%= link_to registration.test_url, registration.test_url %></td>
-        <td><%= link_to link_to registration.course, registration.course %></td>
+              <% c.registrations.each do |registration| %>
+                  <tr class='<%= active registration %>'>
+                    <td><%= link_to registration.user, registration.user %></td>
+                    <td><%= link_to registration.topic, registration %></td>
+                    <td><%= link_to registration.repository, registration.repository %></td>
+                    <td><%= link_to registration.test_url, registration.test_url %></td>
 
-      </tr>
-  <% end %>
-</table>
+                  </tr>
+              <% end %>
+            </table>
+        </div>
+    <% end %>
+    <hr/>
+<% end %>
 
+<% if @past_courses.any? %>
 
-<% if @past_registrations.count > 0 %>
-    <h3>Past courses</h3>
+    <h1>Past courses</h1>
 
-    <table>
-      <tr>
-        <th>Student</th>
-        <th>Topic</th>
-        <th>Repository</th>
-        <th>Course</th>
-        <th></th>
+    <% @past_courses.each do |c| %>
+        <div>
+            <h3><%= link_to c, c %></h3>
 
-      </tr>
+            <table>
+              <tr>
+                <th>Student</th>
+                <th>Topic</th>
+                <th>Repository</th>
+                <th>Test URL</th>
 
-      <% @past_registrations.each do |registration| %>
-          <tr>
-            <td><%= link_to registration.user, registration.user %></td>
-            <td><%= link_to registration.topic, registration %></td>
-            <td><%= link_to registration.repository, registration.repository %></td>
-            <td><%= link_to registration.test_url, registration.test_url %></td>
-            <td><%= link_to link_to registration.course, registration.course %></td>
+              </tr>
 
-          </tr>
-      <% end %>
-    </table>
+              <% c.registrations.each do |registration| %>
+                  <tr>
+                    <td><%= link_to registration.user, registration.user %></td>
+                    <td><%= link_to registration.topic, registration %></td>
+                    <td><%= link_to registration.repository, registration.repository %></td>
+                    <td><%= link_to registration.test_url, registration.test_url %></td>
+                  </tr>
+              <% end %>
+            </table>
+        </div>
+    <% end %>
 <% end %>

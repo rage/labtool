@@ -5,18 +5,13 @@ class PeerReview < ActiveRecord::Base
   belongs_to :reviewed, :class_name => "Registration", :foreign_key => "reviewed_id"
 
   def course
-    reviewer.course unless reviewer.nil?
+    return reviewer.course unless reviewer.nil?
+    reviewed.course unless reviewed.nil?
   end
 
   def self.delete_for course
     PeerReview.current_for(course).each do |p|
       p.delete
-    end
-  end
-
-  def self.for course, round
-    PeerReview.select do |p|
-      p.course == course and p.round == round
     end
   end
 

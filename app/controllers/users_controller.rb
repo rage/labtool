@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def index
-    @users = User.all
+    @users = User.order('surename', 'forename')
   end
 
   def show
@@ -22,6 +22,14 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+  end
+
+  def toggle_admin
+    user = User.find(params[:id])
+    user.admin = !user.admin
+    user.save
+    redirect_to users_path, notice: 'Admin status updated successfully'
+
   end
 
   def create

@@ -1,9 +1,3 @@
-<% if @current %>
-    <% cache('current_course') do %>
-        <%= render 'course' %>
-    <% end %>
-<% else %>
-    <%= render 'course' %>
-<% end %>
+<%= render 'course' %>
 
 

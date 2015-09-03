@@ -16,8 +16,8 @@ class WeekFeedback < ActiveRecord::Base
   def max
     # The final grade gets a special treatment
     return 60 if is_grade
-    return 3 if Course.active.nil?
-    Course.active.week_feedback_max_points || 3
+    return 3 if registration.course.nil?
+    registration.course.week_feedback_max_points || 3
   end
 
   def user
