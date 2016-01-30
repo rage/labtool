@@ -5,8 +5,6 @@
 
     <h3>Assign peer reviews for students</h3>
 
-
-
     <% if course.review_round==0 %>
 
         <h4>reviews not started</h4>
@@ -18,7 +16,7 @@
     <% else %>
 
         <h4>review round <%= course.review_round %>, registration <%= course.review_registration %></h4>
-        <% if course.review_participants.any? %>
+        <% if @review_participants[course.id].any? %>
             <p><em>Rows represent reviewers and columns targets of review</em></p>
 
             <div style="padding: 10px 20px 20px 20px;">
@@ -43,7 +41,7 @@
                 <th></th>
               </thead>
               <tbody>
-                <% course.review_participants.each do |student| %>
+                <% @review_participants[course.id].each do |student| %>
                   <tr>
                     <td> <%= link_to student, student %></td>
                     <td> <%= student.assigned_reviews(course).count %> </td>

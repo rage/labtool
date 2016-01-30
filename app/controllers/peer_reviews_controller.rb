@@ -96,7 +96,15 @@ class PeerReviewsController < ApplicationController
   end
 
   def index
-    @courses = Course.active
+    active_ids = Course.active.map &:id
+    @courses = Course.includes(registrations:[:user]).where(id:active_ids)
+
+    @review_participants = {}
+    @courses.each do |c|
+      user_ids = c.active_users.map &:id
+      @review_participants[c.id] = User.includes(:registrations).where(id:user_ids)
+    end
+
   end
 
   private

@@ -98,7 +98,8 @@ class Registration < ActiveRecord::Base
   end
 
   def review_targets
-    PeerReview.select { |p| p.reviewer_id == id }
+    PeerReview.where reviewer_id: id
+    #PeerReview.select { |p| p.reviewer_id == id }
   end
 
   def reviewers_for round
@@ -106,7 +107,8 @@ class Registration < ActiveRecord::Base
   end
 
   def reviewers
-    PeerReview.select { |p| p.reviewed_id == id }
+    PeerReview.where reviewed_id: id
+    #PeerReview.select { |p| p.reviewed_id == id }
   end
 
   def feedback_given
